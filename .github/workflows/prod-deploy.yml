@@ -42,7 +42,7 @@ jobs:
           port: ${{ secrets.SCP_PORT_PROD }}
           source: "dist/dxsuite-ng-admin/"
           target: "/var/apps/dxsuite-ng"
-          strip_components: 1
+          strip_components: 2
           
 
 
