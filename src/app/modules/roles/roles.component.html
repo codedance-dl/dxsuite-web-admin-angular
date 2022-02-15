@@ -1,0 +1,78 @@
+<div class="panel">
+  <div class="panel-content" *ngIf="loaded$ | async; else skeleton">
+    <div class="panel-content-header">
+      <div class="filter" nz-space nzAlign="center"></div>
+      <div class="actions" nz-space nzAlign="center">
+        <button nz-button nzType="primary" (click)="add()" class="margin-right-1"
+          *withPrivilege="createRolePermissions">
+          <em nz-icon nzType="user-add"></em>新建角色
+        </button>
+        <span class="cursor-pointer" (click)="onRefreshing()">
+          <em class="action-icons" nz-icon [nzType]="'sync'" [nzSpin]="loading" nz-tooltip nzTooltipTitle="刷新"></em>
+        </span>
+      </div>
+    </div>
+
+    <div class="panel-content-body">
+      <nz-spin [nzSpinning]="loading || refreshing">
+        <nz-table #basicTable [nzFrontPagination]="false" [nzData]="items$ | async" nzSize="small">
+          <thead>
+            <tr>
+              <th scope="row">角色名称</th>
+              <th scope="row">描述</th>
+              <th scope="row" [nzAlign]="'right'">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td>{{ data.name }}</td>
+              <td>
+                <div [style.margin-bottom.rem]="0" nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="1">
+                  {{ data?.description || '- -' }}
+                </div>
+              </td>
+              <td [nzAlign]="'right'" class="nowrap">
+                <ng-container *ngIf="!data.currentRole">
+                  <ng-container *withPrivilege="updateRolePermissions">
+                    <ng-container *ngIf="!isCurrent(data.id) && !isAdministrator(data.authorities)">
+                      <a [routerLink]="['./', data.id]">权限</a>
+                      <nz-divider nzType="vertical"></nz-divider>
+                    </ng-container>
+                    <a (click)="edit(data)" *ngIf="!isCurrent(data.id)">编辑</a>
+                  </ng-container>
+                  <ng-container *withPrivilege="deleteRolePermissions">
+                    <ng-container *ngIf="!isCurrent(data.id) && !isAdministrator(data.authorities)">
+                      <nz-divider nzType="vertical"></nz-divider>
+                      <a (click)="delete(data)">删除</a>
+                    </ng-container>
+                  </ng-container>
+                  <nz-tag *ngIf="isAdministrator(data.authorities)" class="margin-left-1">管理员</nz-tag>
+                </ng-container>
+                <ng-container *ngIf="data.currentRole">
+                  <nz-tag nzColor="default">{{data.currentRole}}</nz-tag>
+                </ng-container>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-spin>
+    </div>
+
+    <div class="panel-content-footer">
+      <ng-container *ngIf="meta$ | async as meta">
+        <span class="meta-template">共 {{meta.count}} 条，每页显示 {{meta.pageSize}} 条</span>
+        <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count" nzShowSizeChanger
+          [nzPageSizeOptions]="[10, 20, 50, 100]" (nzPageSizeChange)="onPageSizeChange($event)"
+          (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- 骨架屏 -->
+  <ng-template #skeleton>
+    <div class="skeleton">
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
+    </div>
+  </ng-template>
+
+</div>

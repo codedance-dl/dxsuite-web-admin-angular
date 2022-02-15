@@ -1,0 +1,23 @@
+<ng-container *ngIf="isShow">
+  <div class="papers">
+    <div class="papers-header">
+      <div class="user-setting-header">
+        <div class="portal-layout-header">
+          <img src="/assets/DXSuite.png" (click)="toHomePage()" alt="logo" />
+        </div>
+        <div>
+          <div class="employee">{{(user$ | async)?.name}}</div>
+          <a class="back" (click)="back()">返回系统</a>
+          <a class="signout" (click)="signout()">退出</a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <img class="logo" src="/assets/unlock.png" alt="">
+      <p>对不起，你没有访问该项目的权限</p>
+      <p>如需访问，请联系管理员申请权限</p>
+      <p>如已开通权限，<a (click)="retry()">点击重试</a></p>
+    </div>
+  </div>
+
+</ng-container>

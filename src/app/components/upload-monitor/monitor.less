@@ -1,0 +1,56 @@
+@import 'src/styles/variables';
+@import 'monitor.mixins.less';
+
+.upload-monitor {
+  width: 600px;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  max-width: 100%;
+  font-size: rem-calc(12);
+  display: block;
+}
+
+.upload-body {
+  padding: 0;
+  max-height: 300px;
+  overflow: auto;
+  transition: max-height .4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  position: relative;
+  box-sizing: border-box;
+
+  .task-wrapper {
+    padding: 0.25rem 0;
+  }
+
+  &::before {
+    content: '';
+    height: 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: left .4s ease, right .4s ease;
+    transition-delay: .4s;
+  }
+
+  &.folded {
+    max-height: 0;
+    transition-delay: .3s;
+    transition-timing-function: ease;
+
+    .task-wrapper {
+      padding: 0;
+      max-height: 0;
+    }
+
+    &::before {
+      left: 50%;
+      right: 50%;
+      transition-delay: 0s;
+    }
+  }
+}
+
+.app-upload(@white, @prototype-box-shadow, @body-background);
+.app-upload-progress(@black);

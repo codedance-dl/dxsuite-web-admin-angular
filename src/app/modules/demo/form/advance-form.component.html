@@ -1,0 +1,54 @@
+<div class="panel-content">
+  <div class="panel-content-header">
+    高级表单
+  </div>
+  <div class="panel-content-body">
+    <nz-spin [nzSpinning]="loading">
+      <div class="padding-1">
+        <form nz-form nzLayout="" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <nz-form-item autoErrorTip>
+            <nz-form-label [nzSpan]="2" nzRequired nzFor="name">姓名</nz-form-label>
+            <nz-form-control [nzSpan]="6">
+              <input nz-input formControlName="name" id="name" placeholder="姓名" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="2" nzFor="gender">性别</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group formControlName="gender">
+                <label nz-radio nzValue="MALE">男</label>
+                <label nz-radio nzValue="FEMALE">女</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="2" nzFor="birthDate">生日</nz-form-label>
+            <nz-form-control [nzSpan]="6">
+              <nz-date-picker style="width: 100%;" formControlName="birthDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="2" nzFor="avatar">头像</nz-form-label>
+            <nz-form-control [nzExtra]="avatarExtraTpl">
+              <nz-upload [nzAction]="uploadUrl" nzName="avatar" [nzCustomRequest]="customRequest"
+                nzListType="picture-card" [nzShowUploadList]="false" [nzBeforeUpload]="beforeUpload"
+                (nzChange)="handleChange($event)">
+                <em *ngIf="!form.value.avatar" class="upload-icon" nz-icon
+                  [nzType]="uploadLoading ? 'loading' : 'plus'"></em>
+                <img *ngIf="form.value.avatar" [src]="form.value.avatar" alt="" style="width: 100%;" />
+              </nz-upload>
+              <ng-template #avatarExtraTpl>1M以内，jpg/png格式的图片，建议尺寸：120(宽) * 120(高)</ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="2" nzFor="description">描述</nz-form-label>
+            <nz-form-control [nzSpan]="6" >
+              <textarea nz-input rows="4" formControlName="description"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <button nz-button nzType="primary">提交</button>
+        </form>
+      </div>
+    </nz-spin>
+  </div>
+</div>

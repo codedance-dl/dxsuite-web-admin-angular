@@ -1,0 +1,43 @@
+@import 'src/styles/variables';
+
+.invite-form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+
+  .name,
+  .account {
+    padding-top: 0.5rem;
+  }
+
+  .invite-form-body {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+  .invite-form-title {
+    font-size: 2rem;
+    font-weight: bold;
+    max-width: 340px;
+    margin: 1rem auto 0;
+  }
+
+  .invite-form-subtitle {
+    max-width: 340px;
+    margin: 1rem auto 2rem;
+    color: #3f4f6f;
+    opacity: 0.7;
+  }
+}
+
+.ant-form-item-has-error {
+  .set-message-button {
+    border-color: @error-color;
+  }
+}
+
+.text-center {
+  text-align: center;
+}

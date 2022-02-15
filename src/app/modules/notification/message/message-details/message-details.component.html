@@ -1,0 +1,14 @@
+<div class="panel-content">
+  <div class="panel-content-header">
+    消息详情
+  </div>
+  <div class="panel-content-body">
+    <div class="message-details">
+      <div class="title">
+        <h2>{{ message.title }}</h2>
+        <div>{{ message.createdAt | date: 'yyyy-MM-dd HH:mm' }}</div>
+      </div>
+      <pre [innerHtml]="message.content"></pre>
+    </div>
+  </div>
+</div>

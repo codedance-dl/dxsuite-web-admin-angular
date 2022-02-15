@@ -1,0 +1,32 @@
+<form nz-form [formGroup]="verifyForm" [nzLayout]="'vertical'">
+  <nz-form-item autoErrorTip>
+    <nz-form-label [nzSpan]="4" nzFor="name">邮箱</nz-form-label>
+    <nz-form-control [nzSpan]="24">
+      <nz-input-group nzSize="large" nzPrefixIcon="mail">
+        <input nz-input [value]="email" disabled>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item autoErrorTip>
+    <nz-form-label nzRequired [nzSpan]="4" nzFor="name">验证码</nz-form-label>
+    <nz-form-control>
+      <nz-input-group class="input-container" nzPrefixIcon="mail" nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+        <input type="text" nz-input formControlName="verificationCode"
+               placeholder="验证码"
+               (blur)="!verifyForm.get('verificationCode').value && (verificationCodeFocus = false)"
+               (focus)="verificationCodeFocus = true" />
+      </nz-input-group>
+    </nz-form-control>
+    <ng-template #suffixButton>
+      <button nz-button [disabled]="!!countdown" nzSize="large" nzSearch (click)="code()">
+        {{ sending ? "正在获取" : countdown ? countdown + " s" : codeText }}
+      </button>
+    </ng-template>
+  </nz-form-item>
+
+  <button nz-button
+          class="btn action-button"
+          nzType="primary"
+          [nzSize]="'large'"
+          (click)="submit()">下一步</button>
+</form>

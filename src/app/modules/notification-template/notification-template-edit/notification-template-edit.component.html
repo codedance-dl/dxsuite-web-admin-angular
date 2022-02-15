@@ -1,0 +1,145 @@
+<div class="panel-content">
+  <div class="panel-content-header">
+    编辑模版
+  </div>
+  <div class="panel-content-body padding-top-2">
+    <form nz-form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSm]="4" [nzMd]="4" [nzXs]="24" nzRequired nzFor="type">模版类型</nz-form-label>
+        <nz-form-control [nzSm]="4" [nzMd]="8" [nzXs]="24">
+          <div class="control-label">
+            {{ titleFormat(form.value.type) }}
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSm]="4" [nzMd]="4" [nzXs]="24" nzRequired nzFor="name">模板名称</nz-form-label>
+        <nz-form-control [nzSm]="6" [nzMd]="8" [nzXs]="24">
+          <input nz-input formControlName="name" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSm]="4" [nzMd]="4" [nzXs]="24" nzRequired nzFor="tagList">标签</nz-form-label>
+        <nz-form-control [nzSm]="6" [nzMd]="8" [nzXs]="24" nzExtra="请输入模版所属的业务标签,多个标签请用“,”分割">
+          <textarea nz-input formControlName="tagList" type="text"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="margin-0">
+        <nz-form-label [nzSm]="4" [nzMd]="4" [nzXs]="24">内容模版</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzMd]="14">
+          <ng-container formArrayName="contents">
+            <ng-container *ngFor="let item of contents.controls; index as idx" [formGroupName]="idx">
+              <!-- 内容模版循环开始 -->
+              <nz-alert class="margin-bottom-1" nzType="warning" [nzCloseable]="idx > 0"
+                [nzCloseText]="idx > 0 ? '删除': ''" (nzOnClose)="afterClose(idx)" [nzMessage]="contentsTpl">
+              </nz-alert>
+              <!-- 内容模版 开始 -->
+              <ng-template #contentsTpl>
+                <!-- 通用模版字段 开始 -->
+                <nz-form-item class="margin-top-1">
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="contentType">内容类型</nz-form-label>
+                  <nz-form-control [nzSm]="14" [[nzXs]="24" nzExtra="如 text/plain、text/html 等">
+                    <input nz-input formControlName="contentType" type="text" />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="languageCode">语言代码</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzExtra="如 en、en_US、zh、zh_CN、zh_TW、ja、ko 等">
+                    <input nz-input formControlName="languageCode" type="text" />
+                  </nz-form-control>
+                </nz-form-item>
+                <!-- 通用模版字段 结束 -->
+                <!-- 短信模版字段 开始 -->
+                <ng-container *ngIf="form.get('type').value === 'MOBILE'">
+                  <nz-form-item autoErrorTip>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="content">第三方服务商模板</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24">
+                      <textarea class="content-textarea" nz-input type="text" formControlName="content"></textarea>
+                    </nz-form-control>
+                  </nz-form-item>
+                </ng-container>
+                <!-- 短信模版字段 结束 -->
+                <!-- 站内信 开始 -->
+                <ng-container *ngIf="form.get('type').value === 'MESSAGE'">
+                  <nz-form-item autoErrorTip>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="subject">内容模板标题</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" [nzExtra]="messageSubjectExtraTpl">
+                      <textarea class="content-textarea" nz-input type="text" formControlName="subject"></textarea>
+                      <ng-template #messageSubjectExtraTpl let-control>
+                        还可以输入&nbsp;<span class="warning"
+                          [class.alert]="255 - contents.at(idx).get('subject').value.length < 0">{{255 -
+                          contents.at(idx).get('subject').value.length}}</span>&nbsp;个字符
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item autoErrorTip>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="content">内容模板</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" [nzExtra]="messageContentExtraTpl">
+                      <textarea class="content-textarea" nz-input type="text" formControlName="content"
+                        rows="4"></textarea>
+                      <ng-template #messageContentExtraTpl let-control>
+                        还可以输入&nbsp;<span class="warning"
+                          [class.alert]="32768 - contents.at(idx).get('content').value.length < 0">{{32768 -
+                          contents.at(idx).get('content').value.length}}</span>&nbsp;个字符
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </ng-container>
+                <!-- 站内信 结束 -->
+                <!-- 邮件 开始 -->
+                <ng-container *ngIf="form.get('type').value === 'EMAIL'">
+                  <nz-form-item autoErrorTip>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="subject">内容模板标题</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" [nzExtra]="emailSubjectExtraTpl">
+                      <textarea class="content-textarea" nz-input type="text" formControlName="subject"></textarea>
+                      <ng-template #emailSubjectExtraTpl let-control>
+                        还可以输入&nbsp;<span class="warning"
+                          [class.alert]="255 - contents.at(idx).get('subject').value.length < 0">{{255 -
+                          contents.at(idx).get('subject').value.length}}</span>&nbsp;个字符
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item autoErrorTip>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="content">内容模板</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" [nzExtra]="emailContentExtraTpl">
+                      <textarea class="content-textarea" nz-input type="text" formControlName="content"
+                        rows="4"></textarea>
+                      <ng-template #emailContentExtraTpl let-control>
+                        还可以输入&nbsp;<span class="warning"
+                          [class.alert]="32768 - contents.at(idx).get('content').value < 0">{{32768 -
+                          contents.at(idx).get('content').value.length}}</span>&nbsp;个字符
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </ng-container>
+                <!-- 内容模版 结束 -->
+              </ng-template>
+              <!-- 内容模版循环结束 -->
+            </ng-container>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzOffset]="4" [nzSm]="6" [nzXs]="24">
+          <button nzSize="small" nz-button type="button" nzType="link" (click)="addTemplate()">添加新模版</button>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSm]="4" [nzMd]="4" [nzXs]="24" nzFor="subject">备注</nz-form-label>
+        <nz-form-control [nzSm]="6" [nzMd]="8" [nzXs]="24" [nzExtra]="descriptionExtraTpl">
+          <textarea nz-input type="text" rows="4" formControlName="description" maxlength="500"></textarea>
+          <ng-template #descriptionExtraTpl let-control>
+            还可以输入&nbsp;<span class="warning" [class.alert]="500 - form.value['description'].length < 0">{{
+              500 - form.value['description'].length
+              }}</span>&nbsp;个字符
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzOffset]="4">
+          <button nz-button nzType="primary" type="submit" class="button tiny margin-bottom-0">提交</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

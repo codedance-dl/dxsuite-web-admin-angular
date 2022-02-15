@@ -1,0 +1,92 @@
+<div class="panel-content" *ngIf="loaded$ | async; else skeleton">
+  <div class="panel-content-header"  nzSize="small">
+    <div class="filter" nz-space nzAlign="center">
+      <nz-space-item>
+        <nz-select
+          [(ngModel)]="currentQueryParams['status']"
+          nzAllowClear
+          nzPlaceHolder="执行状态"
+          class="middle"
+        >
+          <nz-option
+            *ngFor="let status of statusList"
+            [nzValue]="status.value"
+            [nzLabel]="status.text"
+            ></nz-option>
+        </nz-select>
+      </nz-space-item>
+      <nz-space-item>
+        <button nz-button nzType="primary" (click)="onSearch()">查询</button>
+      </nz-space-item>
+    </div>
+    <div class="actions" nz-space nzAlign="center">
+      <nz-space-item>
+        <span class="cursor-pointer" (click)="onRefreshing()">
+          <em class="action-icons" nz-icon [nzType]="'sync'" [nzSpin]="loading" nz-tooltip nzTooltipTitle="刷新"></em>
+        </span>
+      </nz-space-item>
+    </div>
+  </div>
+
+  <div class="panel-content-body">
+    <nz-spin [nzSpinning]="refreshing || loading">
+      <nz-table #basicTable [nzFrontPagination]="false" [nzData]="items$ | async" nzSize="small">
+        <thead>
+          <tr>
+            <th scope="row">开始时间</th>
+            <th scope="row">结束时间</th>
+            <th scope="row">执行状态</th>
+            <th scope="row">操作人</th>
+            <th scope="row" [nzAlign]="'right'">导入总数</th>
+            <th scope="row" [nzAlign]="'right'">已处理件数</th>
+            <th scope="row" [nzAlign]="'right'">失败总数</th>
+            <th scope="row" [nzAlign]="'right'">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{ data.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+            <td>{{ data.finishedAt | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td>
+              <ng-container *ngIf="data.status === 'RUNNING' && data.totalCount > 0 else status">
+                <nz-progress [nzPercent]="getProcess(data.processedCount, data.totalCount)" nzSize="small"></nz-progress>
+              </ng-container>
+              <ng-template #status>
+                <nz-tag [nzColor]="statusColorMap[data.status]">
+                  {{statusMap[data.status]}}
+                </nz-tag>
+              </ng-template>
+            </td>
+            <td>{{ data.createdBy?.name }}</td>
+            <td [nzAlign]="'right'">{{ data.totalCount }}</td>
+            <td [nzAlign]="'right'">{{ data.processedCount }}</td>
+            <td [nzAlign]="'right'" class="error-color">{{ data.failedCount }}</td>
+            <td [nzAlign]="'right'">
+              <a *ngIf="data.status !== 'RUNNING' && data.status !== 'FAILED' && data.failedCount > 0"
+                (click)="download(data)">下载失败清单</a>
+              <a *ngIf="data.status === 'RUNNING'" (click)="stopTask(data.id)">终止</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-spin>
+
+  </div>
+
+  <div class="panel-content-footer">
+    <ng-container *ngIf="meta$ | async as meta">
+      <span class="meta-template">共 {{meta.count}} 条，每页显示 {{meta.pageSize}} 条</span>
+      <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count"
+                     nzShowSizeChanger
+                     [nzPageSizeOptions]="[10, 20, 50, 100]"
+                     (nzPageSizeChange)="onPageSizeChange($event)"
+                     (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #skeleton>
+  <div class="skeleton">
+    <nz-skeleton [nzActive]="true"></nz-skeleton>
+  </div>
+</ng-template>

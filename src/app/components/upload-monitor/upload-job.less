@@ -1,0 +1,91 @@
+@import 'src/styles/variables';
+
+.upload-job {
+  display: block;
+  position: relative;
+  border-top: 1px solid transparent;
+  font-family: Monaco, 'Courier New', Courier, monospace, -apple-system, BlinkMacSystemFont, 'Microsoft YaHei';
+  padding: .5rem 1rem;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  .task-action {
+    text-align: center;
+    margin-left: .5rem;
+    position: absolute;
+    right: 0;
+    padding: 0 .5rem;
+    cursor: auto;
+  }
+
+  .task-info {
+    flex: 1 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: -6px;
+
+    .task-name {
+      display: inline-block;
+      max-width: 360px;
+      position: relative;
+      padding-right: 30px;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: top;
+      font-size: 12px;
+    }
+
+    .task-actions {
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: @normal-color;
+      line-height: inherit;
+
+      span {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .task-error {
+    color: @error-color;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+  }
+
+  .task-status {
+    float: right;
+    font-size: 12px;
+    transition: background-color .2s;
+
+    .status-icon {
+      &.waiting {
+        color: @normal-color;
+      }
+
+      &.working {
+        color: @warning-color;
+      }
+
+      &.success {
+        color: @success-color;
+      }
+
+      &.error {
+        color: @error-color;
+      }
+
+      .status-duplicate {
+        cursor: pointer;
+      }
+    }
+  }
+}

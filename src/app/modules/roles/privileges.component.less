@@ -1,0 +1,151 @@
+
+@import 'src/styles/variables';
+
+.roles-permission-edit {
+  color: #000000;
+}
+
+.roles-permissions {
+  transition: opacity .2s;
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #f0f0f0;
+
+  .title,
+  .subtitle {
+    padding: 0 1rem;
+    width: 200px;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #f0f0f0;
+  }
+
+  .title-content {
+    flex: 1;
+  }
+
+  .title-content > div {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .title-content > div:first-child {
+    border-top: 1px solid transparent;
+  }
+
+  .permissions {
+    flex: 1;
+    padding: 0 .6rem;
+    border-left: 1px solid #f0f0f0;
+
+    .permission {
+      display: inline-block;
+      padding: .6rem .5rem;
+    }
+  }
+
+  &.disabled {
+    opacity: .5;
+  }
+
+  .roles-permission-item {
+    padding: 0 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    line-height: 2.2rem;
+    font-size: .8rem;
+    background-color: #fafafa;
+    transition: background-color .2s;
+
+    &.selected {
+      background-color: #ffffff;
+    }
+  }
+
+  .roles-permission-name {
+    flex: 0 0 auto;
+    width: 200px;
+    font-weight: 500;
+
+    span {
+      display: inline-flex;
+      justify-content: center;
+      width: 1rem;
+      height: 1rem;
+      margin-right: 1rem;
+    }
+  }
+
+  .roles-permission-control {
+    flex: 0 0 auto;
+    display: flex;
+  }
+}
+
+.roles-permissions-header {
+  padding: 0 1.5rem !important;
+  line-height: 3;
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+
+  .roles-permission-name {
+    flex: 0 0 auto;
+    width: 200px;
+    font-size: .8rem;
+  }
+
+  .roles-permission-description {
+    width: 200px;
+    display: flex;
+    font-size: .8rem;
+  }
+
+  .roles-permission-control {
+    flex: 0 0 auto;
+    font-size: .8rem;
+    justify-content: center;
+    display: inline-flex;
+  }
+}
+
+.roles-add-pane {
+  padding: 0.75rem;
+
+  input,
+  textarea {
+    font-size: .8rem;
+  }
+}
+
+.action {
+  padding: 1rem;
+}
+
+.main-container {
+  padding: 1rem 1rem 1rem 2rem;
+  background: #ffffff;
+}
+
+.card {
+  .base-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 2px;
+      height: 1.2rem;
+      background: @primary-color;
+      position: relative;
+      top: 2px;
+      margin-right: 10px;
+    }
+  }
+}

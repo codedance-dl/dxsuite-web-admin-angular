@@ -1,0 +1,91 @@
+<div class="panel-content" *ngIf="loaded$ | async; else skeleton">
+
+  <div class="panel-content-header">
+    <div class="filter" nz-space nzAlign="center">
+      <nz-space-item>
+        <nz-input-group [nzSuffix]='suffixIconClear'>
+          <input nz-input class="middle" placeholder="资产名称" [(ngModel)]="keyword" />
+          <ng-template #suffixIconClear>
+            <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="keyword"
+              (click)="keyword = ''"></em>
+          </ng-template>
+        </nz-input-group>
+
+      </nz-space-item>
+      <nz-space-item>
+        <button nz-button nzType="primary" (click)="onSearch()">查询</button>
+      </nz-space-item>
+    </div>
+    <div class="actions" nz-space nzAlign="center">
+      <nz-space-item>
+        <button nz-button nzType="link" (click)="downloadTemplate()">
+          下载导入模版
+        </button>
+      </nz-space-item>
+      <nz-space-item>
+        <nz-upload nzName="multipartFile" [nzShowUploadList]="false" [nzAction]="uploadUrl"
+          (nzChange)="onChange($event)">
+          <button nz-button nzType="primary">
+            <em nz-icon nzType="cloud-upload"></em>数据导入
+          </button>
+        </nz-upload>
+      </nz-space-item>
+      <nz-space-item>
+        <span class="cursor-pointer" (click)="onRefreshing()">
+          <em class="action-icons" nz-icon [nzType]="'sync'" [nzSpin]="loading" nz-tooltip nzTooltipTitle="刷新"></em>
+        </span>
+      </nz-space-item>
+    </div>
+  </div>
+
+  <div class="panel-content-body">
+    <nz-spin [nzSpinning]="refreshing || loading">
+      <nz-table #basicTable [nzFrontPagination]="false" [nzData]="items$ | async" nzSize="small">
+        <thead>
+          <tr>
+            <th scope="row">资产编码</th>
+            <th scope="row">资产名称</th>
+            <th scope="row" [nzAlign]="'right'">金额</th>
+            <th scope="row">规格型号</th>
+            <th scope="row">计量单位</th>
+            <th scope="row">购入时间</th>
+            <th scope="row">备注</th>
+            <th scope="row">SN</th>
+            <th scope="row">使用期限</th>
+            <th scope="row">来源</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{ data.code }}</td>
+            <td>{{ data.name }}</td>
+            <td [nzAlign]="'right'">{{ data.amount | currency: '￥' }}</td>
+            <td>{{ data.specs }}</td>
+            <td>{{ data.unit }}</td>
+            <td>{{ data.purchaseDate | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ data.comment }}</td>
+            <td>{{ data.sn }}</td>
+            <td>{{ data.validUntil | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ data.source }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-spin>
+
+  </div>
+
+  <div class="panel-content-footer">
+    <ng-container *ngIf="meta$ | async as meta">
+      <span class="meta-template">共 {{meta.count}} 条，每页显示 {{meta.pageSize}} 条</span>
+      <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count" nzShowSizeChanger
+        [nzPageSizeOptions]="[10, 20, 50, 100]" (nzPageSizeChange)="onPageSizeChange($event)"
+        (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #skeleton>
+  <div class="skeleton">
+    <nz-skeleton [nzActive]="true"></nz-skeleton>
+  </div>
+</ng-template>

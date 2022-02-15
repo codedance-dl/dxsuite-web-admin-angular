@@ -1,0 +1,58 @@
+<span class="file-field file-selector">
+  <div nz-checkbox [ngModel]="checked" (click)="$event.stopPropagation()"
+       (ngModelChange)="checkChange.emit($event)"></div>
+</span>
+<span class="file-field file-icon">
+  <ng-container *ngIf="entry.isDirectory else fileicon">
+    <a [routerLink]="['./']" [queryParams]="{ directory: entry.id }">
+      <em nz-icon nzType="folder" nzTheme="fill" class="text-warning"></em>
+    </a>
+  </ng-container>
+  <ng-template #fileicon>
+    <em class="file" nz-icon nzType="{{ entry.mimeType | fileIcon }}" nzTheme="outline"></em>
+  </ng-template>
+</span>
+<span class="file-field file-name">
+  <ng-container *ngIf="entry.isDirectory else filelink">
+
+    <ng-container *ngIf="viewMode === 'list'">
+      <a [routerLink]="['./']" [queryParams]="{ directory: entry.id }">{{ entry.name }}</a>
+    </ng-container>
+
+    <ng-container *ngIf="viewMode === 'card'">
+      <a [routerLink]="['./']" [queryParams]="{ directory: entry.id }"
+         nz-tooltip
+         nzTooltipTitle="{{entry.name}}"
+         nzTooltipPlacement="bottomLeft"
+         nzTooltipOverlayClassName="file-whole-name"
+      >{{ entry.name }}</a>
+    </ng-container>
+
+  </ng-container>
+  <ng-template #filelink>
+
+    <ng-container *ngIf="viewMode === 'list'">
+      <a (click)="download(entry)" target="_blank" rel="noopener noreferrer">{{ entry.name }}</a>
+    </ng-container>
+
+    <ng-container *ngIf="viewMode === 'card'">
+      <a (click)="download(entry)" target="_blank"
+         rel="noopener noreferrer"
+         nz-tooltip
+         nzTooltipTitle="{{entry.name}}"
+         nzTooltipPlacement="bottomLeft"
+         nzTooltipOverlayClassName="file-whole-name"
+      >
+      {{ entry.name }}
+    </a>
+    </ng-container>
+
+  </ng-template>
+</span>
+
+<span class="file-field file-size"> {{ entry.isDirectory ? '-' : entry.size | fileSize }} </span>
+<span class="file-field file-uploader">{{ entry.uploadedBy?.name }}</span>
+<span class="file-field file-uploaded-time"> {{ entry.uploadedAt | date: 'yyyy-MM-dd HH:mm:ss' }} </span>
+<ng-container *ngIf="viewMode === 'card'">
+  <em nz-icon nzType="check-circle" [nzTheme]="checked ? 'fill' : 'outline'" class="card-mode-choose-icon"></em>
+</ng-container>

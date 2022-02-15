@@ -1,0 +1,69 @@
+<div class="panel" *ngIf="loaded$ | async; else skeleton">
+  <div class="panel-content">
+    <div class="panel-content-header">
+      <div class="filter" nz-space nzAlign="center">
+        <nz-space-item>
+          <nz-input-group [nzSuffix]="suffixIconClear" class="middle">
+            <input nz-input placeholder="定时任务代码" [(ngModel)]="scheduledJobCode" (keyup.enter)="onSearch()" />
+          </nz-input-group>
+          <ng-template #suffixIconClear>
+            <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="!!scheduledJobCode"
+              (click)="scheduledJobCode=''"></em>
+          </ng-template>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-select [style.width.px]="150" nzPlaceHolder="执行状态" [(ngModel)]="status" nzAllowClear class="middle">
+            <nz-option *ngFor="let item of statusArray" [nzValue]="item.key" [nzLabel]="item.value"></nz-option>
+          </nz-select>
+        </nz-space-item>
+        <nz-space-item>
+          <button nz-button nzType="primary" (click)="onSearch()">查询</button>
+        </nz-space-item>
+      </div>
+      <div class="actions" nz-space nzAlign="center">
+        <span class="cursor-pointer" (click)="onRefreshing()">
+          <em class="action-icons" nz-icon [nzType]="'sync'" [nzSpin]="loading" nz-tooltip nzTooltipTitle="刷新"></em>
+        </span>
+      </div>
+    </div>
+    <div class="panel-content-body">
+      <nz-table #basicTable [nzFrontPagination]="false" [nzLoading]="loading" [nzData]="items$ | async" nzSize="small">
+        <thead>
+          <tr>
+            <th scope="row">执行记录ID</th>
+            <th scope="row">定时任务代码</th>
+            <th scope="row">执行开始时间</th>
+            <th scope="row">执行截止时间</th>
+            <th scope="row">执行状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of basicTable.data">
+            <td>{{ item?.id || "- -" }}</td>
+            <td>{{ item?.scheduledJobCode || "- -" }}</td>
+            <td>{{ (item?.startedAt | date: "yyyy-MM-dd HH:mm:ss") || "- -" }}</td>
+            <td>{{ (item?.endedAt | date: "yyyy-MM-dd HH:mm:ss") || "- -" }}</td>
+            <td>{{ item?.status || "- -" }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+
+    <div class="panel-content-footer">
+      <ng-container *ngIf="meta$ | async as meta">
+        <span class="meta-template">共 {{meta.count}} 条，每页显示 {{meta.pageSize}} 条</span>
+        <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count" nzShowSizeChanger
+          [nzPageSizeOptions]="[10, 20, 50, 100]" (nzPageSizeChange)="onPageSizeChange($event)"
+          (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+      </ng-container>
+    </div>
+  </div>
+
+
+</div>
+
+<ng-template #skeleton>
+  <div class="skeleton">
+    <app-scheduled-jobs-executions-skeleton></app-scheduled-jobs-executions-skeleton>
+  </div>
+</ng-template>

@@ -1,0 +1,58 @@
+<div class="panel">
+  <div class="panel-content">
+    <div class="panel-content-header">
+      权限设置
+    </div>
+    <div class="panel-content-body">
+      <nz-spin [nzSpinning]="loading">
+        <nz-layout class="main-container">
+          <nz-content class="card base-info ">
+            <div class="base-title">基本信息</div>
+            <nz-form-item nzGutter="16">
+              <nz-form-label nzFlex="120px">名称</nz-form-label>
+              <nz-form-control nzFlex="306px">
+                <div>
+                  {{ detail?.name }}
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </nz-content>
+          <nz-content class="card base-info">
+            <div class="base-title">权限设置</div>
+            <div class="roles-permissions-header">
+              <div class="roles-permission-name">
+                一级菜单
+              </div>
+              <div class="roles-permission-description">
+                二级菜单
+              </div>
+              <div class="roles-permission-control">
+                权限明细
+              </div>
+            </div>
+            <div *ngFor="let group of permissionStrategy" class="roles-permissions">
+              <div class="title">{{group.name}}</div>
+              <div class="title-content">
+                <div *ngFor="let child of group.children">
+                  <div class="subtitle">
+                    {{child.name}}
+                  </div>
+                  <div class="permissions">
+                    <div class="permission" *ngFor="let permission of child.permissions">
+                      <label nz-checkbox [nzDisabled]="permission.disabled"
+                             (ngModelChange)="checkBoxChange(permission)"
+                        [(ngModel)]="permission.checked">&nbsp;&nbsp;&nbsp;{{permission.description}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="action">
+              <button (click)="setSelected()" nz-button nzType="primary">提交</button>
+            </div>
+          </nz-content>
+        </nz-layout>
+      </nz-spin>
+    </div>
+  </div>
+</div>

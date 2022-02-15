@@ -1,0 +1,62 @@
+<form nz-form [formGroup]='form' (ngSubmit)='onSubmit()' [nzLayout]="'vertical'">
+  <nz-form-item autoErrorTip>
+    <nz-form-label [nzSpan]='4' nzRequired nzFor='name'>业务</nz-form-label>
+    <nz-form-control [nzSpan]='24'>
+      <nz-select formControlName='scheduledJobId' [nzAllowClear]='true'>
+        <nz-option *ngFor='let job of jobs' [nzValue]='job.id' [nzLabel]='job.scheduledJobName'></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item autoErrorTip>
+    <nz-form-label [nzSpan]='4' nzRequired nzFor='name'>执行规则</nz-form-label>
+    <nz-form-control [nzSpan]='24'>
+      <div nz-row nzJustify='space-around' formGroupName='executeRule'>
+        <div nz-col nzSpan='4' class='executeRule'>
+          <span>秒</span>
+          <input nz-input name='text' type='text' formControlName='seconds' placeholder='*'
+            [class.ant-form-item-has-error]="getErrorStatus('seconds')">
+        </div>
+        <div nz-col nzSpan='4' class='executeRule'>
+          <span>分</span>
+          <input nz-input name='text' type='text' formControlName='minutes' placeholder='*'>
+        </div>
+        <div nz-col nzSpan='4' class='executeRule'>
+          <span>时</span>
+          <input nz-input name='text' type='text' formControlName='hours' placeholder='*'>
+        </div>
+        <div nz-col nzSpan='4' class='executeRule'>
+          <span>日</span>
+          <input nz-input name='text' type='text' formControlName='dayOfMonth' placeholder='*'>
+        </div>
+        <div nz-col nzSpan='4' class='executeRule'>
+          <span>月</span>
+          <input nz-input name='text' type='text' formControlName='months' placeholder='*'>
+        </div>
+        <div nz-col nzSpan='4' class='executeRule'>
+          <span>周</span>
+          <input nz-input name='text' type='text' formControlName='dayOfWeek' placeholder='*'>
+        </div>
+      </div>
+      <p class='help-text'>
+        CRON 表达式，用于定义任务执行的时间，
+        <a href='https://spring.io/blog/2020/11/10/new-in-spring-5-3-improved-cron-expressions' target='_blank'>参考链接</a>
+      </p>
+      <p *ngIf="form.controls['executeRule'].errors" class="error-message">{{getErrorMessage()}}</p>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item autoErrorTip>
+    <nz-form-label [nzSpan]='6' nzRequired nzFor='name'>执行任务日期</nz-form-label>
+    <nz-form-control [nzSpan]='24'>
+      <nz-range-picker formControlName="scheduleTime" class='date-picker' [nzPlaceHolder]="['执行开始时间', '执行截止时间']"
+        (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disabledDate"></nz-range-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]='4' nzFor='name'>业务参数</nz-form-label>
+    <nz-form-control [nzSpan]='24' nzExtra="内容格式为JSON格式">
+      <textarea nz-input rows="5" formControlName='parametersJSON'
+        placeholder='如：{ &quot;expiredDay&quot;: &quot;180&quot;, &quot;isExpired&quot;: &quot;true&quot; }'></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button [nzType]="'primary'" [disabled]='loading'>提交</button>
+</form>

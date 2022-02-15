@@ -1,0 +1,19 @@
+<div class="customize-title">
+  <span><em nz-icon nzType="setting" nzTheme="outline"></em></span>
+  &nbsp;个人偏好</div>
+<div class="setting-list">
+  <div class="setting-list-title">界面设置</div>
+  <div class="setting-list-menu">
+    <div class="setting-list-item vertical" [class.disabled]="(ui$ | async).reactiveMode">
+      <div class="setting-list-item-group">
+        <a class="setting-list-label">菜单收起</a>
+        <span class="setting-list-control">
+          <nz-switch
+            [ngModel]="isCollapsed$ | async"
+            (click)="changeSidebarMode($event)"></nz-switch>
+        </span>
+      </div>
+      <div class="setting-list-hint">收起导航菜单栏，建议在分辨率不高的情况下开启。</div>
+    </div>
+  </div>
+</div>

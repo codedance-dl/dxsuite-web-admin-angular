@@ -1,0 +1,91 @@
+<div class="panel">
+  <div class="panel-content" *ngIf="loaded$ | async; else skeleton">
+    <div class="panel-content-header">
+      <div class="filter" nz-space nzAlign="center">
+        <nz-space-item>
+          <nz-input-group [nzSuffix]="suffixKeywordClear" class="middle">
+            <input nz-input [placeholder]="'pages.logs.list.placeholder.user/operation' | translate" [(ngModel)]="keyword">
+          </nz-input-group>
+          <ng-template #suffixKeywordClear>
+            <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="keyword"
+               (click)="keyword = ''"></em>
+          </ng-template>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-range-picker [(ngModel)]="date" (ngModelChange)="onDatePickerChange($event)"
+            [nzPlaceHolder]="['pages.logs.actions.startTime' | translate, 'pages.logs.actions.endTime' | translate]" class="large"></nz-range-picker>
+        </nz-space-item>
+        <nz-space-item>
+          <button nz-button nzType="primary" (click)="onSearch()">
+            {{'common.actions.search' | translate}}
+          </button>
+        </nz-space-item>
+      </div>
+      <div class="actions" nz-space nzAlign="center">
+        <!-- <div class="margin-right-2">{{'pages.logs.label.currency' | translate}}：{{ 100 | currency }}</div> -->
+        <div class="margin-right-2">{{'pages.logs.label.time' | translate }}： {{ time }} </div>
+        <span class="cursor-pointer" (click)="onRefreshing()">
+          <em class="action-icons" nz-icon nzType="sync" [nzSpin]="loading" nz-tooltip [nzTooltipTitle]="'common.actions.refresh' | translate"></em>
+        </span>
+      </div>
+    </div>
+    <div class="panel-content-body">
+      <nz-spin [nzSpinning]="refreshing || loading">
+        <nz-table #basicTable [nzFrontPagination]="false" [nzData]="items$ | async" nzSize="small">
+          <thead>
+            <tr>
+              <th scope="row" [nzSortOrder]="null" (nzSortOrderChange)="onSortChange($event, 'time')"
+                [nzSortDirections]="[ 'ascend','descend', null]">{{'pages.logs.columns.time' | translate}}</th>
+              <th scope="row">{{'pages.logs.columns.user' | translate}}</th>
+              <th scope="row" nzWidth="200">{{'pages.logs.columns.biz' | translate}}</th>
+              <th scope="row">{{'pages.logs.columns.remoteAddr' | translate}}</th>
+              <th scope="row">{{'pages.logs.columns.timeCost' | translate}}</th>
+              <th scope="row">{{'pages.logs.columns.method' | translate}}</th>
+              <th scope="row">{{'pages.logs.columns.url' | translate}}</th>
+              <th scope="row">{{'pages.logs.columns.success' | translate}}</th>
+              <!-- <th scope="row" nzAlign="right">操作</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td>{{ (data.time | date: 'yyyy-MM-dd HH:mm:ss') || '- -' }}</td>
+              <td>{{ data?.userCredentials || '- -' }}</td>
+              <td>{{ data?.domain + ' - ' +  data?.comment || '- -' }}</td>
+              <td>{{ data?.remoteAddr || '- -' }}</td>
+              <td>{{ data?.timeCost || '- -' }}</td>
+              <td>{{ data?.method || '- -' }}</td>
+              <td [style.max-width.vw]="20">
+                <div [style.margin-bottom.rem]="0" nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="1">
+                  {{ data?.url || '- -' }}
+                </div>
+              </td>
+              <td>
+                <nz-tag [nzColor]="data?.success ? 'green' : 'red'">
+                  {{ (data?.success ? 'pages.logs.status.success' : 'pages.logs.status.failed') | translate }}
+                </nz-tag>
+              </td>
+              <!-- <td nzAlign="right">
+                <a  *withPrivilege="detailLogPermissions" [routerLink]="['./', data.id]">详情</a>
+              </td> -->
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-spin>
+    </div>
+    <div class="panel-content-footer">
+      <ng-container *ngIf="meta$ | async as meta">
+        <span class="meta-template" translate="common.pagination" [translateParams]=" {count: meta.count, pageSize: meta.pageSize}"></span>
+        <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count"
+          [nzPageSizeOptions]="[10, 20, 50, 100]" nzShowSizeChanger (nzPageSizeChange)="onPageSizeChange($event)"
+          (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #skeleton>
+  <div class="skeleton">
+    <nz-skeleton [nzActive]="true"></nz-skeleton>
+  </div>
+</ng-template>

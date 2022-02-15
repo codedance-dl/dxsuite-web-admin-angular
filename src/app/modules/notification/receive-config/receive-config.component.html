@@ -1,0 +1,37 @@
+<div class="panel-content margin-bottom-1" style="height: 'auto'; padding: 0;"
+  *ngFor="let group of itemsHierarchy$ | async">
+  <nz-list nzItemLayout="horizontal" [nzLoading]="loading">
+    <nz-list-header nz-row>
+      <div nz-col nzSpan="6" class="group-title">{{group?.businessGroup?.text}}</div>
+      <div nz-col nzSpan="3" class="action-title">短信</div>
+      <div nz-col nzSpan="3" class="action-title">站内信</div>
+      <div nz-col nzSpan="3" class="action-title">邮件</div>
+      <div nz-col nzSpan="9" class="action-title">通知接收人</div>
+    </nz-list-header>
+    <nz-list-item class="list-item" nz-row *ngFor="let item of group.subscriptions">
+      <div nz-col nzSpan="6">
+        <span>{{ item.name }}</span><br />
+        <span class="help-text">{{ item.description }}</span>
+      </div>
+      <div nz-col nzSpan="3">
+        <nz-switch class="switch" [(ngModel)]="!item.smsDisabled" [nzControl]="true" nzSize="small" #sms="nzSwitch"
+          [nzDisabled]="!item.smsEditable"
+          (click)="channelSwitchChange(item.smsDisabled, item.id, 'sms', item.revision)"></nz-switch>
+      </div>
+      <div nz-col nzSpan="3">
+        <nz-switch class="switch" [(ngModel)]="!item.msgDisabled" [nzControl]="true" nzSize="small" [nzDisabled]="!item.msgEditable"
+          (click)="channelSwitchChange(item.msgDisabled, item.id, 'message', item.revision)"></nz-switch>
+      </div>
+      <div nz-col nzSpan="3">
+        <nz-switch class="switch" [(ngModel)]="!item.mailDisabled" [nzControl]="true" nzSize="small" [nzDisabled]="!item.mailEditable"
+          (click)="channelSwitchChange(item.mailDisabled, item.id, 'mail', item.revision)"></nz-switch>
+      </div>
+      <div nz-col nzSpan="9">
+        <app-set-receiver [item]="item" [receivers]="item.receiverList" [receiversShow]="item.receiverShowList"
+          (confirm)="reload()">
+        </app-set-receiver>
+      </div>
+    </nz-list-item>
+    <nz-list-empty *ngIf="group.subscriptions.length === 0"></nz-list-empty>
+  </nz-list>
+</div>

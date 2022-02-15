@@ -1,0 +1,93 @@
+<div class="panel-content" *ngIf="loaded$ | async; else skeleton">
+  <div class="panel-content-header small">
+    <div class="filter" nz-space nzAlign="center">
+      <nz-space-item>
+        <nz-input-group class="middle" [nzSuffix]="suffixKeywordClear">
+          <input nz-input placeholder="模版名称" [(ngModel)]="name" >
+        </nz-input-group>
+        <ng-template #suffixKeywordClear>
+          <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="name"
+             (click)="name = ''"></em>
+        </ng-template>
+      </nz-space-item>
+      <nz-space-item>
+        <nz-select class="select" [(ngModel)]="currentQueryParams['disabled']"
+                   class="middle"
+                   nzAllowClear
+                   nzPlaceHolder="启用状态">
+          <nz-option *ngFor="let item of disabledOptions" [nzValue]="item.value" [nzLabel]="item.text"></nz-option>
+        </nz-select>
+      </nz-space-item>
+      <nz-space-item>
+        <button nz-button nzType="primary" (click)="onSearch()">查询</button>
+      </nz-space-item>
+    </div>
+    <div class="actions" nz-space nzAlign="center">
+      <button nz-button nzType="primary" class="margin-right-1" [routerLink]="['./', 'add']">
+        <em nz-icon nzType="plus"></em>新建
+      </button>
+      <span class="cursor-pointer" (click)="onRefreshing()">
+        <em class="action-icons" nz-icon [nzType]="'sync'" [nzSpin]="loading" nz-tooltip nzTooltipTitle="刷新"></em>
+      </span>
+    </div>
+  </div>
+  <div class="panel-content-body">
+    <nz-spin [nzSpinning]="loading">
+    <nz-table
+      #sortTable
+      [nzData]="items$ | async"
+      [nzFrontPagination] = "false"
+      nzSize="small">
+      <thead>
+      <tr>
+        <th scope="row">模版名称</th>
+        <th scope="row">类型</th>
+        <th scope="row">
+          启用状态
+        </th>
+        <th scope="row" [nzAlign]="'right'">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of sortTable.data">
+          <td>
+              <a [routerLink]="[data.id]" class="text-nowrap">{{ data.name }}</a>
+          </td>
+          <td>
+            <span class="text-nowrap" *ngIf="data?.tagList?.includes('MESSAGE')">站内信模板</span>
+            <span class="text-nowrap" *ngIf="data?.tagList?.includes('MOBILE')">短信模板</span>
+            <span class="text-nowrap" *ngIf="data?.tagList?.includes('EMAIL')">邮件模板</span>
+          </td>
+          <td>
+            <nz-tag [nzColor]="statusColorMap[data.disabled]">{{ statusMap[data.disabled] }}</nz-tag>
+          </td>
+          <td [nzAlign]="'right'">
+            <ng-container *ngIf="data.disabled">
+              <a (click)="onClickToggleDisable(data, 'true')">启用</a>
+            </ng-container>
+            <ng-container *ngIf="!data.disabled">
+              <a (click)="onClickToggleDisable(data, 'false')">停用</a>
+            </ng-container>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="onClickRemove(data)">删除</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    </nz-spin>
+  </div>
+  <div class="panel-content-footer">
+    <ng-container *ngIf="meta$ | async as meta">
+      <span class="meta-template">共 {{meta.count}} 条，每页显示 {{meta.pageSize}} 条</span>
+      <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count" nzShowSizeChanger
+        [nzPageSizeOptions]="[10, 20, 50, 100]" (nzPageSizeChange)="onPageSizeChange($event)"
+        (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #skeleton>
+  <div class="skeleton">
+    <nz-skeleton [nzActive]="true"></nz-skeleton>
+  </div>
+</ng-template>

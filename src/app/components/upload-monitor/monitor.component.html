@@ -1,0 +1,9 @@
+<ng-container *ngIf="queue$ | async as queue">
+  <div class="upload-monitor-content" *ngIf="queue.length > 0">
+    <app-upload-monitor-header (arrowChange)="onArrowChange($event)"></app-upload-monitor-header>
+    <app-upload-monitor-body class="upload-body" [class.folded]="folded">
+      <app-upload-job *ngFor="let job of queue" [job]="job" (remove)="remove($event)">
+      </app-upload-job>
+    </app-upload-monitor-body>
+  </div>
+</ng-container>

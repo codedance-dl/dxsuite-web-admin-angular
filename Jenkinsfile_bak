@@ -1,0 +1,49 @@
+pipeline {
+  agent any
+  options {
+    timestamps()
+  }
+  stages {
+    stage('编译及测试') {
+      steps {
+        sh "npm install"
+        sh "npm run build"
+      }
+    }
+    stage('代码扫描') {
+      environment {
+        PROJECT_NAME = "codelet-ng-admin:${env.GIT_BRANCH}"
+      }
+      steps {
+        withSonarQubeEnv("SonarQube") {
+          sh "sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=${env.PROJECT_NAME} -Dsonar.projectName=${env.PROJECT_NAME}"
+        }
+        // timeout(time: 5, unit: 'MINUTES') {
+        //   waitForQualityGate abortPipeline: true
+        // }
+      }
+    }
+    stage('开发版部署') {
+      when { branch 'master' }
+      steps {
+        sh "npm run release-local"
+      }
+    }
+    // stage('正式版部署') {
+    //   when { branch 'master' }
+    //   steps {
+    //     dir(path: 'monolithic/target') {
+    //         // 发布到正式环境
+    //     }
+    //   }
+    // }
+  }
+  post {
+    unsuccessful {
+      mail from: 'jenkins@codelet.net', to: 'zhu.songjie@code-dance.com', subject: "${params.BRANCH_NAME} 构建 #${params.BUILD_NO} 失败", body: "构建页面地址：${params.BUILD_URL}"
+    }
+    fixed {
+      mail from: 'jenkins@codelet.net', to: 'zhu.songjie@code-dance.com', subject: "${params.BRANCH_NAME} 构建 #${params.BUILD_NO} 成功", body: "构建页面地址：${params.BUILD_URL}"
+    }
+  }
+}

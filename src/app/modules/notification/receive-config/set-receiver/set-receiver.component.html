@@ -1,0 +1,32 @@
+<div class="member-list">
+  <ng-container *ngFor="let receiver of _receiversShow; let idx = index">
+    <div class="member">
+      <span class="member-name">{{ receiver.name }}</span>
+      <span nz-icon nzType="close-circle" nzTheme="fill" class="remove-member"
+        (click)="removeReceiver(receiver?.id, _receivers[idx]?.id)"></span>
+    </div>
+  </ng-container>
+
+  <a nz-dropdown nzTrigger="click" nzPlacement="bottomCenter" [nzDropdownMenu]="menu" class="plus-btn" nz-tooltip nzTooltipTitle="添加接收人">
+    <em nz-icon nzType="plus-circle" nzTheme="twotone"></em>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <div class="member-select" nz-menu>
+        <div class="search-bar">
+          <nz-input-group class="margin-bottom-0">
+            <input nz-input type="text" placeholder="搜索" [(ngModel)]="keyword" (ngModelChange)="searchEmployee()" />
+          </nz-input-group>
+        </div>
+        <ul class="no-bullet employees-list">
+          <li nz-menu-item *ngFor="let employee of employees" (click)="setReceivers(employee.id, employee.user.id)">
+            <div class="item-name">
+              <span>{{ employee.name }}</span>
+            </div>
+          </li>
+          <li class="help-text" style="justify-content: center;" *ngIf="employees.length === 0">
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+          </li>
+        </ul>
+      </div>
+    </nz-dropdown-menu>
+  </a>
+</div>

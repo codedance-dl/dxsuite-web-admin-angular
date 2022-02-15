@@ -1,0 +1,91 @@
+@global-margin: 1rem;
+@global-padding: 1rem;
+@dark-gray: #a4b0be;
+@black: #3f4f6f;
+@object-field-margin: 0 0 @global-margin / 2 0;
+@object-field-border: 1px solid #f0f0f0;
+@object-field-font-size: 12px / @font-size-base * 1rem;
+@object-field-font-size-large: 14px / @font-size-base * 1rem;
+
+@object-field-label-color: @dark-gray;
+@object-field-label-width: 90px / @font-size-base * 1rem;
+
+@object-field-group-padding: @global-padding @global-padding * 1.5;
+@object-field-group-background: #fcfcfc; //@white;
+
+@object-field-title-height: 50px / @font-size-base * 1rem;
+@object-field-title-fontsize: 14px / @font-size-base * 1rem;
+@object-field-title-padding: 0 @global-padding * 1.5;
+
+.object-field-title {
+  display: flex;
+  align-items: center;
+  height: @object-field-title-height;
+  font-size: @object-field-title-fontsize;
+  padding: @object-field-title-padding;
+  border-bottom: @object-field-border;
+
+  & > span {
+    margin-right: 0.5rem;
+  }
+}
+
+.object-field-item {
+  display: flex;
+  align-items: flex-start;
+  font-size: @object-field-font-size;
+  margin: @object-field-margin;
+
+  .object-field-label {
+    color: @object-field-label-color;
+    flex: 0 0 auto;
+    width: @object-field-label-width;
+    padding: 0 0.5rem;
+
+    span {
+      white-space: pre-line;
+      padding-left: 0.5rem;
+      color: @black;
+    }
+  }
+
+  .object-field-value {
+    flex: 1 1 0;
+    text-align: right !important;
+    word-break: break-all;
+    padding: 0 0.5rem;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.object-field-group {
+  padding: @object-field-group-padding;
+
+  &.background {
+    background: @object-field-group-background;
+    border-bottom: @object-field-border;
+  }
+
+  &.large {
+    .object-field-label {
+      font-size: @object-field-font-size-large;
+    }
+
+    .object-field-value {
+      font-size: @object-field-font-size-large;
+    }
+  }
+
+  &.compactly {
+    .object-field-label {
+      text-align: right !important;
+    }
+
+    .object-field-value {
+      text-align: left !important;
+    }
+  }
+}

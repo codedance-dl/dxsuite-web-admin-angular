@@ -1,0 +1,22 @@
+<div class="cells parameter-setting">
+  <div class="cell-left" [style.width.px]="200">
+    <ul nz-menu class="dxsuite-menu">
+      <li nz-menu-item nzDisabled>
+        参数设置
+      </li>
+      <li nz-menu-divider></li>
+      <li nz-menu-item routerLink="basic-setting" routerLinkActive="ant-menu-item-selected">
+        <a><em nz-icon nzType="key" nzTheme="outline"></em>基本设置</a>
+      </li>
+      <li nz-menu-item routerLink="sm-send-configuration" routerLinkActive="ant-menu-item-selected">
+        <a><em nz-icon nzType="message" nzTheme="outline"></em>短信配置</a>
+      </li>
+      <li nz-menu-item routerLink="email-send-configuration" routerLinkActive="ant-menu-item-selected">
+        <a><em nz-icon nzType="mail" nzTheme="outline"></em>邮件配置</a>
+      </li>
+    </ul>
+  </div>
+  <div class="cell-center">
+    <router-outlet></router-outlet>
+  </div>
+</div>

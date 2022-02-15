@@ -1,0 +1,127 @@
+@import 'src/styles/variables';
+
+.tree-menu {
+  overflow-y: auto;
+  user-select: none;
+
+  .menu-container {
+    padding: .5rem;
+    flex-wrap: nowrap;
+
+    .menu-name {
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 10px;
+
+      .fa-icon {
+        margin-right: 10px;
+        color: @warning-color;
+        line-height: 1;
+        font-size: 20px;
+        width: 25px;
+      }
+    }
+
+    .toggle-icon {
+      position: relative;
+      cursor: pointer;
+      text-align: center;
+      color: inherit;
+    }
+
+    .menu-action {
+      opacity: 0;
+    }
+
+    &:hover {
+      &:not(.menu-active) {
+        background-color: rgba(@normal-color, .1);
+      }
+
+      .menu-action {
+        opacity: 1;
+      }
+    }
+  }
+
+  .menu-active {
+    color: @primary-color;
+    background-color: rgba(@primary-color, .1);
+  }
+
+  .node-loading {
+    .fa-icon-loading {
+      font-size: rem-calc(16);
+    }
+  }
+}
+
+.document-tree-container {
+  .cdk-tree,
+  .cdk-tree-node {
+    display: block;
+  }
+  .tree-item {
+    flex-wrap: nowrap;
+    padding: .5rem;
+  }
+
+  .tree-node {
+    padding-left: 20px;
+    transition: background-color .15s;
+
+    .node-center {
+      display: flex;
+      align-items: center;
+
+      .fa-icon {
+        margin-right: 10px;
+        color: @warning-color;
+        line-height: 1;
+        font-size: 20px;
+        width: 25px;
+      }
+
+      .node-name {
+        white-space: nowrap;
+      }
+    }
+
+    .toggle-icon {
+      position: relative;
+      text-align: center;
+      color: inherit;
+    }
+
+    &.disabled {
+      opacity: .5;
+    }
+
+    &.active {
+      cursor: pointer;
+      color: @primary-color;
+      background-color: rgba(@primary-color, .1);
+    }
+
+    &.enable {
+      .toggle-icon .node-center {
+        cursor: pointer;
+      }
+    }
+
+    &.enable:hover:not(.active) {
+      cursor: pointer;
+      background-color: rgba(@normal-color, .1);
+    }
+  }
+}
+
+.picker-footer {
+  margin-top: 24px;
+
+  .disabled-button {
+    display: inline-block;
+  }
+}

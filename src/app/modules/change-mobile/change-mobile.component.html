@@ -1,0 +1,45 @@
+<div class="portal-layout">
+  <div class="portal-layout-wrapper">
+    <div class="portal-layout-header">
+      <img src="/assets/DXSuite.png" (click)="toHomePage()" alt="logo"/>
+    </div>
+
+    <div class="portal-layout-body">
+      <div class="reset">
+
+        <div class="content-body-header padding-bottom-2">{{credentials.length === 0 ? '绑定手机' : '修改手机'}}</div>
+
+        <nz-steps [nzCurrent]="stepIndex-1" nzLabelPlacement="vertical" nzSize="small">
+          <nz-step *ngFor="let step of steps; let i = index" [nzTitle]="step"></nz-step>
+        </nz-steps>
+
+        <div class="step-content" *ngIf="credentials.length > 0">
+          <ng-container *ngIf="stepIndex === 1">
+            <app-change-mobile-verify [mobile]="mobile" (confirm)="firstStep($event)"></app-change-mobile-verify>
+          </ng-container>
+          <ng-container *ngIf="stepIndex === 2">
+            <app-change-mobile-update [userId]="userId" [oldVerificationCode]="oldVerificationCode" [mobile]="mobile"
+                                      (confirm)="secondStep()"></app-change-mobile-update>
+          </ng-container>
+          <ng-container *ngIf="stepIndex === 3">
+            <app-change-mobile-finished [title]="'修改成功'"></app-change-mobile-finished>
+          </ng-container>
+        </div>
+
+        <div class="step-content" *ngIf="credentials.length === 0">
+          <ng-container *ngIf="stepIndex === 1">
+            <app-change-mobile-update [userId]="userId" [mobile]="mobile"
+                                      (confirm)="secondStep()"></app-change-mobile-update>
+          </ng-container>
+          <ng-container *ngIf="stepIndex === 2">
+            <app-change-mobile-finished [title]="'绑定成功'"></app-change-mobile-finished>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="portal-layout-footer">
+      <div class="footer-slogen">— DXSuite · 企业级敏捷开发解决方案 —</div>
+      <div class="footer-copyright">Copyright © 2021 大连代码跳动科技有限公司 All Rights Reserved. 辽ICP备19008868号-12</div>
+    </div>
+  </div>
+</div>

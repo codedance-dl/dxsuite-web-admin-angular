@@ -1,0 +1,126 @@
+<form nz-form [nzLayout]="'vertical'" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-label nzRequired style="display: none;">分组</nz-form-label>
+    <nz-form-control nzErrorTip="请选择分组">
+      <nz-input-group [nzSize]="'medium'" nzCompact>
+        <nz-select formControlName="groupId" nzShowSearch [nzDropdownRender]="renderTemplate" style="width: 35%;"
+          nzPlaceHolder="请选择分组">
+          <nz-option nzCustomContent [nzLabel]="group.text" [nzValue]="group.id"
+            *ngFor="let group of subscriptionGroupList;let i = index">
+            <div class="option-item">
+              {{group.text}}
+              <button nz-button nzDanger nzSize="small" nzType="text" class="option-item-delete-tag"
+                (click)="showDeleteConfirm($event, group);$event.stopPropagation()">
+                <em nz-icon nzType="delete" nzTheme="outline" nzTheme="twotone" nzTwotoneColor="#ff4d4f"></em>
+              </button>
+            </div>
+          </nz-option>
+        </nz-select>
+        <input type="text" nz-input formControlName="name" placeholder="名称" style="width: 65%;" />
+      </nz-input-group>
+    </nz-form-control>
+    <ng-template #renderTemplate>
+      <nz-divider class="margin-0"></nz-divider>
+      <div class="container">
+        <nz-input-group>
+          <input type="text" nz-input #inputElement nzSize="small" placeholder="创建分组" />
+        </nz-input-group>
+        <a class="add-item" (click)="createGroup(inputElement)"><em nz-icon nzType="plus"></em>创建</a>
+      </div>
+    </ng-template>
+  </nz-form-item>
+  <nz-form-item autoErrorTip>
+    <nz-form-label nzRequired>代码</nz-form-label>
+    <nz-form-control>
+      <input type="text" nz-input formControlName="purpose" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item autoErrorTip>
+    <nz-form-label nzRequired [nzTooltipTitle]="categoryTooltip">接收方</nz-form-label>
+    <nz-form-control>
+      <nz-radio-group formControlName="category">
+        <label nz-radio nzValue="TENANT">商户方</label>
+        <label nz-radio nzValue="CUSTOMER">客户方</label>
+      </nz-radio-group>
+    </nz-form-control>
+    <ng-template #categoryTooltip let-control>
+      <div>商户方接收人员为系统内职员</div>
+      <div>客户方接收人员为系统内用户</div>
+      <div>接受方设置后将不支持修改</div>
+    </ng-template>
+  </nz-form-item>
+  <nz-form-item formGroupName="smsChannel">
+    <nz-form-label>短信配置</nz-form-label>
+    <div nz-row [nzGutter]="24">
+      <nz-form-control [nzSpan]="5">
+        <ng-container
+          *ngTemplateOutlet="radioForm; context: { $implicit: { form: form.get('smsChannel').get('config') } }">
+        </ng-container>
+      </nz-form-control>
+      <nz-form-control [nzSpan]="19">
+        <nz-form-item autoErrorTip>
+          <nz-form-label>短信模板</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="notificationTemplateId">
+              <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of notificationTemplates.sms">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item formGroupName="messageChannel">
+    <nz-form-label>站内信配置</nz-form-label>
+    <div nz-row [nzGutter]="24">
+      <nz-form-control [nzSpan]="5">
+        <ng-container
+          *ngTemplateOutlet="radioForm; context: { $implicit: { form: form.get('messageChannel').get('config') } }">
+        </ng-container>
+      </nz-form-control>
+      <nz-form-control [nzSpan]="19">
+        <nz-form-item autoErrorTip>
+          <nz-form-label>站内信模板</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="notificationTemplateId">
+              <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of notificationTemplates.message">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item formGroupName="mailChannel">
+    <nz-form-label>邮件配置</nz-form-label>
+    <div nz-row [nzGutter]="24">
+      <nz-form-control [nzSpan]="5">
+        <ng-container
+          *ngTemplateOutlet="radioForm; context: { $implicit: { form: form.get('mailChannel').get('config') } }">
+        </ng-container>
+      </nz-form-control>
+      <nz-form-control [nzSpan]="19">
+        <nz-form-item autoErrorTip>
+          <nz-form-label>邮件模板</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="notificationTemplateId">
+              <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of notificationTemplates.mail">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <button type="submit" nz-button nzType="primary" [disabled]="loading" [nzLoading]="loading">提交</button>
+</form>
+
+<ng-template #radioForm let-data>
+  <nz-radio-group [formControl]="data.form" class="config-radio-group">
+    <label *ngFor="let item of channelSwitches" nz-radio [nzValue]="item"
+      (click)="setChannelConfig(data.form.parent, item)">{{ channelSwitchMap[item].text }}</label>
+  </nz-radio-group>
+</ng-template>

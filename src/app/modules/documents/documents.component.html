@@ -1,0 +1,84 @@
+<div class="panel-content" *ngIf="loaded$ | async else skeleton;">
+  <div class="panel-content-header">
+    <div nz-space nzAlign="center">
+      <nz-breadcrumb class="margin-bottom-0 documents-breadcrumbs">
+        <nz-breadcrumb-item><a [routerLink]="['./']"><em nz-icon nzType="hdd" nzTheme="fill"></em>&nbsp;&nbsp;文件目录</a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngFor="let item of breadcrumbs$ | async">
+          <a [routerLink]="['./']" [queryParams]="{ directory: item.id }">
+            {{ item.name }}
+          </a>
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+    </div>
+    <div nz-space nzAlign="center">
+      <nz-space-item>
+        <button nz-button nzType="primary" fileSelect multiple (select)="onSelected($event)" [limitSize]="limitSize"
+                (errors)="onError()"><em nz-icon nzType="upload" nzTheme="outline"></em>上传
+        </button>
+      </nz-space-item>
+      <nz-space-item (click)="createDirectory()">
+        <button nz-button nzType="primary"><em nz-icon nzType="plus" nzTheme="outline"></em>新建文件夹</button>
+      </nz-space-item>
+      <nz-space-item class="view-mode-icon" *ngIf="viewMode === 'card'" (click)="changeViewMode('list')" nz-tooltip
+                     nzTooltipTitle="列表模式">
+        <em nz-icon nzType="bars" nzTheme="outline" class="view-mode-icon"></em>
+      </nz-space-item>
+      <nz-space-item class="view-mode-icon" *ngIf="viewMode === 'list'" (click)="changeViewMode('card')" nz-tooltip
+                     nzTooltipTitle="卡片模式">
+        <em nz-icon nzType="appstore" nzTheme="outline"></em>
+      </nz-space-item>
+    </div>
+  </div>
+  <div class="documents-header" *ngIf="selection.length === 0">
+    <div class="file-field file-selector" nz-checkbox [ngModel]="trackAllSelected()"
+         [nzIndeterminate]="trackSomeSelected()"
+         (ngModelChange)="selectAll()">
+    </div>
+    <div class="file-field file-name">
+      文件
+    </div>
+    <div class="file-field file-size" [class.hidden]="viewMode === 'card'"> 文件大小 </div>
+    <div class="file-field file-uploader" [class.hidden]="viewMode === 'card'"> 上传者 </div>
+    <div class="file-field file-uploaded-time " [class.hidden]="viewMode === 'card'">上传时间</div>
+  </div>
+  <div class="documents-header" *ngIf="selection.length > 0">
+    <div class="file-field file-selector" nz-checkbox [ngModel]="trackAllSelected()"
+         [nzIndeterminate]="trackSomeSelected()"
+         (ngModelChange)="selectAll()">
+    </div>
+    <div class="file-field file-name">
+      <div nz-row class="selected-actions">
+        <span nz-col class="margin-right margin-right-1">
+          已选择&nbsp;{{ selection.length }}&nbsp;条{{ trackSelectedCount() }}
+        </span>
+        <a nz-col class="text-primary margin-right-1" (click)="moveTo()">
+          <em nz-icon nzType="arrow-right" nzTheme="outline"></em>移动到
+        </a>
+        <a nz-col class="text-primary margin-right-1" (click)="multiDownload()" *ngIf="isEnableMultiDownload()">
+          <em nz-icon nzType="download" nzTheme="outline"></em>下载
+        </a>
+        <a nz-col (click)="deleteAllSelected()" class="text-error">
+          <em nz-icon nzType="delete" nzTheme="outline"></em>删除
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="panel-content-body position-relative">
+    <div class="documents-wrapper">
+      <nz-spin [nzSpinning]="loading">
+        <div *ngIf="entries$ | async as entries" class="documents-files" [class.card-mode]="viewMode === 'card'"
+             [class.padding-0]="entries.length === 0">
+          <app-file-entry *ngFor="let item of entries" [entry]="item" [checked]="trackItemSelected(item.id)"
+                          (checkChange)="selectOne(item.id)">
+          </app-file-entry>
+        </div>
+        <div class="empty padding-1 text-center" *ngIf="(isEmpty$ | async) && loading === false">
+          <nz-empty nzNotFoundImage="simple"></nz-empty>
+        </div>
+      </nz-spin>
+    </div>
+  </div>
+</div>
+
+<ng-template #skeleton></ng-template>

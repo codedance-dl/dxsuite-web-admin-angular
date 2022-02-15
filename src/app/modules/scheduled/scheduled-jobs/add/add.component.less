@@ -1,0 +1,33 @@
+@import 'src/styles/variables.less';
+
+.executeRule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.help-text {
+  clear: both;
+  min-height: 24px;
+  padding-top: 0;
+  color: rgba(63, 79, 111, 0.45);
+  font-size: rem-calc(14);
+  line-height: 1.5715;
+  transition: color 0.3s;
+}
+
+.to-tips {
+  margin: 0 .5rem;
+}
+
+.date-picker {
+  width: 100%;
+}
+
+.error-message {
+  color: @error-color;
+  font-weight: 500;
+  font-size: rem-calc(14);
+  margin-bottom: 1rem;
+}

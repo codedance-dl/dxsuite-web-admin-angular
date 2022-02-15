@@ -1,0 +1,43 @@
+<div class="portal-layout">
+  <div class="portal-layout-wrapper">
+    <div class="portal-layout-header">
+      <img src="/assets/DXSuite.png" (click)="toHomePage()" alt="logo" />
+    </div>
+
+    <div class="portal-layout-body">
+      <div class="reset">
+        <div class="content-body-header padding-bottom-2 text-center">{{credentials.length === 0 ? '绑定邮箱' : '修改邮箱'}}</div>
+        <nz-steps [nzCurrent]="stepIndex-1" nzLabelPlacement="vertical" nzSize="small">
+          <nz-step *ngFor="let step of steps; let i = index" [nzTitle]="step"></nz-step>
+        </nz-steps>
+
+        <div class="step-content" *ngIf="credentials.length > 0">
+          <div *ngIf="stepIndex === 1">
+            <app-change-email-verify [email]="email" (confirm)="firstStep($event)"></app-change-email-verify>
+          </div>
+          <div *ngIf="stepIndex === 2">
+            <app-change-email-update [userId]="userId" [oldVerificationCode]="oldVerificationCode" [email]="email"
+                                     (confirm)="secondStep()"></app-change-email-update>
+          </div>
+          <div *ngIf="stepIndex === 3">
+            <app-change-email-finished [title]="'修改成功'"></app-change-email-finished>
+          </div>
+        </div>
+
+        <div class="step-content" *ngIf="credentials.length === 0">
+          <div *ngIf="stepIndex === 1">
+            <app-change-email-update [userId]="userId" [email]="email" (confirm)="secondStep()"></app-change-email-update>
+          </div>
+          <div *ngIf="stepIndex === 2">
+            <app-change-email-finished [title]="'绑定成功'"></app-change-email-finished>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="portal-layout-footer">
+      <div class="footer-slogen">— DXSuite · 企业级敏捷开发解决方案 —</div>
+      <div class="footer-copyright">Copyright © 2021 大连代码跳动科技有限公司 All Rights Reserved. 辽ICP备19008868号-12</div>
+    </div>
+  </div>
+</div>
+

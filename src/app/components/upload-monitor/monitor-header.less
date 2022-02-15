@@ -1,0 +1,48 @@
+@import 'src/styles/variables';
+
+.upload-header {
+  padding: 1rem;
+  position: relative;
+  display: block;
+  border-bottom: 1px solid #f0f0f0;
+
+  .header-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+
+    span {
+      font-size: 13px;
+      cursor: pointer;
+      width: 40px;
+      height: 100%;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      transition: color .2s, transform .2s;
+
+      &:hover {
+        color: @primary-color;
+      }
+    }
+  }
+}
+
+.upload-status {
+  display: inline-block;
+  text-align: center;
+  width: auto;
+  padding: 0 .5rem;
+  font-family: Monaco, 'Courier New', Courier, monospace, -apple-system, BlinkMacSystemFont, 'Microsoft YaHei';
+  color: @normal-color;
+
+  .icon {
+    margin-right: 5px;
+  }
+
+  &.success { color: @success-color; }
+  &.working { color: @warning-color; }
+  &.error { color: @error-color; }
+}

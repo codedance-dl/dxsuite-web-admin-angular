@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DXSuite - Ng-Admin</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
+  <style>
+    .no-support-browser {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -350px;
+      margin-left: -250px;
+      text-align: center;
+      display: none;
+
+    }
+
+    .no-support-browser.visible {
+      display: block;
+    }
+
+    .no-support-browser img {
+      border-style: none;
+      vertical-align: top;
+    }
+
+    .error-title,
+    .error-des {
+      color: #353535;
+      font-size: 24px;
+    }
+
+    .error-title {
+      margin: 24px 0 58px;
+      font-weight: bold;
+    }
+
+    .error-des {
+      font-size: 20px;
+      margin-bottom: 54px;
+      font-weight: 400;
+      text-align: left;
+      line-height: 32px;
+    }
+
+    .error-des-two {
+      margin-bottom: 0;
+    }
+
+    .error-img {
+      width: 330px;
+    }
+
+    .error-btn-img {
+      position: relative;
+      top: -3px;
+      width: 140px;
+      height: 32px;
+    }
+
+    .error-browser-img {
+      width: 290px;
+      border-radius: 2px;
+      margin-top: 10px;
+      box-shadow: 4px 10px 20px rgba(0, 0, 0, .1);
+    }
+
+  </style>
+</head>
+<body>
+  <app-root>
+  <div id="no-support-browser" class="no-support-browser">
+    <img src="assets/check-1.png" class="error-img" alt=""/>
+    <div class="error-title">浏览器不支持使用</div>
+    <div class="error-des">
+      方法一：下载Chrome浏览器并进行访问
+      <a href="https://www.google.cn/chrome/index.html" target="_blank" rel="noopener noreferrer">
+        <img src="assets/check-2.png" class="error-btn-img" alt=""/>
+      </a>
+    </div>
+    <div class="error-des error-des-two">
+      方法二：点击浏览器右侧，切换成极速模式进行访问
+    </div>
+    <img src="assets/check-3.png" class="error-browser-img" alt=""/>
+  </div>
+  </app-root>
+  <script>
+    (function () {
+      // Internet Explorer/Edge 6-10
+      var isIE = document.all && document.compatMode;
+
+      // Internet Explorer/Edge ≥ 10
+      var isIE10gt = document.body.style.msTouchAction !== undefined;
+
+      // Weixin Browser
+      const agent = navigator.userAgent.toLowerCase();
+      const isWeixinBrowser = (agent.match(/MicroMessenger/i) && agent.match(/MicroMessenger/i)[0] === "micromessenger");
+
+      if (isIE || isIE10gt || isWeixinBrowser) {
+        document.getElementById("no-support-browser").classList.add("visible");
+      }
+    })()
+  </script>
+</body>
+</html>

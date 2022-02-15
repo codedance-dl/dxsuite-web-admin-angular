@@ -1,0 +1,41 @@
+<div class="papers">
+  <div class="papers-header">
+    <div class="user-setting-header">
+      <div class="portal-layout-header">
+        <img src="/assets/DXSuite.png" (click)="toHomePage()" alt="logo" />
+      </div>
+      <div>
+        <div class="employee">{{(user$ | async)?.name}}</div>
+        <a class="back" (click)="back()">返回系统</a>
+        <a class="signout" (click)="signout()">退出</a>
+      </div>
+    </div>
+  </div>
+  <div class="cells parameter-setting">
+    <div class="cell-left" [style.width.px]="200">
+      <ul nz-menu class="dxsuite-menu">
+        <li nz-menu-item nzDisabled>
+          账号设置
+        </li>
+        <li nz-menu-divider></li>
+        <li nz-menu-item routerLink="security" routerLinkActive="ant-menu-item-selected">
+          <a><em nz-icon nzType="safety-certificate" nzTheme="outline"></em>安全设置</a>
+        </li>
+        <li nz-menu-item routerLink="profile" routerLinkActive="ant-menu-item-selected">
+          <a><em nz-icon nzType="user" nzTheme="outline"></em>个人信息</a>
+        </li>
+        <li nz-menu-item routerLink="change-password" routerLinkActive="ant-menu-item-selected">
+          <a><em nz-icon nzType="key" nzTheme="outline"></em>修改密码</a>
+        </li>
+        <li nz-menu-item routerLink="access-token" routerLinkActive="ant-menu-item-selected">
+          <a><em nz-icon nzType="tablet" nzTheme="outline"></em>设备管理</a>
+        </li>
+      </ul>
+    </div>
+    <div class="cell-center">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <div class="papers-footer padding-bottom-2"></div>
+</div>

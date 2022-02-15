@@ -1,0 +1,36 @@
+<nz-spin [nzSpinning]="sending">
+  <form nz-form [nzLayout]="'vertical'" [formGroup]="form" (ngSubmit)="next()">
+    <nz-form-item autoErrorTip>
+      <nz-form-label nzRequired>账号</nz-form-label>
+      <nz-form-control>
+        <nz-input-group nzPrefixIcon="user" [nzSize]="'large'">
+          <input type="text" nz-input formControlName="account" placeholder="手机号/邮箱" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item autoErrorTip>
+      <nz-form-label nzRequired>验证码</nz-form-label>
+      <nz-form-control>
+        <nz-input-group nzSearch nzPrefixIcon="mail" [nzSize]="'large'" [nzAddOnAfter]="suffixButton">
+          <input type="text" nz-input formControlName="verificationCode" placeholder="验证码" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+          <button nz-button
+             nzSearch
+             nzType="default"
+             class="set-message-button"
+             [disabled]="!!countdown"
+             (click)="setMessage()">
+            {{ sending ? '正在获取' : countdown ? countdown + ' s' : codeText }}
+          </button>
+        </ng-template>
+
+      </nz-form-control>
+    </nz-form-item>
+    <button type="submit" nzBlock nz-button nzSize="large" [nzType]="'primary'">下一步</button>
+  </form>
+
+  <div class="margin-top-1 text-align-center">
+    已有账号？<a [routerLink]="['/', 'login']">直接登录</a>
+  </div>
+</nz-spin>

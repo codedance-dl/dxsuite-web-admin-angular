@@ -1,0 +1,18 @@
+
+.app-upload(@background, @shadow, @divider-color) {
+  .upload-monitor {
+    background: @background;
+    box-shadow: @shadow;
+    overflow: hidden;
+  }
+
+  .upload-body::before {
+    background-color: @divider-color;
+  }
+}
+
+.app-upload-progress(@color-action) {
+  .file-action {
+    color: @color-action;
+  }
+}

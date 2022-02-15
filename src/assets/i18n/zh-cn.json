@@ -1,0 +1,119 @@
+{
+  "router": {
+    "i18n": {
+      "systemLogs": "系统日志"
+    }
+  },
+  "common": {
+    "actions": {
+      "new": "新建",
+      "add": "添加",
+      "delete": "删除",
+      "edit": "编辑",
+      "search": "查询",
+      "refresh": "刷新",
+      "detail": "详情",
+      "confirm": "确认",
+      "cancel": "取消",
+      "submit": "提交",
+      "export": "导出",
+      "import": "导入",
+      "next": "下一步",
+      "previous": "上一步"
+    },
+    "message": {
+      "success": "操作成功",
+      "delete": "删除成功"
+    },
+    "pagination": "共 {{ count }} 条，每页显示 {{ pageSize }} 条"
+  },
+  "pages": {
+    "message": {
+      "columns": {
+        "title": "标题",
+        "isRead": "状态",
+        "createdAt": "接收时间"
+      },
+      "status": {
+        "isRead": "已读",
+        "unRead": "未读"
+      },
+      "label": {
+        "status": "状态"
+      },
+      "actions": {
+        "markRead": "标记已读",
+        "tips": "已选择{{ number }}条"
+      },
+      "list": {
+        "columns": {
+          "title": "@:pages.message.columns.title",
+          "isRead": "@:pages.message.columns.isRead",
+          "createdAt": "@:pages.message.columns.createdAt"
+        },
+        "status": {
+          "isRead": "@:pages.message.status.isRead",
+          "unRead": "@:pages.message.status.unRead"
+        },
+        "placeholder": {
+          "status": "@:pages.message.label.status"
+        },
+        "actions": {
+          "markRead": "@:pages.message.actions.markRead"
+        }
+      },
+      "detail": {
+        "label": {
+          "title": "消息详情"
+        }
+      }
+    },
+    "logs": {
+      "columns": {
+        "time": "操作时间",
+        "user": "操作用户",
+        "biz": "业务操作",
+        "remoteAddr": "IP",
+        "timeCost": "耗时（毫秒）",
+        "method": "请求方法",
+        "url": "请求URL",
+        "success": "状态",
+        "action": "操作"
+      },
+      "label": {
+        "currency": "货币",
+        "time": "时间"
+      },
+      "status": {
+        "success": "成功",
+        "failed": "失败"
+      },
+      "extra": {},
+      "actions": {
+        "startTime": "操作开始日期",
+        "endTime": "操作结束日期"
+      },
+      "tabs": {},
+      "list": {
+        "columns": {
+          "time": "@:pages.logs.columns.time",
+          "user": "@:pages.logs.columns.user",
+          "biz": "@:pages.logs.columns.biz",
+          "remoteAddr": "@:pages.logs.columns.remoteAddr",
+          "timeCost": "@:pages.logs.columns.timeCost",
+          "method": "@:pages.logs.columns.method",
+          "url": "@:pages.logs.columns.url",
+          "success": "@:pages.logs.columns.success",
+          "action": "@:pages.logs.columns.action"
+        },
+        "status": {
+          "success": "@:pages.logs.status.success",
+          "failed": "@:pages.logs.status.failed"
+        },
+        "placeholder": {
+          "user/operation": "用户/操作"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+@import 'src/styles/variables';
+
+.portal-layout-header {
+  padding: 0;
+}
+
+.papers {
+  height: 100%;
+  background-color: #f6f7f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.papers-header {
+  min-height: 50px;
+  flex: 0 0 auto;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px #dfe4ea;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .user-setting-header {
+    width: 1024px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      height: 36px;
+    }
+
+    .employee {
+      display: inline-block;
+      margin-right: 20px;
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    .back {
+      margin-right: 20px;
+    }
+  }
+}
+
+.content {
+  text-align: center;
+  margin-top: 15%;
+
+  .logo {
+    width: 100px;
+    margin-bottom: 30px;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}

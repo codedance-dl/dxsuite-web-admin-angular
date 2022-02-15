@@ -1,0 +1,75 @@
+<form nz-form [nzLayout]="'vertical'" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <nz-form-item formGroupName="smsChannel">
+    <nz-form-label>短信配置</nz-form-label>
+    <div nz-row [nzGutter]="24">
+      <nz-form-control [nzSpan]="5">
+        <ng-container
+          *ngTemplateOutlet="radioForm; context: { $implicit: { form: form.get('smsChannel').get('config') } }">
+        </ng-container>
+      </nz-form-control>
+      <nz-form-control [nzSpan]="19">
+        <nz-form-item autoErrorTip>
+          <nz-form-label>短信模板</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="notificationTemplateId">
+              <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of notificationTemplates.sms">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item formGroupName="messageChannel">
+    <nz-form-label>站内信配置</nz-form-label>
+    <div nz-row [nzGutter]="24">
+      <nz-form-control [nzSpan]="5">
+        <ng-container
+          *ngTemplateOutlet="radioForm; context: { $implicit: { form: form.get('messageChannel').get('config') } }">
+        </ng-container>
+      </nz-form-control>
+      <nz-form-control [nzSpan]="19">
+        <nz-form-item autoErrorTip>
+          <nz-form-label>站内信模板</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="notificationTemplateId">
+              <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of notificationTemplates.message">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+  <nz-form-item formGroupName="mailChannel">
+    <nz-form-label>邮件配置</nz-form-label>
+    <div nz-row [nzGutter]="24">
+      <nz-form-control [nzSpan]="5">
+        <ng-container
+          *ngTemplateOutlet="radioForm; context: { $implicit: { form: form.get('mailChannel').get('config') } }">
+        </ng-container>
+      </nz-form-control>
+      <nz-form-control [nzSpan]="19">
+        <nz-form-item autoErrorTip>
+          <nz-form-label>邮件模板</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="notificationTemplateId">
+              <nz-option [nzLabel]="item.name" [nzValue]="item.id" *ngFor="let item of notificationTemplates.mail">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-form-control>
+    </div>
+  </nz-form-item>
+
+    <button type="submit" nz-button nzType="primary" [disabled]="loading" [nzLoading]="loading">提交</button>
+</form>
+
+<ng-template #radioForm let-data>
+  <nz-radio-group [formControl]="data.form" class="config-radio-group">
+    <label *ngFor="let item of channelSwitches" nz-radio [nzValue]="item">{{ channelSwitchMap[item].text }}</label>
+  </nz-radio-group>
+</ng-template>

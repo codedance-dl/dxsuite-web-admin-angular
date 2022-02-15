@@ -1,0 +1,119 @@
+{
+  "router": {
+    "i18n": {
+      "systemLogs": "システムログ"
+    }
+  },
+  "common": {
+    "actions": {
+      "new": "新規",
+      "add": "追加",
+      "delete": "削除",
+      "edit": "編集",
+      "search": "検索",
+      "refresh": "リフレッシュ",
+      "detail": "詳細",
+      "confirm": "確認",
+      "cancel": "キャンセル",
+      "submit": "送信",
+      "export": "エクスポート",
+      "import": "インポート",
+      "next": "次へ",
+      "previous": "前へ"
+    },
+    "message": {
+      "success": "操作は成功しました。",
+      "delete": "正常に削除されました。"
+    },
+    "pagination": "合計{{ count }}件、ページに{{ pageSize }}件が表示されます。"
+  },
+  "pages": {
+    "message": {
+      "columns": {
+        "title": "タイトル",
+        "isRead": "状態",
+        "createdAt": "受信時間"
+      },
+      "status": {
+        "isRead": "既読",
+        "unRead": "未読"
+      },
+      "label": {
+        "status": "状態"
+      },
+      "actions": {
+        "markRead": "既読マーク",
+        "tips": "{{ number }}条が選択されました"
+      },
+      "list": {
+        "columns": {
+          "title": "@:pages.message.columns.title",
+          "isRead": "@:pages.message.columns.isRead",
+          "createdAt": "@:pages.message.columns.createdAt"
+        },
+        "status": {
+          "isRead": "@:pages.message.status.isRead",
+          "unRead": "@:pages.message.status.unRead"
+        },
+        "placeholder": {
+          "status": "@:pages.message.label.status"
+        },
+        "actions": {
+          "markRead": "@:pages.message.actions.markRead"
+        }
+      },
+      "detail": {
+        "label": {
+          "title": "メッセージ詳細"
+        }
+      }
+    },
+    "logs": {
+      "columns": {
+        "time": "タイトル",
+        "user": "ユーザー",
+        "biz": "操作",
+        "remoteAddr": "IP",
+        "timeCost": "時間（ミリ秒）",
+        "method": "メソッド",
+        "url": "URL",
+        "success": "ステータス",
+        "action": "操作"
+      },
+      "status": {
+        "success": "成功",
+        "failed": "失敗"
+      },
+      "label": {
+        "currency": "通貨",
+        "time": "時間"
+      },
+      "extra": {},
+      "actions": {
+        "startTime": "開始日付",
+        "endTime": "終了日付"
+      },
+      "tabs": {},
+      "list": {
+        "columns": {
+          "time": "@:pages.logs.columns.time",
+          "user": "@:pages.logs.columns.user",
+          "biz": "@:pages.logs.columns.biz",
+          "remoteAddr": "@:pages.logs.columns.remoteAddr",
+          "timeCost": "@:pages.logs.columns.timeCost",
+          "method": "@:pages.logs.columns.method",
+          "url": "@:pages.logs.columns.url",
+          "success": "@:pages.logs.columns.success",
+          "action": "@:pages.logs.columns.action"
+        },
+        "status": {
+          "success": "@:pages.logs.status.success",
+          "failed": "@:pages.logs.status.failed"
+        },
+        "placeholder": {
+          "user/operation": "ユーザー/操作"
+        }
+      }
+    }
+  }
+}

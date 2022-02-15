@@ -1,0 +1,277 @@
+/* stylelint-disable */
+@import 'src/styles/variables';
+
+:host {
+  display: flex;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+li {
+  outline: none;
+}
+
+.app-layout {
+  height: 100vh;
+}
+
+.menu-sidebar {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+  overflow: auto;
+}
+
+.header-trigger {
+  height: 64px;
+  padding: 20px 24px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s, padding 0s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.sidebar-logo {
+  position: relative;
+  height: 64px;
+  padding-left: 24px;
+  overflow: hidden;
+  line-height: 64px;
+  background: #001529;
+  transition: all 0.3s;
+}
+
+.sidebar-logo img {
+  display: inline-block;
+  height: 34px;
+  vertical-align: middle;
+}
+
+//.sidebar-logo h1 {
+//  display: inline-block;
+//  margin: 0 0 0 20px;
+//  color: #fff;
+//  font-weight: 600;
+//  font-size: 14px;
+//  font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
+//  vertical-align: middle;
+//}
+
+nz-header {
+  padding: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.app-header {
+  position: relative;
+  height: 64px;
+  padding: 0;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.top-bar-left {
+  flex: 1 1 auto;
+}
+
+.top-bar-right {
+  flex: 0 1 auto;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: relative;
+  flex-wrap: wrap;
+  flex-direction: row;
+  line-height: 1;
+
+  li.menu-item {
+    margin-left: 24px;
+  }
+
+  i {
+    font-size: 20px;
+  }
+
+  .message-notification,
+  .settings {
+    cursor: pointer;
+
+    i {
+      //padding: 1rem;
+
+      &:hover {
+        color: @primary-color;
+      }
+    }
+  }
+
+  .user-settings {
+    cursor: pointer;
+  }
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.user-settings-menu {
+  min-width: 200px;
+
+  .user-settings-menu-user {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .user-settings-menu-user-content {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    img {
+      margin-right: 10px;
+    }
+  }
+
+  li {
+    padding: 0.75rem 1rem;
+    line-height: 1;
+    border-top: 1px solid #f0f0f0;
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+}
+
+nz-content {
+  margin: 24px;
+  height: 100%;
+  position: relative;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+nz-drawer .ant-drawer-body {
+  padding: 0 !important;
+}
+
+.message-dropdown {
+  padding-top: 0;
+  padding-bottom: 0;
+  width: 300px !important;
+  box-shadow: 0 0 10px #dfe4ea;
+  background-color: #ffffff;
+
+  .message-title {
+    background: #f6f7f9;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .large-title {
+      font-size: @font-size-base;
+    }
+
+    .small-title {
+      font-size: 12px;
+    }
+  }
+
+  .menu.vertical {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+
+  .message-body {
+    li {
+      display: block;
+      width: 100%;
+
+      a {
+        font-size: 12px;
+        color: #3f4f6f;
+        position: relative;
+        display: block;
+        transition: color 0.2s, background 0.2s;
+        line-height: 1;
+        text-decoration: none;
+        padding: 0.7rem 1rem;
+        cursor: pointer;
+      }
+
+      a:hover {
+        color: #0962ea;
+        background-color: rgba(9, 98, 234, 0.05);
+      }
+    }
+
+    li:not(:last-child) {
+      border-bottom: 1px solid rgb(239, 239, 239);
+    }
+
+    .message-more {
+      padding: 6px 12px;
+    }
+
+    .empty {
+      font-size: 14px;
+      line-height: 80px;
+      text-align: center;
+      color: @dark-gray;
+    }
+  }
+
+  .message-footer {
+    font-size: 12px;
+    border-top: 1px solid rgb(239, 239, 239);
+
+    a {
+      padding: 0.5rem 1rem;
+      display: block;
+      margin: 0 auto;
+      color: inherit;
+
+      &:hover {
+        background: #f6f7f9;
+      }
+    }
+  }
+}
+
+.attention-content {
+  font-size: 14px;
+  display: flex;
+
+  i {
+    font-size: 30px;
+    margin-right: 1rem;
+    color: @warning-color;
+  }
+
+  .content-item {
+    line-height: 1.5rem;
+  }
+}

@@ -1,0 +1,122 @@
+@import 'src/styles/variables';
+
+@setting-list-padding: @global-padding 0;
+// @setting-list-title-color: @normal-color;
+@setting-list-title-color: @normal-color;
+@setting-list-title-padding: @global-padding;
+
+@setting-list-margin: 0 0 @global-margin 0;
+@setting-list-font-size: rem-calc(13);
+@setting-list-item-padding: @global-padding * 0.75 @global-padding * 1.5;
+@setting-list-item-color: @black;
+@setting-list-item-color-disabled: @normal-color;
+@setting-list-item-border: 1px solid #f0f0f0;
+
+.setting-list {
+  // padding: @setting-list-padding;
+  font-size: @setting-list-font-size;
+
+  .setting-list-title {
+    padding: @setting-list-title-padding;
+    color: @setting-list-title-color;
+    border-bottom: @setting-list-item-border;
+  }
+
+  .setting-list-menu {
+    margin: @setting-list-margin;
+  }
+
+  .setting-list-menu > .setting-list-item {
+    display: flex;
+    align-items: center;
+    padding: @setting-list-item-padding;
+    color: @setting-list-item-color;
+    border-bottom: @setting-list-item-border;
+    min-height: rem-calc(40px);
+    transition: color .2s, background .2s;
+
+    &.vertical {
+      flex-direction: column;
+    }
+
+    &.disabled {
+      color: @setting-list-item-color-disabled;
+      pointer-events: none;
+      background: #fafafa;
+    }
+
+    .setting-list-item-group {
+      display: flex;
+      width: 100%;
+      align-items: center;
+    }
+
+    .setting-list-hint {
+      margin-top: 0.5rem;
+      color: @normal-color;
+    }
+
+    .setting-list-label {
+      flex: 1 1 0;
+      color: inherit;
+      display: block;
+      font-weight: 500;
+    }
+
+    .setting-list-control {
+      flex: 0 0 auto;
+      margin-left: 1em;
+      display: flex;
+    }
+  }
+}
+
+:host {
+  width: 256px;
+  display: block;
+}
+
+.customize-title {
+  padding: 0 @global-padding * 1;
+  height: 60px;
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: rem-calc(16);
+  align-items: center;
+  font-weight: 500;
+}
+
+.dropdown-toggle::after {
+  content: '\f107';
+  transform: scale(1);
+  margin-left: 0.2em;
+}
+
+.action-dropdown-menu {
+  li > a:hover {
+    color: @primary-color;
+  }
+
+  // .selected > a {
+  //   color: @primary-color;
+  //   display: flex;
+  //   position: relative;
+  //   align-items: center;
+
+  //   &::after {
+  //     position: absolute;
+  //     right: 1rem;
+  //     // font-family: 'Font Awesome 5 Free';
+  //     font-weight: 700;
+  //     transform: scale(0.75);
+  //     content: '\f00c';
+  //   }
+  // }
+}
+
+// .setting-list-menu > .setting-list-item {
+//   height: auto;
+//   min-height: rem-calc(40);
+//   padding-top: 1rem;
+//   padding-bottom: 1rem;
+// }

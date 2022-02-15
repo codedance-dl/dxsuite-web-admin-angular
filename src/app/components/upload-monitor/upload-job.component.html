@@ -1,0 +1,26 @@
+<div class="task-info">
+  <div class="task-name">
+    <span class="task-error"
+          *ngIf="job.status === 3 else normal"
+          nz-tooltip nzTooltipTitle="{{job.error || '上传失败'}}"
+          nzTooltipPlacement="topLeft">
+      {{ job.name }}
+    </span>
+    <ng-template #normal>{{ job.name }}</ng-template>
+  </div>
+  <div class="task-status" [ngSwitch]="job.status">
+    <span *ngSwitchCase="0" class="status-icon waiting">
+      <em nz-icon nzType="loading" nzTheme="outline" class="icon" nzSpin="true"></em>&nbsp;等待中
+    </span>
+    <span *ngSwitchCase="1" class="status-icon working">
+      <em nz-icon nzType="loading" nzTheme="outline" class="icon" nzSpin="true"></em><span>{{ job.progress }}&nbsp;%</span>
+    </span>
+    <span *ngSwitchCase="2" class="status-icon success">
+      <em nz-icon nzType="check-circle" nzTheme="outline"></em>&nbsp;已上传
+    </span>
+    <span *ngSwitchCase="3" class="status-icon error">
+      <em nz-icon nzType="warning" nzTheme="outline"></em>
+    </span>
+  </div>
+</div>
+<nz-progress class="margin-bottom-0" nzSize="small" [nzPercent]="job.progress" [nzShowInfo]="false"></nz-progress>

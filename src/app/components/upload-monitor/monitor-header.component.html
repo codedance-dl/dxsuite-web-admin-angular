@@ -1,0 +1,18 @@
+<span class="upload-title">文件上传</span>
+<span class="upload-status working">
+  <em nz-icon nzType="info-circle" nzTheme="outline" class="icon"></em>{{ workingCount }}
+</span>
+<span class="upload-status success">
+  <em nz-icon nzType="check-circle" nzTheme="outline" class="icon"></em>{{ successJobs }}
+</span>
+<span class="upload-status error" *ngIf="hasErrored">
+  <em nz-icon nzType="warning" nzTheme="outline" class="icon"></em>{{ errorJobs }}
+</span>
+<div class="header-actions">
+  <span (click)="toggleArrowChange()">
+    <em nz-icon nzType="down" nzTheme="outline" [nzRotate]="folded ? 180 : 0"></em>
+  </span>
+  <span (click)="close()">
+    <em nz-icon nzType="close" nzTheme="outline"></em>
+  </span>
+</div>

@@ -1,0 +1,95 @@
+<div class="panel">
+  <div class="panel-content" *ngIf="loaded$ | async; else skeleton">
+
+    <div class="panel-content-header">
+      <div class="filter" nz-space nzAlign="center" [formGroup]="form">
+        <nz-space-item>
+          <nz-input-group class="middle">
+            <input nz-input placeholder="成员姓名" formControlName="name" />
+          </nz-input-group>
+        </nz-space-item>
+        <nz-space-item>
+          <button nz-button nzType="primary" (click)="onSearch()">查询</button>
+        </nz-space-item>
+      </div>
+
+      <div class="actions" nz-space nzAlign="center" nzSize="middle">
+        <nz-space-item *withPrivilege="inviteEmployeePermissions">
+          <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="menu">
+            <em nz-icon nzType="user-add"></em>
+            添加成员
+            <em nz-icon nzType="down"></em>
+          </button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <li class="text-align-center dropdown-item" nz-menu-item [routerLink]="['./add']">直接创建</li>
+              <li class="text-align-center dropdown-item" nz-menu-item [routerLink]="['./add-invite']">邀请创建</li>
+            </ul>
+          </nz-dropdown-menu>
+        </nz-space-item>
+        <nz-space-item class="margin-right-0">
+          <span class="cursor-pointer" (click)="onRefreshing()">
+            <em class="action-icons" nz-icon [nzType]="'sync'" [nzSpin]="loading" nz-tooltip nzTooltipTitle="刷新"></em>
+          </span>
+        </nz-space-item>
+      </div>
+    </div>
+
+    <div class="panel-content-body">
+      <nz-spin [nzSpinning]="loading">
+        <nz-table #basicTable [nzFrontPagination]="false" [nzData]="items$ | async" nzSize="small">
+          <thead>
+            <tr>
+              <th scope="row">成员账号</th>
+              <th scope="row">成员姓名</th>
+              <th scope="row">角色</th>
+              <th scope="row">加入时间</th>
+              <th scope="row">邀请状态</th>
+              <th scope="row" [nzAlign]="'right'">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td>{{ data.mobile || data.email }}</td>
+              <td>{{ data.name }}</td>
+              <td>{{ data.roleName }}</td>
+              <td>{{ data.createdAt | date: 'yyyy-MM-dd' }}</td>
+              <td>
+                <nz-tag [nzColor]="data.approved?'green':'red'">{{ data.approved ? '已接受' : '邀请中' }}</nz-tag>
+              </td>
+              <td [nzAlign]="'right'">
+                <ng-container *ngIf="data.approved">
+                  <ng-container *withPrivilege="tenantResetEmployeePermissions">
+                    <a (click)="openResetPassword(data)">重置密码</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                  </ng-container>
+                  <ng-container *withPrivilege="detailEmployeePermissions">
+                    <a [routerLink]="['./', data.id]">编辑</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                  </ng-container>
+                  <a *withPrivilege="deleteEmployeePermissions" (click)="onClickRemove(data)">删除</a>
+                </ng-container>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-spin>
+    </div>
+
+
+    <div class="panel-content-footer">
+      <ng-container *ngIf="meta$ | async as meta">
+        <span class="meta-template">共 {{meta.count}} 条，每页显示 {{meta.pageSize}} 条</span>
+        <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count" nzShowSizeChanger
+          [nzPageSizeOptions]="[10, 20, 50, 100]" (nzPageSizeChange)="onPageSizeChange($event)"
+          (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+      </ng-container>
+    </div>
+
+  </div>
+</div>
+<ng-template #skeleton>
+  <div class="skeleton">
+    <nz-skeleton [nzActive]="true"></nz-skeleton>
+  </div>
+</ng-template>

@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2019", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@api": ["src/api/index"],
+      "@api/*": ["src/api/*"],
+      "@store/*": ["src/app/store/*"],
+      "@components/*": ["src/app/components/*"],
+      "@pipe/*": ["src/app/pipe/*"],
+      "@constant/*": ["src/app/constant/*"],
+      "@app/*": ["src/app/*"],
+      "@environments/*": ["src/environments/*"],
+      "@libs/*": ["src/libs/*"],
+      "@assets/*": ["src/assets/*"],
+      "@i18n": ["src/assets/i18n/index"],
+      "@i18n/*": ["src/assets/i18n/*"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

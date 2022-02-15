@@ -1,0 +1,14 @@
+<button class="close-button" type="button" (click)="exit()">
+  <span>×</span>
+</button>
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="captcha-content">
+    <h5 style="margin-bottom: 1rem;">{{ options.title }}</h5>
+    <img style="margin-bottom: 1rem;" *ngIf="captchaData" [src]="captchaData" alt="" (click)="refreshCaptcha()" />
+  </div>
+  <input type="text" class="captcha-input" name="captchaText" formControlName="text" placeholder="请输入图中看见的内容" />
+
+  <button nz-button nzBlock nzType="primary">
+    {{ loading ? '正在验证' : '验证身份' }}
+  </button>
+</form>

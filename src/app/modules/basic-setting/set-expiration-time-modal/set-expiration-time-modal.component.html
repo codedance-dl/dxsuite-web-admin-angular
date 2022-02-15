@@ -1,0 +1,20 @@
+<form nz-form [formGroup]="form">
+    <nz-form-item autoErrorTip [messages]="{'required': '请输入{0}'}">
+        <nz-form-label nzFor="value" nzRequired>密码过期时间</nz-form-label>
+        <nz-form-control>
+          <nz-input-group nzAddOnAfter="天">
+            <input nz-input formControlName="value" name="value" type="number">
+          </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+  <div class="content-footer">
+    <nz-space>
+      <nz-space-item>
+        <button nz-button nzType="default" (click)="close()">取消</button>
+      </nz-space-item>
+      <nz-space-item>
+        <button nz-button type="submit" nzType="primary" (click)="onSubmit()">确认</button>
+      </nz-space-item>
+    </nz-space>
+  </div>
+</form>

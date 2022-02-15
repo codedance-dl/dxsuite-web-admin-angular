@@ -1,0 +1,38 @@
+<form nz-form [formGroup]="updateForm" [nzLayout]="'vertical'">
+
+  <nz-form-item autoErrorTip>
+    <nz-form-label nzRequired [nzSpan]="4" nzFor="name">邮箱</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzSize="large" nzPrefixIcon="mail">
+        <input type="text" nz-input formControlName="account"
+               placeholder="邮箱"
+               (blur)="!updateForm.get('account').value && (emailFocus = false)"
+               (focus)="emailFocus = true" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item autoErrorTip>
+    <nz-form-label nzRequired [nzSpan]="4" nzFor="name">验证码</nz-form-label>
+    <nz-form-control>
+      <nz-input-group nzSearch nzSize="large" nzPrefixIcon="mail" [nzAddOnAfter]="suffixButton">
+        <input type="text" nz-input formControlName="verificationCode"
+               placeholder="验证码"
+               (blur)="!updateForm.get('verificationCode').value && (verificationCodeFocus = false)"
+               (focus)="verificationCodeFocus = true" />
+      </nz-input-group>
+    </nz-form-control>
+    <ng-template #suffixButton>
+      <button nz-button [disabled]="!!countdown" nzSize="large" nzSearch (click)="getCaptcha()">
+        {{ sending ? "正在获取" : countdown ? countdown + " s" : codeText }}
+      </button>
+    </ng-template>
+  </nz-form-item>
+
+  <button nz-button
+          class="btn action-button"
+          nzType="primary"
+          [nzSize]="'large'"
+          (click)="submit()">下一步
+  </button>
+</form>

@@ -1,0 +1,167 @@
+<div class="panel">
+  <!-- 检索区域 -->
+  <div class="panel-filter">
+
+    <div nz-row>
+      <div class="filter-row" nz-col nzSpan="12" nzXl="8" nzXXl="6">
+        <label class="filter-form-label">操作用户：</label>
+        <nz-input-group [nzSuffix]="suffixUserClear">
+          <input class="filter-form-control" type="text" nz-input placeholder="请输入" [(ngModel)]="keyword">
+        </nz-input-group>
+        <ng-template #suffixUserClear>
+          <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="keyword"
+             (click)="keyword = ''"></em>
+        </ng-template>
+      </div>
+
+      <div class="filter-row" nz-col nzSpan="12" nzXl="8" nzXXl="6">
+        <label class="filter-form-label">业务操作：</label>
+        <nz-input-group [nzSuffix]="suffixDomainClear">
+          <input class="filter-form-control" type="text" nz-input placeholder="请输入" [(ngModel)]="domain">
+        </nz-input-group>
+        <ng-template #suffixDomainClear>
+          <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="domain"
+             (click)="domain = ''"></em>
+        </ng-template>
+      </div>
+
+      <div class="filter-row" nz-col nzSpan="12" nzXl="8" nzXXl="6">
+        <label class="filter-form-label">操作时间：</label>
+        <nz-range-picker [(ngModel)]="date" (ngModelChange)="onDatePickerChange($event)"
+                         [nzPlaceHolder]="['开始日期', '结束日期']"></nz-range-picker>
+      </div>
+
+      <div class="filter-row" nz-col nzSpan="12" nzXl="8" nzXXl="6">
+        <label class="filter-form-label">操作用户：</label>
+        <nz-input-group [nzSuffix]="suffixKeywordClear">
+          <input class="filter-form-control" type="text" nz-input placeholder="请输入" [(ngModel)]="keyword">
+        </nz-input-group>
+        <ng-template #suffixKeywordClear>
+          <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="keyword"
+             (click)="keyword = ''"></em>
+        </ng-template>
+      </div>
+
+      <div class="filter-row" nz-col nzSpan="12" nzXl="8" nzXXl="6">
+        <label class="filter-form-label">业务操作：</label>
+        <nz-input-group [nzSuffix]="suffixDomainClear">
+          <input class="filter-form-control" type="text" nz-input placeholder="请输入" [(ngModel)]="domain">
+        </nz-input-group>
+        <ng-template #suffixDomainClear>
+          <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="domain"
+             (click)="domain = ''"></em>
+        </ng-template>
+      </div>
+
+      <div class="filter-row" nz-col nzSpan="12" nzXl="8" nzXXl="18">
+        <div class="filter-form-actions" nz-space>
+          <nz-space-item>
+            <button nz-button nzType="default" (click)="onReset()">重置</button>
+          </nz-space-item>
+          <button nz-button nzType="primary" (click)="onSearch()">查询</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="panel-content" *ngIf="loaded$ | async; else skeleton">
+
+    <!-- 列表操作区域 -->
+    <div class="panel-content-header">
+      <div class="filter" nz-space nzAlign="center">
+        <nz-space-item>
+          <nz-input-group [nzSuffix]="suffixKeywordClear" class="middle">
+            <input nz-input placeholder="用户/操作" [(ngModel)]="keyword">
+          </nz-input-group>
+          <ng-template #suffixKeywordClear>
+            <em nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="keyword"
+               (click)="keyword = ''"></em>
+          </ng-template>
+        </nz-space-item>
+        <nz-space-item>
+          <nz-range-picker class="large"
+                           [(ngModel)]="date"
+                           (ngModelChange)="onDatePickerChange($event)"
+                           [nzPlaceHolder]="['操作开始日期', '操作结束日期']"></nz-range-picker>
+        </nz-space-item>
+        <nz-space-item>
+          <button nz-button nzType="primary" (click)="onSearch()">查询</button>
+        </nz-space-item>
+      </div>
+      <div class="actions" nz-space nzAlign="center">
+        <button nz-button nzType="primary" class="margin-right-1">
+          <em nz-icon nzType="plus"></em>新建
+        </button>
+        <span class="cursor-pointer" (click)="onRefreshing()">
+          <em class="action-icons" nz-icon [nzType]="'sync'" [nzSpin]="loading" nz-tooltip nzTooltipTitle="刷新"></em>
+        </span>
+      </div>
+    </div>
+
+    <!-- 列表区域 -->
+    <div class="panel-content-body">
+      <nz-spin [nzSpinning]="loading">
+        <nz-table #basicTable [nzFrontPagination]="false" [nzData]="items$ | async" nzSize="small">
+          <thead>
+          <tr>
+            <th scope="row" [nzSortOrder]="null" (nzSortOrderChange)="onSortChange($event, 'time')"
+                [nzSortDirections]="[ 'ascend','descend', null]">操作时间</th>
+            <th scope="row">操作用户</th>
+            <th scope="row">业务操作</th>
+            <th scope="row">IP</th>
+            <th scope="row">耗时（毫秒）</th>
+            <th scope="row">请求方法</th>
+            <th scope="row">请求URL</th>
+            <th scope="row">状态</th>
+            <th scope="row" nzAlign="right">操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{ (data.time | date: 'yyyy-MM-dd HH:mm:ss') || '- -' }}</td>
+            <td>{{ data?.userName || data?.user?.name || '- -' }}</td>
+            <td>{{ data?.domain || '- -' }}</td>
+            <td>{{ data?.remoteAddr || '- -' }}</td>
+            <td>{{ data?.timeCost || '- -' }}</td>
+            <td>{{ data?.method || '- -' }}</td>
+            <td [style.max-width.vw]="20">
+              <div [style.margin-bottom.rem]="0" nz-typography nzEllipsis nzExpandable [nzEllipsisRows]="1">
+                {{ data?.url || '- -' }}
+              </div>
+            </td>
+            <td>
+              <nz-tag [nzColor]="data?.success ? 'green' : 'red'">
+                {{ data?.success ? '成功' : '失败' }}
+              </nz-tag>
+            </td>
+            <td nzAlign="right">
+              <a [routerLink]="['./', data.id]">详情</a>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-spin>
+    </div>
+
+    <!-- 底部（分页）区域 -->
+    <div class="panel-content-footer">
+      <ng-container *ngIf="meta$ | async as meta">
+        <span class="meta-template">共 {{meta.count}} 条，每页显示 {{meta.pageSize}} 条</span>
+        <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count"
+                       nzShowSizeChanger
+                       [nzPageSizeOptions]="[10, 20, 50, 100]"
+                       (nzPageSizeChange)="onPageSizeChange($event)"
+                       (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+      </ng-container>
+    </div>
+
+  </div>
+
+  <!-- 骨架屏 -->
+  <ng-template #skeleton>
+    <div class="skeleton">
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
+    </div>
+  </ng-template>
+</div>

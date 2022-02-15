@@ -1,0 +1,16 @@
+  <form nz-form [formGroup]="form" class="content" (ngSubmit)="onSubmit()">
+    <nz-form-item nzAlign="middle"  autoErrorTip [messages]="{'required': '请输入{0}'}">
+      <nz-form-control [nzErrorTip]="errorTpl">
+        <input nz-input type="text" formControlName="name" placeholder="文件夹名称" required />
+        <ng-template #errorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')" >
+            <div class="margin-bottom-2"> 请输入文件夹名称</div>
+          </ng-container>
+          <ng-container *ngIf="control.hasError('maxlength')">
+            <div class="margin-bottom-2"> 文件夹名最长20个字 </div>
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <button type="submit" nz-button nzType="primary">确定</button>
+  </form>

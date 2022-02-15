@@ -1,0 +1,140 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar" nzCollapsible nzBreakpoint="md" [nzCollapsed]="(isCollapsed$ | async)"
+    defaultCollapsed="true" [nzTrigger]="null" (nzCollapsedChange)="collapsedChange($event)">
+    <div class="sidebar-logo">
+      <a target="_blank" rel="noopener noreferrer">
+        <img [src]="(isCollapsed$ | async) ? './assets/favicon.png' : './assets/DXSuite-logo.png'" alt="DXSuite">
+      </a>
+    </div>
+
+    <!-- 菜单数据绑定开始 -->
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="(isCollapsed$ | async)">
+      <ng-container *ngFor="let parent of(menus | menuFilter: filter )">
+        <li *ngIf="parent.children else single" nz-submenu [nzTitle]="parent.data.title" [nzIcon]="parent.data.icon">
+
+          <ul>
+            <li *ngFor="let child of parent.children" nz-menu-item nzMatchRouter>
+              <a [routerLink]="'/' + parent.path + '/' + child.path">
+                {{ child.data.i18nTitle ? child.data.i18nTitle[lang] : child.data.title}}
+              </a>
+            </li>
+          </ul>
+
+        </li>
+        <ng-template #single>
+          <li nz-menu-item nzMatchRouter [routerLink]="'/' + parent.path">
+            <em nz-icon [nzType]="parent.data.icon"></em>
+            <span>{{parent.data.title}}</span>
+          </li>
+        </ng-template>
+      </ng-container>
+    </ul>
+    <!-- 菜单数据绑定结束 -->
+
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header top-bar">
+        <nz-breadcrumb class="top-bar-left">
+          <nz-breadcrumb-item *ngFor="let item of navAdapter.activatedUrlTree | async; let $index = index;">
+            <a [routerLink]="['./'].concat(item.url)">
+              <em nz-icon [nzType]="item?.icon" *ngIf="$index === 0"></em>
+              {{ item.i18nTitle && item.i18nTitle[lang] || item.title }}
+            </a>
+          </nz-breadcrumb-item>
+        </nz-breadcrumb>
+
+        <div class="top-bar-right">
+
+          <ul class="menu">
+            <!-- 消息通知 -->
+            <li class="message-notification menu-item" *ngIf="(messages$ | async) as messages">
+              <nz-badge class="position-relative" [nzCount]="messages.length || 0">
+                <em nz-icon nzType="bell" nzTrigger="hover" nz-dropdown [nzDropdownMenu]="messageDropdown"></em>
+                <nz-dropdown-menu #messageDropdown="nzDropdownMenu">
+                  <div class="action-dropdown-pane message-dropdown">
+                    <div class="message-title">
+                      <span class="large-title">站内消息</span>
+                      <a [routerLink]="['/', 'notification', 'receive-config']" class="small-title">通知接收管理</a>
+                    </div>
+                    <ul class="menu vertical action-dropdown-menu message-body">
+                      <li *ngFor="let message of messages">
+                        <a [routerLink]="['/', 'notification', 'message-unread', message.id]">
+                          {{message.title}}
+                        </a>
+                      </li>
+                      <li class="empty" *ngIf="messages.length === 0">暂无未读消息</li>
+                    </ul>
+                    <div class="message-footer">
+                      <a [routerLink]="['/', 'notification', 'message-unread']">查看更多</a>
+                    </div>
+                  </div>
+                </nz-dropdown-menu>
+              </nz-badge>
+            </li>
+
+            <!-- 用户相关 -->
+            <li class="user-settings menu-item">
+              <ng-container *ngIf="user$ | async as user">
+                <img class="user-avatar" nz-dropdown [nzDropdownMenu]="userDropdown"
+                  [src]="user.avatar ? user.avatar : './assets/default-avatar.png'" alt="头像">
+              </ng-container>
+              <nz-dropdown-menu #userDropdown="nzDropdownMenu">
+                <ul class="user-settings-menu" nz-menu nzSelectable>
+                  <li class="user-settings-menu-user" nz-menu-item (click)="openUserSetting()">
+                    <div class="user-settings-menu-user-content">
+                      <ng-container *ngIf="user$ | async as user">
+                        <img class="user-avatar" [src]="user.avatar ? user.avatar : './assets/default-avatar.png'"
+                          alt="头像">{{ user.name }}
+                      </ng-container>
+                    </div>
+                    <em class="setting-icon" nz-icon nzType="setting"></em>
+                  </li>
+                  <li nz-menu-item (click)="signOut()">
+                    <em nz-icon nzType="logout"></em>
+                    退出账号
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
+            </li>
+
+            <li class="i18n menu-item">
+              <em nz-icon nzType="global" nzTrigger="hover" nz-dropdown [nzDropdownMenu]="i18nDropdown"></em>
+              <nz-dropdown-menu #i18nDropdown="nzDropdownMenu">
+                <ul nz-menu nzSelectable>
+                  <li nz-menu-item *ngFor="let item of languageMap" (click)="setLanguage(item.key)">{{item.value}}</li>
+                </ul>
+              </nz-dropdown-menu>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+    </nz-header>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" (nzOnClose)="close()"
+  [nzBodyStyle]="{padding: 0}">
+  <app-customization></app-customization>
+</nz-drawer>
+
+<app-upload-monitor></app-upload-monitor>
+
+<!-- 账号切换提示  -->
+<ng-template #modalContent>
+  <div class="attention-content padding-top-1 padding-bottom-1">
+    <em nz-icon nzType="info-circle"></em>
+    <p class="content-item margin-bottom-0">你已切换到其他账号，当前页面需要刷新后才能继续操作</p>
+  </div>
+</ng-template>
+
+<ng-template #modalFooter>
+  <div class="text-align-center">
+    <button nz-button nzType="primary" (click)="modalFooterClose()">确定</button>
+  </div>
+</ng-template>

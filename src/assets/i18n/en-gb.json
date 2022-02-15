@@ -1,0 +1,104 @@
+{
+  "router": {
+    "i18n": {
+      "systemLogs": "System Logs"
+    }
+  },
+  "common": {
+    "actions": {
+      "new": "New",
+      "add": "Add",
+      "delete": "Delete",
+      "edit": "Edit",
+      "search": "Search",
+      "refresh": "Refresh",
+      "detail": "Detail",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "submit": "Submit",
+      "export": "Export",
+      "import": "Import",
+      "next": "Next",
+      "previous": "Previous"
+    },
+    "message": {
+      "success": "The operation was successful",
+      "delete": "Delete successfully"
+    },
+    "pagination": "{{ count }} results, each page shows {{pageSize}} results"
+  },
+  "pages": {
+    "message": {
+      "columns": {
+        "title": "Title",
+        "isRead": "Status",
+        "createdAt": "Receiving time"
+      },
+      "status": {
+        "isRead": "IsRead",
+        "unRead": "UnRead"
+      },
+      "label": {
+        "status": "Status"
+      },
+      "actions": {
+        "markRead": "MarkRead",
+        "tips": "{{ number }} Selected"
+      },
+      "list": {
+        "columns": {
+          "title": "@:pages.message.columns.title",
+          "isRead": "@:pages.message.columns.isRead",
+          "createdAt": "@:pages.message.columns.createdAt"
+        },
+        "status": {
+          "isRead": "@:pages.message.status.isRead",
+          "unRead": "@:pages.message.status.unRead"
+        },
+        "placeholder": {
+          "status": "@:pages.message.label.status"
+        },
+        "actions": {
+          "markRead": "@:pages.message.actions.markRead"
+        }
+      },
+      "detail": {
+        "label": {
+          "title": "Message detail"
+        }
+      }
+    },
+    "logs" : {
+      "columns": {
+        "time": "Time",
+        "user": "User",
+        "biz": "Biz",
+        "remoteAddr": "IP",
+        "timeCost": "TimeCost(ms)",
+        "method": "Method",
+        "url": "Url",
+        "success": "Status",
+        "action": "Action"
+      },
+      "status": {
+        "success": "Success",
+        "failed": "Failed"
+      },
+      "label": {
+        "currency": "Currency",
+        "time": "Time"
+      },
+      "extra": {},
+      "actions": {
+        "startTime": "Start date",
+        "endTime": "End date"
+      },
+      "tabs": {},
+      "list": {
+        "placeholder": {
+          "user/operation": "User/Operation"
+        }
+      }
+    }
+  }
+}

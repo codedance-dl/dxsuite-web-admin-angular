@@ -1,0 +1,103 @@
+<div class="portal-layout">
+  <div class="portal-layout-wrapper">
+    <div class="portal-layout-header">
+      <img src="/assets/DXSuite.png" (click)="toHomePage()" alt="logo" />
+    </div>
+    <div class="portal-layout-body">
+      <div class="portal-layout-content">
+        <div class="login-box launcher-box">
+          <div class="login-box-banner launcher-box-banner">
+            <img src="/assets/DXSuite-cover.jpg" alt="logo" />
+          </div>
+          <div class="login-box-forms" #loginBox>
+            <a [routerLink]="['/wx-login']" class="picture">
+              <div class="icon">
+                <em nz-icon nzType="qrcode" nzTheme="outline"></em>
+              </div>
+              <div class="tag">微信登录</div>
+            </a>
+            <div class="login-form">
+              <nz-tabset class="login-tabset" (nzSelectChange)="selectChange($event)">
+                <nz-tab class="tab-pane" nzTitle="密码登录" style="overflow: hidden">
+                  <form nz-form [nzLayout]="'vertical'" [formGroup]="loginForm"
+                    class="login-tab-pane login-form-password">
+                    <nz-form-item autoErrorTip>
+                      <nz-form-label nzRequired>账号</nz-form-label>
+                      <nz-form-control>
+                        <nz-input-group nzPrefixIcon="user" [nzSize]="'large'">
+                          <input type="text" nz-input formControlName="username" placeholder="手机号/邮箱"
+                            (keyup.enter)="submit()" />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item autoErrorTip class="password-bottom">
+                      <nz-form-label nzRequired>密码</nz-form-label>
+                      <nz-form-control [nzExtra]="extra">
+                        <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate" [nzSize]="'large'">
+                          <input [type]="passwordVisible ? 'password' : 'text'" nz-input formControlName="password"
+                            (keyup.enter)="submit()" placeholder="密码" />
+                        </nz-input-group>
+                        <ng-template #suffixTemplate>
+                          <em nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                            (click)="passwordVisible = !passwordVisible"></em>
+                        </ng-template>
+                        <ng-template #extra>
+                          <a [routerLink]="['/', 'reset-password']"
+                            class="login-form-forgot launcher-form-forgot">忘记密码？</a>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </form>
+                </nz-tab>
+                <nz-tab class="tab-pane" nzTitle="验证码登录">
+                  <form nz-form [nzLayout]="'vertical'" [formGroup]="smsLoginForm"
+                    class="login-tab-pane login-form-password">
+                    <nz-form-item autoErrorTip>
+                      <nz-form-label nzRequired>账号</nz-form-label>
+                      <nz-form-control>
+                        <nz-input-group nzPrefixIcon="mobile" [nzSize]="'large'">
+                          <input type="text" nz-input formControlName="username" placeholder="手机号/邮箱" />
+                        </nz-input-group>
+                      </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item autoErrorTip class="password-bottom">
+                      <nz-form-label nzRequired>验证码</nz-form-label>
+                      <nz-form-control [nzExtra]="extra">
+                        <nz-input-group nzSearch nzPrefixIcon="mail" [nzSize]="'large'" [nzAddOnAfter]="suffixButton">
+                          <input type="text" nz-input formControlName="smsVerificationCode" placeholder="验证码" />
+                        </nz-input-group>
+                        <ng-template #suffixButton>
+                          <button nz-button nzSearch nzType="default" class="set-message-button"
+                            [disabled]="loading || !!countdown" (click)="setMessage()">
+                            {{ loading ? '正在获取' : countdown ? countdown + ' s' : codeText }}
+                          </button>
+                        </ng-template>
+                        <ng-template #extra>
+                          <a [routerLink]="['/', 'reset-password']"
+                            class="login-form-forgot launcher-form-forgot">忘记密码？</a>
+                        </ng-template>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </form>
+                </nz-tab>
+              </nz-tabset>
+              <div class="login-form-actions">
+                <button nz-button nzSize="large" class="login-form-button launcher-form-button" [nzType]="'primary'"
+                  (click)="submit()">
+                  登 录
+                </button>
+                <div class="grid-x text-align-center margin-bottom-2 bottom-help-text">
+                  <div class="small-12 columns text-center">还没有账号？<a [routerLink]="['/', 'register']">立即注册</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="portal-layout-footer">
+      <div class="footer-slogen">— DXSuite · 企业级敏捷开发解决方案 —</div>
+      <div class="footer-copyright">Copyright © 2021 大连代码跳动科技有限公司 All Rights Reserved. 辽ICP备19008868号-12</div>
+    </div>
+  </div>
+</div>

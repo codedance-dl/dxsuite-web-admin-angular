@@ -1,0 +1,78 @@
+@import 'src/styles/variables';
+
+.roles-menu {
+  li {
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+  }
+
+  li > .menu-actions {
+    flex: 0 0 auto;
+    padding: 1rem 0.7rem;
+    display: inline-flex;
+    justify-content: flex-end;
+
+    .role-action {
+      width: 1rem;
+      height: 1rem;
+      position: relative;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      &::before {
+        position: absolute;
+        background-color: rgba(@primary-color, 0.15);
+        content: '';
+        width: 2rem;
+        height: 2rem;
+        border-radius: 2rem;
+        transform: scale(0);
+        transition: transform 0.2s ease-in-out;
+      }
+
+      &:hover::before {
+        color: @primary-color;
+        transform: scale(1);
+      }
+    }
+  }
+
+  li > a {
+    flex-direction: column;
+    padding-right: 1rem;
+    justify-content: center;
+    align-items: flex-start;
+    height: 60px;
+    flex: 1 1 0;
+
+    h6 {
+      font-size: 1rem;
+      line-height: 1;
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    p {
+      color: #ced6e0;
+      font-size: rem-calc(12);
+      margin-bottom: 0 !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1;
+    }
+  }
+
+  li .is-active {
+    background-color: rgba(@primary-color, 0.05);
+
+    a {
+      background-color: transparent;
+    }
+  }
+}

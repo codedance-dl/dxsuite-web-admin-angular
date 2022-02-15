@@ -1,0 +1,128 @@
+<div class="portal-layout" [style.height]="'-webkit-fill-available'">
+  <div class="portal-layout-wrapper">
+    <div class="portal-layout-header">
+      <img src="/assets/DXSuite.png" (click)="toHomePage()" alt="logo" />
+    </div>
+    <div class="portal-layout-body">
+      <div class="invite-form" #inviteBox>
+        <ng-container *ngIf="!approved else approvedTemplate">
+          <div class="invite-form-title text-left">
+            欢迎加入<span *ngIf="invitationDetails?.tenant?.name"> 「{{ invitationDetails?.tenant?.name}}」
+            </span>
+          </div>
+          <div class="invite-form-subtitle">
+            {{invitationDetails?.createdBy?.name }} 邀请你加入团队，请完善你的账户信息
+          </div>
+          <div class="invite-form-body">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+              <nz-form-item autoErrorTip class="margin-bottom-1">
+                <nz-form-label nzRequired [nzSpan]="24">账号</nz-form-label>
+                <nz-form-control [nzSpan]="24">
+                  <nz-input-group nzPrefixIcon="user" [nzSize]="'large'">
+                    <input type="text" nz-input formControlName="account" placeholder="账号" />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item autoErrorTip class="margin-bottom-1">
+                <nz-form-label nzRequired [nzSpan]="24">验证码</nz-form-label>
+                <nz-form-control [nzSpan]="24">
+                  <nz-input-group nzSearch nzPrefixIcon="mail" [nzSize]="'large'" [nzAddOnAfter]="suffixButton">
+                    <input type="text" nz-input formControlName="verificationCode" placeholder="验证码" />
+                  </nz-input-group>
+                  <ng-template #suffixButton>
+                    <button nz-button nzSearch type="button" nzSize="large" class="set-message-button"
+                      [nzLoading]="loadingCaptcha" [disabled]="loading || !!countdown" (click)="showCaptcha()">
+                      {{ loading ? '正在获取' : countdown ? countdown + ' s' : codeText }}
+                    </button>
+                  </ng-template>
+
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item autoErrorTip class="margin-bottom-1">
+                <nz-form-label nzRequired [nzSpan]="24">密码</nz-form-label>
+                <nz-form-control [nzSpan]="24">
+                  <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixTemplate" [nzSize]="'large'" nz-popover
+                    [nzPopoverContent]="strengthDropDown" nzPopoverPlacement="right">
+                    <input [type]="passwordType" nz-input formControlName="password" placeholder="密码"
+                      autocomplete="new-password" nzPopoverTrigger="focus" />
+                  </nz-input-group>
+                  <ng-template #suffixTemplate>
+                    <em nz-icon [nzType]="passwordTypeMap[passwordType]" (click)="changePasswordType()"></em>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item class="margin-bottom-1">
+                <nz-form-control [nzSpan]="24">
+                  <label nz-checkbox #protocols>
+                    <span class="protocols">我已阅读并同意<a (click)="$event.stopPropagation()"
+                        [routerLink]="['/', 'protocol']" target="_blank">《DXSuite服务协议》</a></span>
+                  </label>
+                </nz-form-control>
+              </nz-form-item>
+              <button nz-button nzType="primary" nzBlock nzSize="large"  [nzLoading]="loading" [disabled]="!protocols.nzChecked">接受邀请</button>
+              <div class="padding-top-1 text-center">
+                已有账号？<a [routerLink]="['/', 'login']">直接登录</a>
+              </div>
+
+            </form>
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+    <div class="portal-layout-footer">
+      <div class="footer-slogen">— DXSuite · 企业级敏捷开发解决方案 —</div>
+      <div class="footer-copyright">Copyright © 2021 大连代码跳动科技有限公司 All Rights Reserved. 辽ICP备19008868号-12</div>
+    </div>
+  </div>
+</div>
+
+<ng-template #approvedTemplate>
+  <div class="invite-form-title text-left">
+    欢迎加入<span *ngIf="invitationDetails?.tenant?.name"> 「{{invitationDetails?.tenant?.name}}」
+    </span>
+  </div>
+  <div class="invite-form-subtitle">
+    你已经加入到该团队，无须再次接受邀请，请<a [routerLink]="['/', 'login']">直接登录</a>
+  </div>
+</ng-template>
+
+<ng-template #strengthDropDown>
+  <div class="password-content">
+    <p class="text-gray password-item">密码至少包含：</p>
+    <p class="password-item">
+      <em nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"
+        *ngIf="stats.upperCaseCharCount > 0"></em>
+      <em nz-icon nzType="check-circle" nzTheme="outline" *ngIf="stats.upperCaseCharCount === 0"></em>
+      1个大写字母
+    </p>
+    <p class="password-item">
+      <em nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"
+        *ngIf="stats.lowerCaseCharCount > 0"></em>
+      <em nz-icon nzType="check-circle" nzTheme="outline" *ngIf="stats.lowerCaseCharCount === 0"></em>
+      1个小写字母
+    </p>
+    <p class="password-item">
+      <em nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a" *ngIf="stats.numberCount > 0"></em>
+      <em nz-icon nzType="check-circle" nzTheme="outline" *ngIf="stats.numberCount === 0"></em>
+      1个数字
+    </p>
+    <p class="password-item">
+      <em nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"
+        *ngIf="stats.upperCaseCharCount + stats.lowerCaseCharCount + stats.symbolCount + stats.numberCount >= 8"></em>
+      <em nz-icon nzType="check-circle" nzTheme="outline"
+        *ngIf="stats.upperCaseCharCount + stats.lowerCaseCharCount + stats.symbolCount + stats.numberCount < 8"></em>
+      8个字符
+    </p>
+    <!-- 密码强度遮罩层-->
+    <div class="grid-x align-middle">
+      <div class="cell shrink strength">强度：{{ getStrengthLength().text }}</div>
+      <div class="cell auto password-strength">
+        <nz-progress [nzShowInfo]="false" [nzPercent]="getStrengthLength().percent" [nzStrokeColor]="getStrengthLength().color"></nz-progress>
+      </div>
+    </div>
+  </div>
+</ng-template>

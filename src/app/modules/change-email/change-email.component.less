@@ -1,0 +1,39 @@
+@import 'src/styles/variables';
+
+.main {
+  background-color: #f5f6f9;
+  height: 100%;
+  margin: auto;
+  width: 100%;
+  padding: 0 100px;
+}
+
+.header {
+  padding: 24px 0;
+
+  img {
+    height: 50px;
+  }
+}
+
+.reset {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translate3d(-50%, 0, 0);
+  box-sizing: content-box;
+  padding: 3rem 5rem;
+  background-color: #ffffff;
+  border-radius: 5px;
+  .px2rem(width, 340);
+
+  .content-body-header {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .step-content {
+    padding-top: 2rem;
+  }
+}

@@ -1,0 +1,99 @@
+@import 'src/styles/variables';
+
+.search-bar {
+  padding: 6px;
+}
+
+.text-primary {
+  color: @primary-color !important;
+}
+
+.member-list {
+  min-width: 10rem;
+}
+
+.member {
+  cursor: default;
+  font-size: 12px;
+  align-items: center;
+  position: relative;
+  margin-right: 0.5rem;
+  margin-bottom: 0.2rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.05);
+  display: inline-block;
+  min-width: 4rem;
+  text-align: center;
+}
+
+.member:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.member > .remove-member {
+  font-size: 16px;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: none;
+  cursor: pointer;
+  margin-left: 0.2rem;
+  color: #bfbfbf;
+}
+
+.member:hover > .remove-member {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.plus-member {
+  font-size: 1rem;
+}
+
+.employee-card {
+  display: flex;
+  padding: 6px 0;
+  align-items: center;
+}
+
+.employees-list {
+  width: 100%;
+  max-width: 20rem;
+  max-height: 20rem;
+  overflow: auto;
+  padding-top: 4px;
+}
+
+.employees-list > li {
+  font-size: 12px;
+  display: flex;
+  padding: 3px 0.5rem;
+  cursor: pointer;
+  align-items: center;
+}
+
+.employees-list > li > .item-avatar {
+  margin-left: 0.15rem;
+}
+
+.employees-list > li > .item-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.employees-list > li > .item-name > span {
+  &:nth-child(1) {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.employees-list > .employees-item:hover {
+  color: @primary-color;
+  background-color: rgba(get-color(primary), 0.1);
+}

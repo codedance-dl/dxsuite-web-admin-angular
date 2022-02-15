@@ -1,0 +1,42 @@
+<div class="portal-layout">
+  <div class="portal-layout-wrapper">
+    <div class="portal-layout-header">
+      <img src="/assets/DXSuite.png" (click)="toHomePage()" alt="logo" />
+    </div>
+    <div class="portal-layout-body">
+      <div class="portal-layout-content">
+        <div class="login-box launcher-box">
+          <div class="login-box-banner launcher-box-banner">
+            <img src="/assets/DXSuite-cover.jpg" alt="logo" />
+          </div>
+          <div class="login-box-forms">
+            <a [routerLink]="['/', 'login']" class="picture">
+              <div class="icon">
+                <em nz-icon nzType="desktop" nzTheme="outline"></em>
+              </div>
+              <div class="tag">密码登录</div>
+            </a>
+            <div class="login-form">
+              <div class="login-form text-center">
+                <div class="title">微信登录</div>
+                <div class="invalid-icon">
+                  <em nz-icon nzType="exclamation-circle" nzTheme="outline"></em>
+                </div>
+                <div class="tips">该微信号暂未绑定DXSuite账号</div>
+              </div>
+              <div class="login-form-actions">
+                <div class="grid-x text-align-center bottom-help-text">
+                  <div class="small-12 columns text-center">还没有账号？<a [routerLink]="['/', 'register']">立即注册</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="portal-layout-footer">
+      <div class="footer-slogen">— DXSuite · 企业级敏捷开发解决方案 —</div>
+      <div class="footer-copyright">Copyright © 2021 大连代码跳动科技有限公司 All Rights Reserved. 辽ICP备19008868号-12</div>
+    </div>
+  </div>
+</div>

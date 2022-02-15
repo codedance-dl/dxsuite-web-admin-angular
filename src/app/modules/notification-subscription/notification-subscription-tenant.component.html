@@ -1,0 +1,59 @@
+<nz-spin [nzSpinning]="loading">
+  <nz-table nzSize="small" #basicTable [nzFrontPagination]="false" [nzData]="templateHierarchy$ | async">
+    <thead>
+      <tr>
+        <th scope="row" nzWidth="60px"></th>
+        <th scope="row" nzWidth="25%">类型名称</th>
+        <th scope="row" nzAlign="center" nzWidth="15%">短信</th>
+        <th scope="row" nzAlign="center" nzWidth="15%">站内信</th>
+        <th scope="row" nzAlign="center" nzWidth="15%">邮件</th>
+        <th scope="row" nzAlign="right" nzWidth="30%">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of basicTable.data">
+        <tr *ngIf="templateGroup(item); else normalTemplate" class="group-item">
+          <td [nzExpand]="!item.fold" nzAlign="center" (click)="setShowItems(item)"></td>
+          <td colspan="5">
+            {{ item?.text }}
+          </td>
+        </tr>
+        <ng-template #normalTemplate>
+          <tr>
+            <td></td>
+            <td>{{ item.name }}
+              &nbsp;<em nz-icon nzType="question-circle" nzTheme="outline" class="icon-disabled" nz-tooltip
+                nzTooltipPlacement="right" [nzTooltipTitle]="'接收方：' + (item.category === 'TENANT' ? '商户方': '客户方')"></em>
+            </td>
+            <td nzAlign="center">
+              <em nz-icon [nzType]="!item.smsDisabled ? 'check-circle': 'close-circle'"
+                [ngClass]="{'icon-disabled': !item.smsEditable, 'icon-enabled': item.smsEditable}"
+                [nzTheme]="!item.smsDisabled ? 'fill': 'outline'" nz-tooltip nzTooltipPlacement="right"
+                [nzTooltipTitle]="distinctionTooltip(item.smsDisabled, item.smsEditable)"></em>
+            </td>
+
+            <td nzAlign="center">
+              <em nz-icon [nzType]="!item.msgDisabled ? 'check-circle': 'close-circle'"
+                [ngClass]="{'icon-disabled': !item.msgEditable, 'icon-enabled': item.msgEditable}"
+                [nzTheme]="!item.msgDisabled ? 'fill': 'outline'"
+                nz-tooltip nzTooltipPlacement="right"
+                [nzTooltipTitle]="distinctionTooltip(item.msgDisabled, item.msgEditable)"></em>
+            </td>
+            <td nzAlign="center">
+              <em nz-icon [nzType]="!item.mailDisabled ? 'check-circle': 'close-circle'"
+                [ngClass]="{'icon-disabled': !item.mailEditable, 'icon-enabled': item.mailEditable}"
+                [nzTheme]="!item.mailDisabled ? 'fill': 'outline'"
+                nz-tooltip nzTooltipPlacement="right"
+                [nzTooltipTitle]="distinctionTooltip(item.mailDisabled, item.mailEditable)"></em>
+            </td>
+            <td nzAlign="right">
+              <a (click)="openEditDrawer(item)">设置</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a (click)="showDeleteConfirm(item)">删除</a>
+            </td>
+          </tr>
+        </ng-template>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</nz-spin>

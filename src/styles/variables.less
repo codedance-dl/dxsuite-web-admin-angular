@@ -1,0 +1,26 @@
+// Custom Theming for NG-ZORRO
+// For more information: https://ng.ant.design/docs/customize-theme/en
+//@import 'node_modules/ng-zorro-antd/ng-zorro-antd.less';
+
+// Common Global
+
+@import 'node_modules/ng-zorro-antd/style/themes/default.less';
+
+/* 列表样式覆盖 */
+@table-padding-horizontal-md: 1rem;
+
+.px2rem(@name, @px) {
+  @{name}: @px / @font-size-base * 1rem;
+}
+
+@prototype-box-shadow: 0 0 10px @normal-color;
+
+/* 灰色系列 */
+@lighter-gray: #f3f5f7;
+@light-gray: #dfe4ea;
+@medium-gray: #ced6e0;
+@dark-gray: #a4b0be;
+@darker-gray: #8696a9;
+
+@global-padding: 1rem;
+@global-margin: 1rem;

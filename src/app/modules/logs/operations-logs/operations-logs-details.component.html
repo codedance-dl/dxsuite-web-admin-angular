@@ -1,0 +1,150 @@
+<div class="panel">
+  <div class="panel-content">
+    <div class="panel-content-body" [style.padding.rem]="1">
+      <div class="object-field-group compactly large">
+
+        <div class="object-field-item">
+          <div class="object-field-label">执行开始时间：</div>
+          <div class="object-field-value">
+            {{ (details.time | date: 'yyyy-MM-dd HH:mm:ss') || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">用户ID：</div>
+          <div class="object-field-value">
+            {{ details.user?.id || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">用户账号：</div>
+          <div class="object-field-value">
+            {{ details?.userCredentials || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">业务领域：</div>
+          <div class="object-field-value">
+            {{ details.domain || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">业务操作：</div>
+          <div class="object-field-value">
+            {{ details.comment || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">操作结果：</div>
+          <div class="object-field-value">
+              <nz-tag [nzColor]="details?.success ? 'green' : 'red'">
+                {{ successMap[getSuccessStatus + ''] || '- -' }}
+              </nz-tag>
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">请求方法：</div>
+          <div class="object-field-value">
+            {{ details.method || ' - -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">请求URL：</div>
+          <div class="object-field-value">
+            {{ details.url || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">请求路径参数：</div>
+          <div class="object-field-value">
+            {{ details.params || ' - -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">请求查询参数：</div>
+          <div class="object-field-value">
+            {{ details.query || ' - -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">操作所耗时间（毫秒）：</div>
+          <div class="object-field-value">{{ details.timeCost || '- -' }}</div>
+        </div>
+
+
+        <div class="object-field-item">
+          <div class="object-field-label">请求数据大小（字节）：</div>
+          <div class="object-field-value">
+            {{ details.contentLength || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">状态码：</div>
+          <div class="object-field-value">
+            {{ details.statusCode || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">错误消息：</div>
+          <div class="object-field-value">
+            {{ details.errorMessage || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">客户端 IP 地址：</div>
+          <div class="object-field-value">
+            {{ details.remoteAddr || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">服务 IP 地址及端口号：</div>
+          <div class="object-field-value">
+            {{ details.serverAddrPort || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">User-Agent：</div>
+          <div class="object-field-value">
+            {{ details.userAgent || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">控制器类名：</div>
+          <div class="object-field-value">
+            {{ details.className || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">控制器方法名：</div>
+          <div class="object-field-value">
+            {{ details.methodName || '- -' }}
+          </div>
+        </div>
+
+        <div class="object-field-item">
+          <div class="object-field-label">控制器方法职责：</div>
+          <div class="object-field-value">
+            {{ details.responsibility || '- -' }}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

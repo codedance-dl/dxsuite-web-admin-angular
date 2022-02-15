@@ -1,0 +1,24 @@
+@medium-gray: #ced6e0;
+@primary-gray: #1890ff;
+
+.icon-disabled {
+  color: @medium-gray;
+}
+
+.icon-enabled {
+  color: @primary-gray;
+}
+
+.group-item {
+  background-color: #fafafa;
+  font-weight: 500;
+
+  .edit-btn {
+    margin-left: .5rem;
+    visibility: hidden;
+  }
+
+  &:hover .edit-btn {
+    visibility: visible;
+  }
+}

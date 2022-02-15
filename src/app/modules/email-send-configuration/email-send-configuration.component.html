@@ -1,0 +1,97 @@
+<div class="padding-1" style="height: 100%;overflow: auto;">
+  <nz-spin [nzSpinning]="loading">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSpan]="4" nzRequired nzFor="host">主机名</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <input nz-input formControlName="host" id="host" placeholder="主机名" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSpan]="4" nzRequired nzFor="port">端口号</nz-form-label>
+        <nz-form-control [nzSpan]="6" [nzExtra]="portExtraTpl">
+          <input nz-input formControlName="port" id="port" placeholder="端口号" />
+          <ng-template #portExtraTpl>取值范围：1 ~ 65535</ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip [messages]="{'required': '请选择{0}'}">
+        <nz-form-label [nzSpan]="4" nzRequired nzFor="protocol">协议</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <nz-select name="protocol" formControlName="protocol" placeholder="协议">
+            <nz-option *ngFor="let protocol of protocols" [nzValue]="protocol" [nzLabel]="protocol"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="startTlsEnabled">启用 StartTLS</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <nz-switch formControlName="startTlsEnabled"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="startTlsRequired">必须使用 StartTLS</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <nz-switch formControlName="startTlsRequired"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSpan]="4" nzRequired nzFor="senderName">发送者</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <input nz-input formControlName="senderName" id="senderName" placeholder="发送者" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSpan]="4" nzRequired nzFor="connectionTimeout">连接超时时长</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <nz-input-group nzSuffix="秒">
+            <input nz-input type="number" formControlName="connectionTimeout" id="connectionTimeout"
+              placeholder="连接超时时长" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSpan]="4" nzRequired nzFor="readTimeout">读取超时时长</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <nz-input-group nzSuffix="秒">
+            <input nz-input type="number" formControlName="readTimeout" id="readTimeout" placeholder="读取超时时长" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSpan]="4" nzRequired nzFor="writeTimeout">入超时时长</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <nz-input-group nzSuffix="秒">
+            <input nz-input type="number" formControlName="writeTimeout" id="writeTimeout" placeholder="入超时时长" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSpan]="4" nzRequired nzFor="username">AccessKey ID</nz-form-label>
+        <nz-form-control [nzSpan]="6">
+          <input nz-input formControlName="username" id="username" placeholder="AccessKey ID" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item autoErrorTip>
+        <nz-form-label [nzSpan]="4" nzFor="password">AccessKey Secret</nz-form-label>
+        <nz-form-control [nzSpan]="6" [nzExtra]="passwordExtraTpl">
+          <input nz-input formControlName="password" id="password" placeholder="AccessKey Secret" />
+          <ng-template #passwordExtraTpl>
+            <p *ngIf="!updateAccessKey">
+              <span>无法再次获取 AccessKey 信息，但是可以</span>&nbsp;
+              <a (click)="setUpdateAccessKeySates(true)">重置 AccessKey >></a>
+            </p>
+            <p *ngIf="updateAccessKey">
+              <span>提交后将无法再次获取 AccessKey 信息，但可以随时重置。</span>&nbsp;
+              <a (click)="setUpdateAccessKeySates(false)">取消重置 >></a>
+            </p>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzOffset]="4">
+          <button nz-button nzType="primary" [nzLoading]="loading">提交</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-spin>
+</div>

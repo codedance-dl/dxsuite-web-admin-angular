@@ -1,0 +1,40 @@
+export interface DemoModel {
+  id: string;
+  biz: string;
+  comment: string;
+  domain: string;
+  createdAt: Date;
+  success: boolean;
+  user?: {
+    createdAt?: string;
+    createdBy: { $ref: string };
+    deleted?: boolean;
+    disabled?: boolean;
+    id?: string;
+    name?: string;
+    namePinyin?: string;
+    revision?: string;
+    type?: string;
+  };
+}
+
+export interface ControllerMethods {
+  name?: string;
+  domain?: string;
+  entity?: string;
+  methods?: Method[];
+  responsibility?: string;
+}
+
+export interface Method {
+  name?: string;
+  description?: string;
+}
+
+export interface AuditsQuery {
+  orgId?: string;
+  pageNo?: number;
+  pageSize?: number;
+  sortBy?: string[];
+  userId?: string;
+}

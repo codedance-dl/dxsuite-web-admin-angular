@@ -1,0 +1,59 @@
+<div class="tree-menu">
+  <div class="menu-container" nz-row [class.menu-active]="fileId === '/'">
+    <div class="toggle-icon" nz-col nzFlex="25px" (click)="expanded = !expanded;">
+      <em class="fa-icon" nz-icon [nzType]="expanded ? 'caret-down' : 'caret-right'" nzTheme="fill"></em>
+    </div>
+    <div class="menu-name" nz-col nzFlex="auto" (click)="select('/')" *ngIf="!user?.supplierName">
+      <em nz-icon nzType="hdd" nzTheme="fill"></em>&nbsp;&nbsp;{{'文件目录'}}
+    </div>
+    <div class="menu-name" nz-col nzFlex="auto" (click)="select(user?.rootDirectory)" *ngIf="user?.supplierName">
+      <em nz-icon nzType="hdd" nzTheme="fill"></em>&nbsp;&nbsp;{{'文件目录'}}&nbsp;&nbsp;/&nbsp;&nbsp;{{user?.supplierName}}
+    </div>
+    <div class="node-loading" nz-col nzFlex="20px" *ngIf="loading">
+      <em class="fa-icon" nz-icon nzType="loading" nzTheme="outline" [nzSpin]="true"></em>
+    </div>
+  </div>
+  <div class="tree-scroll-container" [hidden]="!expanded">
+    <div class="document-tree-container">
+      <cdk-tree class="cdk-tree" [dataSource]="dataSource" [treeControl]="treeControl">
+        <cdk-tree-node class="cdk-tree-node" *cdkTreeNodeDef="let node; when: enable" class="tree-node enable"
+             [class.active]="node.id === fileId">
+          <div cdkTreeNodePadding cdkTreeNodePaddingIndent="20" class="tree-item" nz-row>
+            <div class="toggle-icon" nz-col nzFlex="25px" (click)="treeControl.toggle(node)">
+              <em class="fa-icon" nz-icon [nzType]="treeControl.isExpanded(node) ? 'caret-down' : 'caret-right'" nzTheme="fill"></em>
+            </div>
+            <div class="node-center" nz-col nzFlex="auto" (click)="select(node.id)">
+              <em class="fa-icon" nz-icon [nzType]="treeControl.isExpanded(node) ? 'folder-open' : 'folder'" nzTheme="fill"></em>
+              <div class="node-name">{{node.name}}</div>
+            </div>
+            <div class="node-loading" nz-col nzFlex="20px" *ngIf="node.loading">
+              <em class="fa-icon" nz-icon nzType="loading" nzTheme="outline" [nzSpin]="true"></em>
+            </div>
+          </div>
+        </cdk-tree-node>
+        <cdk-tree-node class="cdk-tree-node" *cdkTreeNodeDef="let node; when: disable" class="tree-node disabled"
+             nz-tooltip nzTooltipTitle="无法移到同名文件夹中">
+          <div cdkTreeNodePadding cdkTreeNodePaddingIndent="20" class="tree-item" nz-row>
+            <div class="toggle-icon" nz-col nzFlex="25px">
+            </div>
+            <div class="node-center" nz-col nzFlex="auto">
+              <em class="fa-icon" nz-icon nzType="folder" nzTheme="fill"></em>
+              <div class="node-name"></div>{{node.name}}
+            </div>
+            <div nz-col nzFlex="20px"></div>
+          </div>
+        </cdk-tree-node>
+      </cdk-tree>
+    </div>
+  </div>
+</div>
+<div class="picker-footer">
+  <ng-container *ngIf="confirmIsDisabled() else enabled">
+    <div class="disabled-button" nz-tooltip nzTooltipTitle="此文件夹中已有该项内容">
+      <button nz-button nzType="primary" class="margin-bottom-0" disabled>确定</button>
+    </div>
+  </ng-container>
+  <ng-template #enabled>
+    <button nz-button nzType="primary" class="margin-bottom-0" (click)="confirm()">确定</button>
+  </ng-template>
+</div>

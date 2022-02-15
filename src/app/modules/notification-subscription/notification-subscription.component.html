@@ -1,0 +1,18 @@
+<div class="panel">
+  <div class="panel-content">
+    <div>
+      <nz-tabset [nzTabBarStyle]="{'padding-top': '5px', margin: 0}" [nzTabBarExtraContent]="addActionTemplate">
+        <ng-container *ngFor="let item of tabset">
+          <nz-tab [nzTitle]="item.name" (nzSelect)="changeTab(item.path)">
+          </nz-tab>
+        </ng-container>
+      </nz-tabset>
+      <ng-template #addActionTemplate>
+        <button nz-button nzType="primary" (click)="openAddDrawer()"><em nz-icon nzType="plus"></em>新建</button>
+      </ng-template>
+    </div>
+    <div class="panel-content-body">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
