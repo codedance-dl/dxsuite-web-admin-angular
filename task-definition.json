@@ -1,0 +1,34 @@
+{
+    "family": "dxsuite-angular-ecs-task-def",
+    "executionRoleArn": "arn:aws-cn:iam::144046113192:role/ecsTaskExecutionRole",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "containerDefinitions": [
+        {
+            "name": "dxsuite-angular-container",
+            "image": "",
+            "cpu": "256",
+            "memoryReservation": "512",
+            "portMappings": [
+                {
+                    "hostPort": 8889,
+                    "protocol": "tcp",
+                    "containerPort": 8889
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "secretOptions": null,
+                "options": {
+                    "awslogs-group": "/ecs/dxsuite-angular-ecs-task-def",
+                    "awslogs-region": "cn-northwest-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ]
+}
