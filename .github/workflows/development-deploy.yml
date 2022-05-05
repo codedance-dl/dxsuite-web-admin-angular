@@ -42,4 +42,4 @@ jobs:
 
       - name: Sync web files
         run: |
-          aws s3 cp build/ s3://angular-dev.dxsuite.cn --recursive
+          aws s3 cp dist/ s3://angular-dev.dxsuite.cn --recursive
