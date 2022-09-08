@@ -6,7 +6,7 @@ name: build development
 on:
   pull_request:
     branches: [ development ]
-    
+
 jobs:
   build:
 
@@ -32,7 +32,7 @@ jobs:
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          
+
       - name: Install Node
         uses: actions/setup-node@v1
         with:
@@ -45,9 +45,3 @@ jobs:
 
       - name: Build
         run: yarn build:dev
-      
-      - name: Lint
-        run: yarn lint
-
-
-
