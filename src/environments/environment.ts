@@ -1,7 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
+import { pw, text } from '@constant/common';
 export const environment = {
   production: false,
   host: 'https://api-dev.dxsuite.cn',
@@ -9,7 +9,13 @@ export const environment = {
   orgId: '60a4dea10d2991747abe1019',
   wsURL: 'api.dxsuite.cn',
   website: 'https://ng-admin-dev.dxsuite.cn/',    // 微信重定向用，目前使用hash路由，业务路径拼接#号
-  appId: 'wx631d5d18974894a6'
+  appId: 'wx631d5d18974894a6',
+
+  // 密码相关
+  eyeInvisible: 'eye-invisible',
+  eye: 'eye',
+  pw,
+  text,
 };
 
 /*

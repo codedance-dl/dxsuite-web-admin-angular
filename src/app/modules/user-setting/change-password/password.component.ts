@@ -9,6 +9,9 @@ import { User } from '@api/models';
 import { equalTo, unequalTo } from '@components/forms';
 import { Select, Store } from '@ngxs/store';
 import { AuthState, ClearIdentity } from '@store/auth';
+import { environment } from '@environments/environment';
+
+const { eyeInvisible, eye, pw, text } = environment;
 
 @Component({
   selector: 'app-user-password',
@@ -28,12 +31,12 @@ export class UserPasswordComponent implements OnInit, OnDestroy {
   // 密码有效时长（分钟）
   passwordTTLValue: number;
 
-  oldPasswordType: 'password' | 'text' = 'password';
-  newPasswordType: 'password' | 'text' = 'password';
-  passwordConfirmType: 'password' | 'text' = 'password';
+  oldPasswordType = pw;
+  newPasswordType = pw;
+  passwordConfirmType = pw;
   passwordTypeMap = {
-    password: 'eye-invisible',
-    text: 'eye'
+    password: eyeInvisible,
+    text: eye
   };
 
   stats = {
@@ -147,11 +150,7 @@ export class UserPasswordComponent implements OnInit, OnDestroy {
    * @param value
    */
   changePasswordType(value: string) {
-    if (this[value] === 'password') {
-      this[value] = 'text';
-    } else {
-      this[value] = 'password';
-    }
+    this[value] = this[value] === pw ? text : pw;
   }
 
   passwordIsValid() {

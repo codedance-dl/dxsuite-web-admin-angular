@@ -9,8 +9,11 @@ import { EmployeesService, UserAuthService, UserService } from '@api';
 import { Captcha, CaptchaOptions } from '@components/captcha';
 import { Store } from '@ngxs/store';
 import { SetIdentity } from '@store/auth';
+import { environment } from '@environments/environment';
 
 const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
+
+const { eyeInvisible, eye, pw, text } = environment;
 
 @Component({
   selector: 'app-invite',
@@ -35,10 +38,10 @@ export class InviteComponent implements OnInit, AfterViewInit {
     password: false
   };
 
-  passwordType: 'password' | 'text' = 'password';
+  passwordType = pw;
   passwordTypeMap = {
-    password: 'eye-invisible',
-    text: 'eye'
+    password: eyeInvisible,
+    text: eye
   };
   countdown = 0;
   codeText = '获取验证码';
@@ -229,11 +232,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
   }
 
   changePasswordType() {
-    if (this.passwordType === 'password') {
-      this.passwordType = 'text';
-    } else {
-      this.passwordType = 'password';
-    }
+    this.passwordType = this.passwordType === pw ? text : pw;
   }
 
   submit() {
