@@ -11,8 +11,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@ang
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
-const ACCOUNT_REGEXP = /^(1[0-9]{10,10})|([a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)$/;
+import { ACCOUNT_REGEXP, MOBILE_REGEXP } from '@constant/regex';
 
 @Component({
   templateUrl: 'register.component.html',

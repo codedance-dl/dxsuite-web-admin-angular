@@ -4,3 +4,5 @@ export const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
 export const SUPPLIER_CODE = /^[0-9]{6}$/;
 
 export const PASSWORD_STRENGTH = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,}$/;
+
+export const ACCOUNT_REGEXP = /^((1\d{10})|(\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}))$/;

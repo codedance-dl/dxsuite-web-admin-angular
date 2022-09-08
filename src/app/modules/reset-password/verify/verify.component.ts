@@ -11,8 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CaptchaOptions, CaptchaValue, Captcha } from '@components/captcha';
 import { fadeInY } from '@libs/animate/core';
 
-const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
-const ACCOUNT_REGEXP = /^(1[0-9]{10,10})|([a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)$/;
+import { ACCOUNT_REGEXP, MOBILE_REGEXP } from '@constant/regex';
 
 @Component({
   selector: 'app-reset-password-verify',
