@@ -14,6 +14,8 @@ import { CreateEmployeeDataModal, ValidateStatus } from './data/employees.model'
 import { EmployeesActions } from './employees.actions';
 import { EmployeesState } from './employees.state';
 
+import { ACCOUNT_REGEXP } from '@constant/regex';
+
 @Component({
   selector: 'app-employees-create',
   templateUrl: './employees-create.component.html',
@@ -43,7 +45,7 @@ export class EmployeesCreateComponent implements OnDestroy {
     this.store.dispatch(new EmployeesActions.GetRoles());
     this.form = this.formBuilder.group({
       account: [null, [Validators.required,
-      Validators.pattern(/^(1[0-9]{10,10})|([a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)$/)]],
+      Validators.pattern(ACCOUNT_REGEXP)]],
       roleIDs: [[], [Validators.required]],
       name: [null, [Validators.required]],
       password: ['', [Validators.required]]

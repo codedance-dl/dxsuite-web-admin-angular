@@ -12,9 +12,7 @@ import { clearToken } from '@api';
 import { Captcha, CaptchaOptions } from '@components/captcha';
 import { Store } from '@ngxs/store';
 
-// 手机号正则验证
-const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
-const ACCOUNT_REGEXP = /^(1[0-9]{10,10})|([a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)$/;
+import { ACCOUNT_REGEXP, MOBILE_REGEXP } from '@constant/regex';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
