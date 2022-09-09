@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { AuthState } from '@store/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { goHome } from '@constant/function'
 
 @Component({
   selector: 'app-change-email',
@@ -72,7 +73,7 @@ export class ChangeEmailComponent implements OnDestroy {
    * 跳转官网首页
    */
   toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
+    goHome();
   }
 
   ngOnDestroy() {

@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { environment } from '@environments/environment';
 
 import { ACCOUNT_REGEXP, MOBILE_REGEXP } from '@constant/regex';
+import { goHome } from '@constant/function';
 
 const { eyeInvisible, eye, pw, text } = environment;
 
@@ -289,6 +290,6 @@ export class RegisterComponent implements OnDestroy, AfterViewInit {
    * 跳转官网首页
    */
   toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
+    goHome();
   }
 }

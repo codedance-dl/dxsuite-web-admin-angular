@@ -23,4 +23,8 @@ function getStrengthLength(password:string,stats: PasswordStrengthStats): { leve
   return strengthLevels.find(levelItem => levelItem.level === stats.strengthLevel);
 }
 
-export { arrayFormatObject, passwordIsValid, getStrengthLength };
+function goHome() {
+  window.open('https://dxsuite.cn', '_blank', 'noopener');
+}
+
+export { arrayFormatObject, passwordIsValid, getStrengthLength, goHome };

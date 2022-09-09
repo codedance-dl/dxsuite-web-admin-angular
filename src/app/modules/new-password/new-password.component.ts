@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { ParametersService, UserService } from '@api';
 import { equalTo, unequalTo } from '@components/forms';
-import { passwordIsValid } from '@constant/function';
+import { goHome, passwordIsValid } from '@constant/function';
 import { fadeInY } from '@libs/animate/core';
 import { Store } from '@ngxs/store';
 import { AuthState, ClearIdentity } from '@store/auth';
@@ -230,7 +230,7 @@ export class NewPasswordComponent implements OnInit, AfterViewInit {
    * 跳转官网首页
    */
   toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
+    goHome();
   }
 
 }

@@ -7,6 +7,7 @@ import { User } from '@api/models';
 import { Select, Store } from '@ngxs/store';
 import { AuthState, ClearIdentity } from '@store/auth';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { goHome } from '@constant/function';
 
 @Component({
   templateUrl: 'user-setting.component.html',
@@ -52,6 +53,6 @@ export class UserSettingComponent {
    * 跳转官网首页
    */
   toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
+    goHome();
   }
 }

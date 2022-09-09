@@ -10,6 +10,7 @@ import { Captcha, CaptchaOptions } from '@components/captcha';
 import { Store } from '@ngxs/store';
 import { SetIdentity } from '@store/auth';
 import { environment } from '@environments/environment';
+import { goHome } from '@constant/function';
 
 const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
 
@@ -294,7 +295,6 @@ export class InviteComponent implements OnInit, AfterViewInit {
    * 跳转官网首页
    */
   toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
+    goHome()
   }
-
 }

@@ -13,6 +13,7 @@ import { Captcha, CaptchaOptions } from '@components/captcha';
 import { Store } from '@ngxs/store';
 
 import { ACCOUNT_REGEXP, MOBILE_REGEXP } from '@constant/regex';
+import { goHome } from '@constant/function';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -243,7 +244,7 @@ export class LoginComponent implements OnDestroy {
    * 跳转官网首页
    */
   toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
+    goHome();
   }
 
   /**
