@@ -4,6 +4,7 @@ import '@assets/wx-login.js';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { environment } from '@environments/environment';
+import { goHome } from '@constant/function';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare var WxLogin: any;
@@ -42,7 +43,5 @@ export class WxLoginComponent implements OnInit, OnDestroy {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
-  }
+   toHomePage = goHome;
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { goHome } from '@constant/function';
 
 @Component({
   selector: 'mz-unauthorized',
@@ -10,7 +11,5 @@ export class UnauthorizedComponent {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
-  }
+  toHomePage = goHome;
 }

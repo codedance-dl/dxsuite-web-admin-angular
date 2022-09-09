@@ -8,10 +8,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { ParametersService, UserService } from '@api';
 import { equalTo, unequalTo } from '@components/forms';
-import { passwordIsValid } from '@constant/function';
+import { goHome, passwordIsValid } from '@constant/function';
 import { fadeInY } from '@libs/animate/core';
 import { Store } from '@ngxs/store';
 import { AuthState, ClearIdentity } from '@store/auth';
+import { environment } from '@environments/environment';
+
+const { eyeInvisible, eye, pw, text } = environment;
 
 @Component({
   templateUrl: './new-password.component.html',
@@ -37,15 +40,15 @@ export class NewPasswordComponent implements OnInit, AfterViewInit {
   // 密码有效时长（分钟）
   passwordTTLValue: number;
 
-  oldPasswordType: 'password' | 'text' = 'password';
+  oldPasswordType = pw;
 
-  newPasswordType: 'password' | 'text' = 'password';
+  newPasswordType = pw;
 
-  passwordConfirmType: 'password' | 'text' = 'password';
+  passwordConfirmType = pw;
 
   passwordTypeMap = {
-    password: 'eye-invisible',
-    text: 'eye'
+    password: eyeInvisible,
+    text: eye
   };
 
   loading = false;
@@ -82,7 +85,6 @@ export class NewPasswordComponent implements OnInit, AfterViewInit {
     private store: Store,
     private message: NzMessageService
   ) {
-
     const oldPassword = new FormControl('', [Validators.required]);
     const password = new FormControl('', [
       Validators.required,
@@ -119,11 +121,7 @@ export class NewPasswordComponent implements OnInit, AfterViewInit {
    * @param value
    */
   changePasswordType(value: string) {
-    if (this[value] === 'password') {
-      this[value] = 'text';
-    } else {
-      this[value] = 'password';
-    }
+    this[value] = this[value] === pw ? text : pw;
   }
 
   /**
@@ -231,8 +229,6 @@ export class NewPasswordComponent implements OnInit, AfterViewInit {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
-  }
+   toHomePage = goHome;
 
 }

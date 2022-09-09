@@ -6,6 +6,7 @@ import { User } from '@api/models';
 import { AuthState, ClearIdentity } from '@store/auth';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { goHome } from '@constant/function';
 
 @Component({
   selector: 'app-unauthorized',
@@ -78,7 +79,5 @@ export class UnauthorizedComponent implements OnInit {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
-  }
+   toHomePage = goHome;
 }

@@ -10,8 +10,12 @@ import { transition, trigger } from '@angular/animations';
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '@environments/environment';
 
 import { ACCOUNT_REGEXP, MOBILE_REGEXP } from '@constant/regex';
+import { goHome } from '@constant/function';
+
+const { eyeInvisible, eye, pw, text } = environment;
 
 @Component({
   templateUrl: 'register.component.html',
@@ -37,10 +41,10 @@ export class RegisterComponent implements OnDestroy, AfterViewInit {
 
   loading = false;
 
-  passwordType: 'password' | 'text' = 'password';
+  passwordType = pw;
   passwordTypeMap = {
-    password: 'eye-invisible',
-    text: 'eye'
+    password: eyeInvisible,
+    text: eye
   };
 
   countdown = 0;
@@ -180,11 +184,7 @@ export class RegisterComponent implements OnDestroy, AfterViewInit {
   }
 
   changePasswordType() {
-    if (this.passwordType === 'password') {
-      this.passwordType = 'text';
-    } else {
-      this.passwordType = 'password';
-    }
+    this.passwordType = this.passwordType === pw ? text : pw;
   }
 
   /**
@@ -289,7 +289,5 @@ export class RegisterComponent implements OnDestroy, AfterViewInit {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
-  }
+   toHomePage = goHome;
 }

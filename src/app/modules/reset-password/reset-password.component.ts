@@ -1,5 +1,6 @@
 import { transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
+import { goHome } from '@constant/function';
 import { fadeInY } from '@libs/animate/core';
 
 @Component({
@@ -43,7 +44,5 @@ export class ResetPasswordComponent {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    window.open('https://dxsuite.cn', '_blank');
-  }
+   toHomePage = goHome;
 }
