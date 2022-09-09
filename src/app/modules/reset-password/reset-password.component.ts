@@ -44,7 +44,5 @@ export class ResetPasswordComponent {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    goHome();
-  }
+   toHomePage = goHome;
 }

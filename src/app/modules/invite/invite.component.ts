@@ -90,7 +90,6 @@ export class InviteComponent implements OnInit, AfterViewInit {
       verificationCode: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-
   }
 
   ngOnInit() {
@@ -294,7 +293,5 @@ export class InviteComponent implements OnInit, AfterViewInit {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    goHome()
-  }
+  toHomePage = goHome;
 }

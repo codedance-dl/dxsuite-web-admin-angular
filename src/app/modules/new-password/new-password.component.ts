@@ -229,8 +229,6 @@ export class NewPasswordComponent implements OnInit, AfterViewInit {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    goHome();
-  }
+   toHomePage = goHome;
 
 }

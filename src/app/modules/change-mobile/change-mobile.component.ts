@@ -72,9 +72,7 @@ export class ChangeMobileComponent implements OnDestroy {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    goHome();
-  }
+   toHomePage = goHome;
 
   ngOnDestroy() {
     this.destroy.next();

@@ -79,7 +79,5 @@ export class UnauthorizedComponent implements OnInit {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    goHome();
-  }
+   toHomePage = goHome;
 }

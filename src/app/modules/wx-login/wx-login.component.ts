@@ -43,7 +43,5 @@ export class WxLoginComponent implements OnInit, OnDestroy {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    goHome();
-  }
+   toHomePage = goHome;
 }
