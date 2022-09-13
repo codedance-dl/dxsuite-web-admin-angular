@@ -77,7 +77,7 @@ export class RolesPrivilegesComponent implements OnInit, OnDestroy {
             });
             if (/.query$/.test(item.authority) && child.permissions.filter(i => i.checked).length > 1) {
               item.disabled = true;
-            };
+            }
           });
         });
       });
