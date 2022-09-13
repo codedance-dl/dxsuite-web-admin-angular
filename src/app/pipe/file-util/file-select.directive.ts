@@ -109,14 +109,15 @@ export class FileSelectDirective implements OnInit, OnChanges, OnDestroy {
   private _change() {
     const errors: FileError[] = [];
     const files: File[] = Array.from(this._input.files || []).filter(file => {
-      let valid = true;
-
-      if (!(valid = this._fileSizeValid(file))) {
+      if (!this._fileSizeValid(file)) {
         errors.push(new FileSizeError(file, this.limitSize));
-      } else if (!(valid = this._fileTypeValid(file))) {
-        errors.push(new FileTypeError(file, file.type));
+        return false;
       }
-      return valid;
+      if (!this._fileTypeValid(file)) {
+        errors.push(new FileTypeError(file, file.type));
+        return false;
+      }
+      return true;
     });
 
     if (errors.length > 0) {

@@ -3,3 +3,5 @@
 
 declare const Stomp: any;
 declare const SockJS: any;
+
+declare const WxLogin: any;

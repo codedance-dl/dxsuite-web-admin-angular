@@ -52,6 +52,7 @@ export class UploadMonitorHeaderComponent {
   }
 
   toggleArrowChange() {
-    this.arrowChange.next(this.folded = !this.folded);
+    this.folded = !this.folded
+    this.arrowChange.next();
   }
 }

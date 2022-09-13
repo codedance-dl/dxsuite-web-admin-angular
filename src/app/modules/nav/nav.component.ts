@@ -5,7 +5,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageModel, User } from '@api/models';
 import { UIActions, UIState } from '@app/modules/nav/customization';
@@ -49,18 +49,23 @@ export class AppNavComponent implements OnInit, OnDestroy {
   lang = localStorage.getItem('language') || 'zh-cn';
 
   private storageChangeSubscription: Subscription;
-
+  notifier: NzMessageService;
+  modal: NzModalService;
+  translateService: TranslateService;
+  i18n: NzI18nService
   constructor(
     public navAdapter: NtNavigationAdapter,
     private router: Router,
     public store: Store,
-    private notifier: NzMessageService,
-    private modal: NzModalService,
-    private translateService: TranslateService,
-    private i18n: NzI18nService,
     @Inject(NAV_MENUS) public menus: NtNavMenu[],
-    @Inject(GUARD_HANDLER) private privilegeService: PrivilegeService
+    @Inject(GUARD_HANDLER) private privilegeService: PrivilegeService,
+    public injector: Injector,
   ) {
+    this.notifier = injector.get(NzMessageService);
+    this.modal = injector.get(NzModalService);
+    this.translateService = injector.get(TranslateService);
+    this.i18n = injector.get(NzI18nService);
+
     this.store.dispatch(new MessageUnreadActions.GetAll());
     this.messages$ = this.store.select(MessageUnreadState.getUnreadByLimit(5));
     this.translateService.onLangChange.subscribe((params) => {

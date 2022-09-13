@@ -28,8 +28,6 @@
     </div>
   </div>
   <div class="panel-content-body">
-    <!-- <nz-alert *ngIf="selection.length > 0;" nzType="info" nzMessage="已选择{{selection.length}}条" class="margin-bottom-1">
-    </nz-alert> -->
     <nz-alert
       *ngIf="selection.length > 0;"
       nzType="info"
@@ -77,7 +75,6 @@
   </div>
   <div class="panel-content-footer">
     <ng-container *ngIf="meta$ | async as meta">
-      <!-- <span class="meta-template">共 {{meta.count}} 条，每页显示 {{meta.pageSize}} 条</span> -->
       <span class="meta-template" translate="common.pagination" [translateParams]=" {count: meta.count, pageSize: meta.pageSize}"></span>
       <nz-pagination [nzPageIndex]="meta.pageNo" [nzPageSize]="meta.pageSize" [nzTotal]="meta.count" nzShowSizeChanger
         [nzPageSizeOptions]="[10, 20, 50, 100]" (nzPageSizeChange)="onPageSizeChange($event)"

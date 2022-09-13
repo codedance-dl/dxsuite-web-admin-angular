@@ -2,7 +2,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { interval, of, Subject } from 'rxjs';
 import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, Injector } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeesService, UserAuthService, UserService } from '@api';
@@ -69,21 +69,26 @@ export class InviteComponent implements OnInit, AfterViewInit {
   approved = false;
 
   private destroy = new Subject();
-
+  userService: UserService;
+  userAuthService: UserAuthService;
+  employeeService: EmployeesService;
   constructor(
     private fb: FormBuilder,
     private captcha: Captcha,
     private route: ActivatedRoute,
     private notifier: NzMessageService,
-    private userAuthService: UserAuthService,
-    private userService: UserService,
-    private employeeService: EmployeesService,
     private router: Router,
     private store: Store,
+    public injector: Injector,
   ) {
+    this.userService = injector.get(UserService);
+    this.userAuthService = injector.get(UserAuthService);
+    this.employeeService = injector.get(EmployeesService);
 
-    sessionStorage.setItem('invitationCode', this.invitationCode = this.route.snapshot.queryParams.code);
-    sessionStorage.setItem('invitationId', this.invitationId = this.route.snapshot.queryParams.id);
+    this.invitationCode = this.route.snapshot.queryParams.code;
+    sessionStorage.setItem('invitationCode', this.invitationCode);
+    this.invitationId = this.route.snapshot.queryParams.id;
+    sessionStorage.setItem('invitationId', this.invitationId);
 
     this.form = this.fb.group({
       account: [{ value: null, disabled: true }, [Validators.required]],
