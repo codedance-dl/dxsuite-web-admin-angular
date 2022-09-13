@@ -14,7 +14,7 @@ import { CreateEmployeeDataModal, ValidateStatus } from './data/employees.model'
 import { EmployeesActions } from './employees.actions';
 import { EmployeesState } from './employees.state';
 
-import { ACCOUNT_REGEXP } from '@constant/regex';
+import { ACCOUNT_REGEXP, MOBILE_REGEXP } from '@constant/regex';
 
 @Component({
   selector: 'app-employees-create',
@@ -66,7 +66,7 @@ export class EmployeesCreateComponent implements OnDestroy {
     const body: CreateEmployeeDataModal = { ...this.form.value, userCredential: this.form.value.account };
     this.userService.available(body.account).subscribe(({ data }) => {
 
-      if (/^1[0-9]{10,10}$/.test(this.form.value.account)) {
+      if (MOBILE_REGEXP.test(this.form.value.account)) {
         body.mobile = this.form.value.account;
       } else {
         body.email = this.form.value.account;

@@ -7,7 +7,6 @@ import { environment } from '@environments/environment';
 import { goHome } from '@constant/function';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare var WxLogin: any;
 @Component({
   selector: 'mz-wx',
   templateUrl: './wx-login.component.html',

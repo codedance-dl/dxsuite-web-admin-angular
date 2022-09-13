@@ -50,7 +50,7 @@ export function unequalTo (equalControl: AbstractControl, unequalLabel?: string)
 export function interval (intervalLabel?: string): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     if (control.value) {
-      const controlValue: string = control.value.split(/(\(|\)|\[|\]|,)/g);
+      const controlValue: string = control.value.split(/([\(\)\[\],])/g);
       return Number(controlValue[2]) < Number(controlValue[4]) ? null : { intervalTo: true, intervalLabel };
     }
     return null;
