@@ -1,17 +1,13 @@
 import * as moment from 'moment';
-import { NzI18nService } from 'ng-zorro-antd/i18n';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild, Injector } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageModel, User } from '@api/models';
 import { UIActions, UIState } from '@app/modules/nav/customization';
 import { NAV_MENUS } from '@app/modules/nav/nav-token';
 import { AntLanguageMap, LanguageNameMap } from '@assets/i18n';
-import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { AuthState, ClearIdentity } from '@store/auth';
 import { GUARD_HANDLER } from '@store/security';
@@ -21,6 +17,7 @@ import { MessageUnreadActions } from '../notification/message-unread/message-unr
 import { MessageUnreadState } from '../notification/message-unread/message-unread.state';
 import { NtNavMenu } from './libs/nav-menu';
 import { NtNavigationAdapter } from './libs/nav-menu-adapter';
+import { NavService } from './nav.service';
 
 @Component({
   selector: 'app-nav',
@@ -49,26 +46,17 @@ export class AppNavComponent implements OnInit, OnDestroy {
   lang = localStorage.getItem('language') || 'zh-cn';
 
   private storageChangeSubscription: Subscription;
-  notifier: NzMessageService;
-  modal: NzModalService;
-  translateService: TranslateService;
-  i18n: NzI18nService
   constructor(
     public navAdapter: NtNavigationAdapter,
     private router: Router,
     public store: Store,
     @Inject(NAV_MENUS) public menus: NtNavMenu[],
     @Inject(GUARD_HANDLER) private privilegeService: PrivilegeService,
-    public injector: Injector,
+    private navService: NavService
   ) {
-    this.notifier = injector.get(NzMessageService);
-    this.modal = injector.get(NzModalService);
-    this.translateService = injector.get(TranslateService);
-    this.i18n = injector.get(NzI18nService);
-
     this.store.dispatch(new MessageUnreadActions.GetAll());
     this.messages$ = this.store.select(MessageUnreadState.getUnreadByLimit(5));
-    this.translateService.onLangChange.subscribe((params) => {
+    this.navService.translate.onLangChange.subscribe((params) => {
       this.store.dispatch(new UIActions.ChangeLanguage(params.lang));
     });
   }
@@ -82,14 +70,14 @@ export class AppNavComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    this.modal.confirm({
+    this.navService.modal.confirm({
       nzTitle: '确定要退出系统吗？',
       nzOkText: '确定',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => {
         this.store.dispatch(new ClearIdentity());
-        this.notifier.success('退出成功');
+        this.navService.notifier.success('退出成功');
       },
       nzCancelText: '取消',
     });
@@ -118,7 +106,7 @@ export class AppNavComponent implements OnInit, OnDestroy {
   }
 
   openAttention() {
-    this.modal.create({
+    this.navService.modal.create({
       nzTitle: '提示',
       nzClosable: false,
       nzMaskClosable: false,
@@ -139,21 +127,20 @@ export class AppNavComponent implements OnInit, OnDestroy {
     localStorage.setItem('language', language);
     // 切换本地页面语言
 
-    this.translateService.use(language);
+    this.navService.translate.use(language);
     this.store.dispatch(new UIActions.ChangeLanguage(language));
     // 切换组件语言
-    this.i18n.setLocale(this.langMap[this.lang]);
+    this.navService.i18n.setLocale(this.langMap[this.lang]);
     // 切换国家时间
     moment.locale(this.lang);
   }
 
   translateFn = (key: string) => {
     if (key) {
-      this.translateService.get(key);
+      this.navService.translate.get(key);
       console.log(key);
-      console.log(this.translateService.get(key));
+      console.log(this.navService.translate.get(key));
     }
 
   };
-  // get(['common.message.success'])
 }

@@ -2,15 +2,15 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { interval, of, Subject } from 'rxjs';
 import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, Injector } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmployeesService, UserAuthService, UserService } from '@api';
 import { Captcha, CaptchaOptions } from '@components/captcha';
 import { Store } from '@ngxs/store';
 import { SetIdentity } from '@store/auth';
 import { environment } from '@environments/environment';
 import { goHome } from '@constant/function';
+import { InviteService } from './invite.service';
 
 const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
 
@@ -69,9 +69,6 @@ export class InviteComponent implements OnInit, AfterViewInit {
   approved = false;
 
   private destroy = new Subject();
-  userService: UserService;
-  userAuthService: UserAuthService;
-  employeeService: EmployeesService;
   constructor(
     private fb: FormBuilder,
     private captcha: Captcha,
@@ -79,11 +76,8 @@ export class InviteComponent implements OnInit, AfterViewInit {
     private notifier: NzMessageService,
     private router: Router,
     private store: Store,
-    public injector: Injector,
+    private inviteService: InviteService,
   ) {
-    this.userService = injector.get(UserService);
-    this.userAuthService = injector.get(UserAuthService);
-    this.employeeService = injector.get(EmployeesService);
 
     this.invitationCode = this.route.snapshot.queryParams.code;
     sessionStorage.setItem('invitationCode', this.invitationCode);
@@ -98,7 +92,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.employeeService.getInvitation(this.invitationId, this.invitationCode).subscribe(({ data }) => {
+    this.inviteService.employee.getInvitation(this.invitationId, this.invitationCode).subscribe(({ data }) => {
       this.invitationDetails = data;
       this.form.patchValue({
         account: data.email || data.mobile
@@ -115,7 +109,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
    */
   evaluatePassword() {
     if (this.form.get('password').value) {
-      this.userService
+      this.inviteService.user
         .evaluatePassword(this.form.get('password').value)
         .pipe(takeUntil(this.destroy))
         .subscribe(
@@ -167,14 +161,14 @@ export class InviteComponent implements OnInit, AfterViewInit {
 
     let captchaValueData;
 
-    this.userAuthService.getCaptcha({ credential: options.credential }).pipe(
+    this.inviteService.userAuth.getCaptcha({ credential: options.credential }).pipe(
       // eslint-disable-next-line no-extra-parens
       map(({ data: captchaData }) => this.captcha.open(this.inviteBox, options, captchaData)),
       switchMap(captchaRef => captchaRef.afterClosed()),
       switchMap((captchaValue) => {
         if (captchaValue) {
           captchaValueData = captchaValue;
-          return this.userService.available(this.form.get('account').value);
+          return this.inviteService.user.available(this.form.get('account').value);
         } else {
           return of(null);
         }
@@ -207,7 +201,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
     text: string;
   }) {
     const account = this.form.get('account').value;
-    this.userAuthService.sendVerification({
+    this.inviteService.userAuth.sendVerification({
       captcha,
       key: account,
       keyType: MOBILE_REGEXP.test(account) ? 'MOBILE' : 'EMAIL',
@@ -270,14 +264,14 @@ export class InviteComponent implements OnInit, AfterViewInit {
       }
 
 
-      this.userService.register(body)
+      this.inviteService.user.register(body)
         .pipe(
-          switchMap(() => this.userAuthService.signIn({
+          switchMap(() => this.inviteService.userAuth.signIn({
             username: account,
             password: this.form.value.password
           })),
-          switchMap(() => this.employeeService.accept(this.invitationDetails.tenant.id, this.invitationId, this.invitationCode)),
-          switchMap(() => this.userAuthService.getUser()),
+          switchMap(() => this.inviteService.employee.accept(this.invitationDetails.tenant.id, this.invitationId, this.invitationCode)),
+          switchMap(() => this.inviteService.userAuth.getUser()),
           switchMap((data) => this.store.dispatch(new SetIdentity(data)))
         )
         .subscribe(

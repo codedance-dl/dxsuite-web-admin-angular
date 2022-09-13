@@ -38,6 +38,7 @@ import { NOTIFICATION_ROUTES } from './notification-routes';
 import { ORGANIZATION_PREMISSIONS_ROUTES } from './organization-permissions-routes';
 import { SCHEDULED_ROUTES } from './scheduled-routes';
 import { SETTINGS_ROUTES } from './settings-routes';
+import { NavService } from './nav.service';
 
 export const ROUTES = [
   {
@@ -147,7 +148,8 @@ export const ROUTES = [
         routes: ROUTES,
         baseUrl: '/'
       }
-    }
+    },
+    NavService,
   ],
 })
 export class AppNavModule { }
