@@ -243,9 +243,7 @@ export class LoginComponent implements OnDestroy {
   /**
    * 跳转官网首页
    */
-  toHomePage() {
-    goHome();
-  }
+   toHomePage = goHome;
 
   /**
    * 账号密码登录

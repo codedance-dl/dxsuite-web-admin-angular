@@ -55,6 +55,13 @@ export class RolesPrivilegesComponent implements OnInit, OnDestroy {
     // 获取角色详情
     this.getDetails();
     this.store.dispatch(new RolesActions.GetOne(this.roleId));
+    this.setPrivilegesSnapshot();
+  }
+
+  /**
+   * 设置权限快照
+   */
+  setPrivilegesSnapshot() {
     this.store.select(RolesState.getPrivilegesById(this.roleId)).subscribe((res) => {
       this.privilegesSnapshot = res || [];
       this.permissionStrategy.forEach((permission) => {
@@ -68,8 +75,6 @@ export class RolesPrivilegesComponent implements OnInit, OnDestroy {
                 item.disabled = false;
               }
             });
-          });
-          (child.permissions || []).forEach((item) => {
             if (/.query$/.test(item.authority) && child.permissions.filter(i => i.checked).length > 1) {
               item.disabled = true;
             }

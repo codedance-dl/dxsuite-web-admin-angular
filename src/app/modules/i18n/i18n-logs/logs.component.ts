@@ -81,7 +81,6 @@ export class I18nLogsComponent implements OnInit {
       this.setTime(localStorage.getItem('language'));
 
     });
-    // this.setTime(localStorage.getItem('language'));
 
     this.translateService.onLangChange.pipe(
       switchMap(params => this.store.dispatch(new UIActions.ChangeLanguage(params.lang))),

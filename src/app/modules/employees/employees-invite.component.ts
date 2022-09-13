@@ -13,7 +13,7 @@ import { RolesModel } from '../roles/data/roles.model';
 import { ValidateStatus } from './data/employees.model';
 import { EmployeesActions } from './employees.actions';
 import { EmployeesState } from './employees.state';
-import { ACCOUNT_REGEXP } from '@constant/regex';
+import { ACCOUNT_REGEXP, MOBILE_REGEXP } from '@constant/regex';
 
 @Component({
   selector: 'app-employees-invite',
@@ -62,7 +62,7 @@ export class EmployeesInviteComponent implements OnDestroy {
 
     const body = { ...this.form.value, userCredential: this.form.value.account };
 
-    if (/^1[0-9]{10,10}$/.test(this.form.value.account)) {
+    if (MOBILE_REGEXP.test(this.form.value.account)) {
       body.mobile = this.form.value.account;
     } else {
       body.email = this.form.value.account;

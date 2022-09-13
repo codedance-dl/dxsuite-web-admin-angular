@@ -26,6 +26,10 @@ export const ERROR_CODES = [
   'error.access-token-invalid'
 ];
 
+type AnyProperties = {
+  [key: string]: any;
+};
+
 // 全局 API 请求拦截器
 @Injectable({
   providedIn: 'root'
@@ -114,41 +118,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
     // 将对象标记为已解析
     Object.defineProperty(context, '$resolved', { value: true });
-
-    Object.keys(context).forEach(propertyName => {
-      const property = context[propertyName];
-      if (!property) {
-        return;
-      }
-
-      let entity;
-
-      // 若为实体 ID 则合并对象属性
-      if (propertyName === '$ref'
-        && typeof property === 'string'
-        && (entity = included[property])) {
-        delete context.$ref;
-        Object.defineProperty(context, '$ref', { value: property });
-        Object.keys(entity).forEach(newPropertyName => {
-          if (context[newPropertyName] !== null
-            && typeof context[newPropertyName] !== 'undefined') {
-            return;
-          }
-
-          // 防止对象属性引用自己，形成无限引用
-          if (context !== entity[newPropertyName]) {
-            context[newPropertyName] = entity[newPropertyName];
-          }
-          // else {
-          //   context[newPropertyName] = '$self';
-          // }
-          this.resolveContext(context[newPropertyName], included);
-        });
-        // 否则解析属性
-      } else {
-        this.resolveContext(property, included);
-      }
-    });
+    this._resolveObjectKeys(context, included);
   }
 
   isObject(value: any) {
@@ -196,5 +166,40 @@ export class ApiInterceptor implements HttpInterceptor {
     return throwError(event);
   }
 
+  /**
+   * 解析对象属性
+   */
+  private _resolveObjectKeys(context: AnyProperties, included: AnyProperties) {
+    Object.keys(context).forEach(propertyName => {
+      const property = context[propertyName];
+      if (!property) {
+        return;
+      }
 
+      let entity;
+
+      // 若为实体 ID 则合并对象属性
+      if (propertyName === '$ref'
+        && typeof property === 'string'
+        && (entity = included[property])) {
+        delete context.$ref;
+        Object.defineProperty(context, '$ref', { value: property });
+        Object.keys(entity).forEach(newPropertyName => {
+          if (context[newPropertyName] !== null
+            && typeof context[newPropertyName] !== 'undefined') {
+            return;
+          }
+
+          // 防止对象属性引用自己，形成无限引用
+          if (context !== entity[newPropertyName]) {
+            context[newPropertyName] = entity[newPropertyName];
+          }
+          this.resolveContext(context[newPropertyName], included);
+        });
+        // 否则解析属性
+      } else {
+        this.resolveContext(property, included);
+      }
+    });
+  }
 }

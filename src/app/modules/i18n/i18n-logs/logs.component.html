@@ -22,7 +22,6 @@
         </nz-space-item>
       </div>
       <div class="actions" nz-space nzAlign="center">
-        <!-- <div class="margin-right-2">{{'pages.logs.label.currency' | translate}}：{{ 100 | currency }}</div> -->
         <div class="margin-right-2">{{'pages.logs.label.time' | translate }}： {{ time }} </div>
         <span class="cursor-pointer" (click)="onRefreshing()">
           <em class="action-icons" nz-icon nzType="sync" [nzSpin]="loading" nz-tooltip [nzTooltipTitle]="'common.actions.refresh' | translate"></em>
@@ -43,7 +42,6 @@
               <th scope="row">{{'pages.logs.columns.method' | translate}}</th>
               <th scope="row">{{'pages.logs.columns.url' | translate}}</th>
               <th scope="row">{{'pages.logs.columns.success' | translate}}</th>
-              <!-- <th scope="row" nzAlign="right">操作</th> -->
             </tr>
           </thead>
           <tbody>
@@ -64,9 +62,6 @@
                   {{ (data?.success ? 'pages.logs.status.success' : 'pages.logs.status.failed') | translate }}
                 </nz-tag>
               </td>
-              <!-- <td nzAlign="right">
-                <a  *withPrivilege="detailLogPermissions" [routerLink]="['./', data.id]">详情</a>
-              </td> -->
             </tr>
           </tbody>
         </nz-table>

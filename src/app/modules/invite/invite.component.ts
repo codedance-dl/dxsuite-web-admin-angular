@@ -5,12 +5,12 @@ import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmployeesService, UserAuthService, UserService } from '@api';
 import { Captcha, CaptchaOptions } from '@components/captcha';
 import { Store } from '@ngxs/store';
 import { SetIdentity } from '@store/auth';
 import { environment } from '@environments/environment';
 import { goHome } from '@constant/function';
+import { InviteService } from './invite.service';
 
 const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
 
@@ -69,21 +69,20 @@ export class InviteComponent implements OnInit, AfterViewInit {
   approved = false;
 
   private destroy = new Subject();
-
   constructor(
     private fb: FormBuilder,
     private captcha: Captcha,
     private route: ActivatedRoute,
     private notifier: NzMessageService,
-    private userAuthService: UserAuthService,
-    private userService: UserService,
-    private employeeService: EmployeesService,
     private router: Router,
     private store: Store,
+    private inviteService: InviteService,
   ) {
 
-    sessionStorage.setItem('invitationCode', this.invitationCode = this.route.snapshot.queryParams.code);
-    sessionStorage.setItem('invitationId', this.invitationId = this.route.snapshot.queryParams.id);
+    this.invitationCode = this.route.snapshot.queryParams.code;
+    sessionStorage.setItem('invitationCode', this.invitationCode);
+    this.invitationId = this.route.snapshot.queryParams.id;
+    sessionStorage.setItem('invitationId', this.invitationId);
 
     this.form = this.fb.group({
       account: [{ value: null, disabled: true }, [Validators.required]],
@@ -93,7 +92,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.employeeService.getInvitation(this.invitationId, this.invitationCode).subscribe(({ data }) => {
+    this.inviteService.employee.getInvitation(this.invitationId, this.invitationCode).subscribe(({ data }) => {
       this.invitationDetails = data;
       this.form.patchValue({
         account: data.email || data.mobile
@@ -110,7 +109,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
    */
   evaluatePassword() {
     if (this.form.get('password').value) {
-      this.userService
+      this.inviteService.user
         .evaluatePassword(this.form.get('password').value)
         .pipe(takeUntil(this.destroy))
         .subscribe(
@@ -162,14 +161,14 @@ export class InviteComponent implements OnInit, AfterViewInit {
 
     let captchaValueData;
 
-    this.userAuthService.getCaptcha({ credential: options.credential }).pipe(
+    this.inviteService.userAuth.getCaptcha({ credential: options.credential }).pipe(
       // eslint-disable-next-line no-extra-parens
       map(({ data: captchaData }) => this.captcha.open(this.inviteBox, options, captchaData)),
       switchMap(captchaRef => captchaRef.afterClosed()),
       switchMap((captchaValue) => {
         if (captchaValue) {
           captchaValueData = captchaValue;
-          return this.userService.available(this.form.get('account').value);
+          return this.inviteService.user.available(this.form.get('account').value);
         } else {
           return of(null);
         }
@@ -202,7 +201,7 @@ export class InviteComponent implements OnInit, AfterViewInit {
     text: string;
   }) {
     const account = this.form.get('account').value;
-    this.userAuthService.sendVerification({
+    this.inviteService.userAuth.sendVerification({
       captcha,
       key: account,
       keyType: MOBILE_REGEXP.test(account) ? 'MOBILE' : 'EMAIL',
@@ -265,14 +264,14 @@ export class InviteComponent implements OnInit, AfterViewInit {
       }
 
 
-      this.userService.register(body)
+      this.inviteService.user.register(body)
         .pipe(
-          switchMap(() => this.userAuthService.signIn({
+          switchMap(() => this.inviteService.userAuth.signIn({
             username: account,
             password: this.form.value.password
           })),
-          switchMap(() => this.employeeService.accept(this.invitationDetails.tenant.id, this.invitationId, this.invitationCode)),
-          switchMap(() => this.userAuthService.getUser()),
+          switchMap(() => this.inviteService.employee.accept(this.invitationDetails.tenant.id, this.invitationId, this.invitationCode)),
+          switchMap(() => this.inviteService.userAuth.getUser()),
           switchMap((data) => this.store.dispatch(new SetIdentity(data)))
         )
         .subscribe(

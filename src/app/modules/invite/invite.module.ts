@@ -13,6 +13,7 @@ import { AutoErrorTipModule } from '@components/auto-error-tip/auto-error-tip.mo
 import { CaptchaModule } from '@components/captcha';
 
 import { InviteComponent } from './invite.component';
+import { InviteService } from './invite.service';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 @NgModule({
@@ -36,6 +37,7 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     ]),
     NzProgressModule
   ],
-  declarations: [InviteComponent]
+  declarations: [InviteComponent],
+  providers: [InviteService]
 })
 export class InviteModule { }

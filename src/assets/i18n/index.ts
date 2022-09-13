@@ -1,9 +1,5 @@
 import { en_GB, ja_JP, zh_CN } from 'ng-zorro-antd/i18n';
 
-// import en from '@angular/common/locales/en';
-// import zh from '@angular/common/locales/zh';
-// import ja from '@angular/common/locales/ja';
-
 export const AntLanguageMap = {
   'zh-cn': zh_CN,
   'en-gb': en_GB,
@@ -107,17 +103,3 @@ const datetimeFormats = {
     }
   }
 };
-
-//注册i8n实例并引入语言文件
-
-// export const i18n = createI18n({
-//   numberFormats,
-//   datetimeFormats,
-//   locale: localStorage.getItem('language') || DefaultLanguage,		//默认显示的语言
-//   fallbackLocale: DefaultLanguage, // 缺省时默认语言
-//   messages: {
-//     'zh-cn': zh,
-//     'ja-jp': ja,
-//     'en-gb': en
-//   },
-// });
