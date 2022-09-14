@@ -1,0 +1,90 @@
+@import 'src/styles/variables';
+
+.main-container {
+  padding: 1rem 1rem 1rem 2rem;
+  background: #ffffff;
+}
+
+.card {
+
+  .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 2px;
+      height: 1.2rem;
+      background: @primary-color;
+      position: relative;
+      top: 2px;
+      margin-right: 10px;
+    }
+  }
+}
+
+.register-btn {
+  margin-left: 120px;
+}
+
+.ant-form-item-has-error .role-item {
+  border-color: @error-color;
+}
+
+.role-list {
+  padding: 0;
+  margin-left: 0;
+
+  .role-item {
+    display: inline-block;
+    transition: 0.3s;
+    position: relative;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: 290px;
+    height: 150px;
+    background: #ffffff;
+    border-radius: 4px;
+    word-break: break-all;
+    border: 1px solid #eeeeee;
+    vertical-align: top;
+
+    &:hover {
+      border-color: @primary-color;
+    }
+
+    h4 {
+      font-size: 14px;
+    }
+
+    i {
+      margin-right: 10px;
+      color: @primary-color;
+    }
+
+    p {
+      overflow: auto;
+      height: calc(100% - 2rem);
+    }
+
+    img {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 0;
+      right: 0;
+      display: none;
+    }
+
+    &.selected img {
+      display: block;
+    }
+  }
+}
+
+.dropdown-item {
+  color: @primary-color;
+}
