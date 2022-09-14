@@ -6,11 +6,11 @@ import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataServiceMetadata, RequestQueryParams } from '@api/models';
-import { DemoModel } from '@app/modules/demo/table/data/demo.model';
 import { Select, Store } from '@ngxs/store';
 
 import { DemoActions } from './state/demo.actions';
 import { DemoState } from './state/demo.state';
+import { LogsModel } from '@constant/common';
 
 @Component({
   selector: 'app-demo',
@@ -21,7 +21,7 @@ export class DemoComponent implements OnDestroy {
 
   @Select(DemoState.isLoaded) loaded$: Observable<boolean>;
 
-  @Select(DemoState.getItems) items$: Observable<DemoModel[]>;
+  @Select(DemoState.getItems) items$: Observable<LogsModel[]>;
 
   @Select(DemoState.getMetadata) meta$: Observable<DataServiceMetadata>;
 

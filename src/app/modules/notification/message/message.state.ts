@@ -17,7 +17,7 @@ import { updateManyItems } from '@store/_operators';
 import { AuthState } from '@store/auth';
 
 import { MessageColumns as displayedColumnSetting } from './data/optional-columns';
-import { MessageActions } from './message.actions';
+import { MessageActions } from '@constant/actions';
 
 export interface DataServiceMetadata {
   count: number;

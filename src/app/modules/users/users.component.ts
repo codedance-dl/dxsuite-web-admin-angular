@@ -8,13 +8,13 @@ import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataServiceMetadata, RequestQueryParams, User } from '@api/models';
 import { UserService } from '@api/user.service';
-import { DemoModel } from '@app/modules/demo/table/data/demo.model';
 import { Captcha, CaptchaOptions } from '@components/captcha';
 import { Select, Store } from '@ngxs/store';
 
 import { AuthState } from '../../store';
 import { UsersActions } from './state/users.actions';
 import { UsersState } from './state/users.state';
+import { LogsModel } from '@constant/common';
 
 @Component({
   selector: 'app-users',
@@ -26,7 +26,7 @@ export class UsersComponent implements OnDestroy {
 
   @Select(UsersState.isLoaded) loaded$: Observable<boolean>;
 
-  @Select(UsersState.getItems) items$: Observable<DemoModel[]>;
+  @Select(UsersState.getItems) items$: Observable<LogsModel[]>;
 
   @Select(UsersState.getMetadata) meta$: Observable<DataServiceMetadata>;
 

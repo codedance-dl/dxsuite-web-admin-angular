@@ -1,6 +1,5 @@
 import { RequestQueryParams } from '@api/models/data-result';
-
-import { I18nLogsModel } from '../data/logs.model';
+import { LogsModel } from '@constant/common';
 
 export namespace I18nLogsActions {
 
@@ -21,7 +20,7 @@ export namespace I18nLogsActions {
 
   export class UpdateOne {
     static readonly type = '[I18n Logs] Update One';
-    constructor(public logsId: string, public patchData: Partial<I18nLogsModel>) { }
+    constructor(public logsId: string, public patchData: Partial<LogsModel>) { }
   }
 
   export class UpdateDisplayedColumns {

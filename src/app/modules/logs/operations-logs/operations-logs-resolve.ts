@@ -3,11 +3,11 @@ import { filter, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { OperationsLogsModel } from '../data/operations-logs.model';
 import { OperationsLogsActions } from '../state/operations-logs.actions';
+import { LogsModel } from '@constant/common';
 
 @Injectable()
-export class OperationsLogsResolve implements Resolve<OperationsLogsModel> {
+export class OperationsLogsResolve implements Resolve<LogsModel> {
 
   constructor(private store: Store) { }
 

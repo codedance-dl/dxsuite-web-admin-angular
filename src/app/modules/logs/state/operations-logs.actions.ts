@@ -1,5 +1,5 @@
 import { RequestQueryParams } from '@api/models/data-result';
-import { OperationsLogsModel } from '../data/operations-logs.model';
+import { LogsModel } from '@constant/common';
 
 export namespace OperationsLogsActions {
 
@@ -20,7 +20,7 @@ export namespace OperationsLogsActions {
 
   export class UpdateOne {
     static readonly type = '[Logs] Update One';
-    constructor(public logsId: string, public patchData: Partial<OperationsLogsModel>) { }
+    constructor(public logsId: string, public patchData: Partial<LogsModel>) { }
   }
 
   export class UpdateDisplayedColumns {
