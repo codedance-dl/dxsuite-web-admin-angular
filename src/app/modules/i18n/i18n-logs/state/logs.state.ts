@@ -13,9 +13,10 @@ import {
 } from '@ngxs/store';
 import { insertItem, patch, updateItem } from '@ngxs/store/operators';
 
-import { AuditsQuery, ControllerMethods, I18nLogsModel } from '../data/logs.model';
+import { AuditsQuery, ControllerMethods } from '@constant/common';
 import { LogsColumns as displayedColumnSetting } from '../data/optional-columns';
 import { I18nLogsActions } from './logs.actions';
+import { LogsModel } from '@constant/common';
 
 export interface DataServiceMetadata {
   count: number;
@@ -25,7 +26,7 @@ export interface DataServiceMetadata {
 
 export interface I18nLogsStateModel {
   loaded: boolean;
-  items: I18nLogsModel[];
+  items: LogsModel[];
   controllerMethodsItems: ControllerMethods[];
   displayedColumns: string[];
   query?: AuditsQuery;
@@ -105,8 +106,8 @@ export class I18nLogsState implements NgxsOnInit {
       const state = context.getState();
       const itemState = state.items.find(item => item.id === res.data.id, res.data);
       const updatedItems = itemState
-        ? updateItem<I18nLogsModel>(item => item.id === res.data.id, res.data)
-        : insertItem<I18nLogsModel>(res.data);
+        ? updateItem<LogsModel>(item => item.id === res.data.id, res.data)
+        : insertItem<LogsModel>(res.data);
 
       context.setState(patch({ items: updatedItems }));
     }));

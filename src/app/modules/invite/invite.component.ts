@@ -12,7 +12,7 @@ import { environment } from '@environments/environment';
 import { goHome } from '@constant/function';
 import { InviteService } from './invite.service';
 
-const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
+import { MOBILE_REGEXP } from '@constant/regex';
 
 const { eyeInvisible, eye, pw, text } = environment;
 

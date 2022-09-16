@@ -9,7 +9,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UserService } from '@api/user.service';
 
-const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
+import { MOBILE_REGEXP } from '@constant/regex';
 
 @Component({
   selector: 'app-reset-password-update',

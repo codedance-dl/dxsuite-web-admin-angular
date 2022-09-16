@@ -14,7 +14,7 @@ import {
 } from '@api/models';
 import { Select, Store } from '@ngxs/store';
 
-import { MessageActions } from './message.actions';
+import { MessageActions } from '@constant/actions';
 import { MessageState } from './message.state';
 
 @Component({

@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { MessageModel } from '@api/models';
 import { Store } from '@ngxs/store';
 
-import { MessageActions } from '../message.actions';
+import { MessageActions } from '@constant/actions';
 import { MessageState } from '../message.state';
 
 @Injectable()

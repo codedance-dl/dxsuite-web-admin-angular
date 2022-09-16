@@ -12,9 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 
 import { UIActions, UIState } from '../../nav/customization';
-import { I18nLogsModel } from './data/logs.model';
 import { I18nLogsActions } from './state/logs.actions';
 import { I18nLogsState } from './state/logs.state';
+import { LogsModel } from '@constant/common';
 
 @Component({
   selector: 'app-i18n-logs',
@@ -23,7 +23,7 @@ import { I18nLogsState } from './state/logs.state';
 })
 export class I18nLogsComponent implements OnInit {
   @Select(I18nLogsState.isLoaded) loaded$: Observable<boolean>;
-  @Select(I18nLogsState.getItems) items$: Observable<I18nLogsModel[]>;
+  @Select(I18nLogsState.getItems) items$: Observable<LogsModel[]>;
   @Select(I18nLogsState.getMetadata) meta$: Observable<DataServiceMetadata>;
   @Select(UIState.getLanguage) lang$: Observable<string>;
 

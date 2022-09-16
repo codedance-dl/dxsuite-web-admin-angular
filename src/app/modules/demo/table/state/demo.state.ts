@@ -10,9 +10,10 @@ import {
   Store
 } from '@ngxs/store';
 
-import { DemoModel, ControllerMethods, AuditsQuery } from '../data/demo.model';
+import { ControllerMethods, AuditsQuery } from '@constant/common';
 import { DemoColumns as displayedColumnSetting } from '../data/demo-columns';
 import { DemoActions } from './demo.actions';
+import { LogsModel } from '@constant/common';
 
 export interface DataServiceMetadata {
   count: number;
@@ -22,7 +23,7 @@ export interface DataServiceMetadata {
 
 export interface DemoStateModel {
   loaded: boolean;
-  items: DemoModel[];
+  items: LogsModel[];
   controllerMethodsItems: ControllerMethods[];
   displayedColumns: string[];
   query?: AuditsQuery;

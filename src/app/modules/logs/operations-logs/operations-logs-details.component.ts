@@ -6,7 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
-import { ResponseLogsModel } from '../data/operations-logs.model';
+import { ResponseLogsModel } from '@constant/common';
 import { OperationsLogsState } from '../state/operations-logs.state';
 
 @Component({

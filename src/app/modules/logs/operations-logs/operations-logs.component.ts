@@ -9,9 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataServiceMetadata, RequestQueryParams } from '@api/models';
 import { Select, Store } from '@ngxs/store';
 
-import { OperationsLogsModel } from '../data/operations-logs.model';
 import { OperationsLogsActions } from '../state/operations-logs.actions';
 import { OperationsLogsState } from '../state/operations-logs.state';
+import { LogsModel } from '@constant/common';
 
 @Component({
   selector: 'app-operations-logs',
@@ -20,7 +20,7 @@ import { OperationsLogsState } from '../state/operations-logs.state';
 })
 export class OperationsLogsComponent implements OnInit {
   @Select(OperationsLogsState.isLoaded) loaded$: Observable<boolean>;
-  @Select(OperationsLogsState.getItems) items$: Observable<OperationsLogsModel[]>;
+  @Select(OperationsLogsState.getItems) items$: Observable<LogsModel[]>;
   @Select(OperationsLogsState.getMetadata) meta$: Observable<DataServiceMetadata>;
 
   loading = false;

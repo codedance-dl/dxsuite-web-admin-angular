@@ -27,11 +27,11 @@ import { NgxsModule } from '@ngxs/store';
 
 import { EmployeeEditResolve } from './employee-edit.resolve';
 import { EmployeeResetPasswordComponent } from './employee-reset-password';
-import { EmployeesCreateComponent } from './employees-create.component';
 import { EmployeesEditComponent } from './employees-edit.component';
-import { EmployeesInviteComponent } from './employees-invite.component';
 import { EmployeesComponent } from './employees.component';
 import { EmployeesState } from './employees.state';
+
+import { EmployeesSubComponent } from './employees-sub/employees-sub.component';
 
 @NgModule({
   imports: [
@@ -40,17 +40,17 @@ import { EmployeesState } from './employees.state';
       { path: '', component: EmployeesComponent },
       {
         path: 'add',
-        data: { title: '添加成员' },
-        component: EmployeesCreateComponent,
+        data: { title: '添加成员', action: '添加' },
+        component: EmployeesSubComponent,
       },
       {
         path: 'add-invite',
-        data: { title: '添加成员' },
-        component: EmployeesInviteComponent,
+        data: { title: '添加成员', action: '邀请'},
+        component: EmployeesSubComponent,
       },
       {
         path: ':employeeId',
-        data: { title: '编辑成员' },
+        data: { title: '编辑成员'},
         resolve: {
           roles: EmployeeEditResolve
         },
@@ -81,7 +81,7 @@ import { EmployeesState } from './employees.state';
     ReactiveFormsModule,
     NzSkeletonModule
   ],
-  declarations: [EmployeesComponent, EmployeesCreateComponent, EmployeesInviteComponent, EmployeesEditComponent, EmployeeResetPasswordComponent],
+  declarations: [EmployeesComponent, EmployeesEditComponent, EmployeeResetPasswordComponent, EmployeesSubComponent],
   exports: [EmployeesComponent],
   providers: [EmployeeEditResolve],
   entryComponents: [EmployeeResetPasswordComponent]

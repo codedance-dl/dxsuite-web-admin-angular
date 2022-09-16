@@ -7,7 +7,7 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Captcha, CaptchaOptions, CaptchaValue } from '@components/captcha';
 
-const MOBILE_REGEXP = /(^1[3456789]\d{9}$)/;
+import { MOBILE_REGEXP } from '@constant/regex';
 
 @Component({
   selector: 'app-change-mobile-update',
