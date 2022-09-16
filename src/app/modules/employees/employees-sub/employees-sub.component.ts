@@ -85,14 +85,19 @@ export class EmployeesSubComponent implements OnInit, OnDestroy {
 
   setParamsBody(body: CreateEmployeeDataModal): CreateEmployeeDataModal {
     const account = body.userCredential;
-    MOBILE_REGEXP.test(account) ? (body.mobile = account) : (body.email = account);
+    const key = MOBILE_REGEXP.test(account) ? 'mobile' : 'email';
+    body[key] = account;
     return body;
   }
 
   addMember(body: CreateEmployeeDataModal) {
     body = this.setParamsBody(body);
     this.employeesSubService.user.available(body.userCredential).subscribe(({ data }) => {
-      !data ? this.showConfirm(body) : this.createEmployee(body);
+      if (!data) {
+        this.showConfirm(body);
+      } else {
+        this.createEmployee(body);
+      }
     });
   }
 
@@ -124,7 +129,11 @@ export class EmployeesSubComponent implements OnInit, OnDestroy {
   select(id: string) {
     const roleIDs = [...this.form.value.roleIDs];
     const index = roleIDs.indexOf(id);
-    index !== -1 ? roleIDs.splice(index, 1) : roleIDs.push(id);
+    if (index !== -1) {
+      roleIDs.splice(index, 1);
+    } else {
+      roleIDs.push(id);
+    }
     this.form.patchValue({ roleIDs });
   }
 

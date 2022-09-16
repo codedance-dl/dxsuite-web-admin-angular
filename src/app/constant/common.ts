@@ -3,6 +3,18 @@ export type PwInputType = 'password' | 'text';
 export const pw: PwInputType = 'password';
 export const text: PwInputType = 'text';
 
+export interface User {
+  createdAt?: string;
+  createdBy: { $ref: string };
+  deleted?: boolean;
+  disabled?: boolean;
+  id?: string;
+  name?: string;
+  namePinyin?: string;
+  revision?: string;
+  type?: string;
+}
+
 export interface LogsModel {
   id: string;
   biz: string;
@@ -10,17 +22,7 @@ export interface LogsModel {
   domain: string;
   createdAt: Date;
   success: boolean;
-  user?: {
-    createdAt?: string;
-    createdBy: { $ref: string };
-    deleted?: boolean;
-    disabled?: boolean;
-    id?: string;
-    name?: string;
-    namePinyin?: string;
-    revision?: string;
-    type?: string;
-  };
+  user?: User;
 }
 
 export interface ResponseLogsModel {
@@ -48,17 +50,7 @@ export interface ResponseLogsModel {
   userAgent?: string;
   userName?: string;
   userCredentials?: string;
-  user?: {
-    createdAt?: string;
-    createdBy: { $ref: string };
-    deleted?: boolean;
-    disabled?: boolean;
-    id?: string;
-    name?: string;
-    namePinyin?: string;
-    revision?: string;
-    type?: string;
-  };
+  user?: User;
 }
 
 export interface Method {
