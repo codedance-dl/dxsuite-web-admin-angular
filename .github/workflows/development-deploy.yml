@@ -53,6 +53,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: cn-northwest-1
 
+      - name: Clean S3 bucket
+          aws s3 rm s3://angular-dev.dxsuite.cn --recursive
+
       - name: Sync web files
         run: |
           aws s3 cp dist/dxsuite-ng-admin/ s3://angular-dev.dxsuite.cn --recursive
+
+      - name: Clear CloudFront cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id EROYVGDKIVRMO --paths "/*"
+          
